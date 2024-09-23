@@ -1,13 +1,17 @@
+import "./Home.css";
 import { useNavigate } from "react-router-dom";
+import FeedContainer from "../PageElements/Home/Feed/feed-container";
 
 
 const Home = () => {
     return (
-        <div className="Homepage">
-            <div className="Homepage-header"></div>
-            <div className="Homepage-columnLeft"></div>
-            <div className="Homepage-columnRight"></div>
-            <div className="Homepage-footer"></div>
+        <div className="HomePage">
+            <div className="HomePage-header"></div>
+            <div className="HomePage-columnLeft">
+                <FeedContainer/>
+            </div>
+            <div className="HomePage-columnRight"></div>
+            <div className="HomePage-footer"></div>
         </div>
     );
 }
