@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CustomButton from '../Custom_Items/CustomButton';
+import CustomButton from '../Components/CustomButton';
   
   const Home = () => {
     const [count, setCount] = useState(1);

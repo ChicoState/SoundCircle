@@ -1,4 +1,4 @@
-import CustomButton from '../Custom_Items/CustomButton';
+import CustomButton from '../Components/CustomButton';
 import { useNavigate } from 'react-router-dom';
 
 
