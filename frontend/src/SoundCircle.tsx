@@ -1,9 +1,9 @@
-import './App.css';
+import './SoundCircle.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import TestPage from './Pages/TestPage1';
 
-const App = () => {
+const SoundCircle = () => {
   return (
     <>
       <Routes>
@@ -14,4 +14,4 @@ const App = () => {
   );
 }
 
-export default App; /* We have to export the app so that it works. */
+export default SoundCircle;
