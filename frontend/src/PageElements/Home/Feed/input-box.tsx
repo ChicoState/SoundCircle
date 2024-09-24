@@ -1,3 +1,11 @@
+interface FeedInputBox {
 
+}
 
-export {};
+function FeedInputBox() {
+    return(
+        <div></div>
+    );
+}
+
+export default FeedInputBox;

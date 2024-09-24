@@ -1,4 +1,4 @@
-import CustomButton from '../Components/CustomButton';
+/*import CustomButton from '../Components/CustomButton';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -14,7 +14,7 @@ const TestPage1 = () => {
                 <div className="App-body w-3/5">There's nothing here.<br/>Sorry.</div>
                 <div className="App-side w-1/5">Right Column</div>
             </div>
-            <div className="App-footer"> {/* Footer */}
+            <div className="App-footer"> {/* Footer *//*}
                 <div className='footer-item'><CustomButton title="Back" disabled={false} click={() => nextPage('/')}/></div>
             </div>
             
@@ -22,4 +22,6 @@ const TestPage1 = () => {
     );
 }
 
-export default TestPage1;
+export default TestPage1;*/
+
+export {};
