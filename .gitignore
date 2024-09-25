@@ -1,9 +1,12 @@
 # dependencies
-/node_modules
+*/node_modules
 /.pnp
 .pnp.js
 
 # build
+
+backend/dist/**
+backend/node_modules/**
 
 # testing
 /coverage
