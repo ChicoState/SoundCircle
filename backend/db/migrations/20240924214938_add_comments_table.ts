@@ -5,13 +5,13 @@ export async function up(knex: Knex): Promise<void> {
     table.increments("commentID").primary(); // auto-incrementing primary key
     table.text("comment").notNullable(); // comment text
     table.integer("postID").unsigned().notNullable(); // foreign key to posts table
-    table.integer("userID").unsigned().notNullable(); // foreign key to users table
+    table.integer("UserId").unsigned().notNullable();
     table.specificType("reactions", "integer[]").defaultTo('{}'); // array of reaction IDs
     table.timestamps(true, true); // created_at and updated_at timestamps
 
     // Set foreign key constraints
     table.foreign("postID").references("posts.postID").onDelete("CASCADE");
-    table.foreign("userID").references("users.id").onDelete("CASCADE");
+    table.foreign("UserId").references("users.id").onDelete("CASCADE");
   });
 }
 
