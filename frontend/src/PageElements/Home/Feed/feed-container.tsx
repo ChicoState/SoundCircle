@@ -8,13 +8,15 @@ const FeedContainer = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [hasMore, setHasMore] = useState(false);
+    const GET_POST_LIMIT = 4;
 
     // Attempt to fetch data from the backend
     useEffect(() => {
         const fetchDataForPosts = async () => {
             try {
                 setLoading(true); // Start loading, could also link this to an indicator
-                const response = await fetch("HTTP ENDPOINT"); // Get the data from the backend
+                const response = await fetch("HTTP ENDPOINT?limit={GET_POST_LIMIT}"); // Get the data from the backend
                 if (!response.ok) {
                     throw new Error('HTTP Error: Status ${response.status}');
                 }
@@ -35,11 +37,11 @@ const FeedContainer = () => {
     if (error) {} // Show error stuff
 
     return (
-        <div className="feed-container">
+        <div>
             {
-                data.map(({id, content}) => (
+                data.map(({id, username, content}) => (
                     <PostContainer
-                        userName={id}
+                        userName={username}
                         postContent={content}
                     />
                 ))
