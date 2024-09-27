@@ -9,24 +9,24 @@
 		"schemas": {
 			"Post": {
 				"properties": {
-					"postID": {
+					"id": {
 						"type": "number",
 						"format": "double"
 					},
-					"comments": {
-						"items": {
-							"type": "number",
-							"format": "double"
-						},
-						"type": "array"
+					"username": {
+						"type": "string"
+					},
+					"post_Content": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"postID",
-					"comments"
+					"id",
+					"username",
+					"post_Content"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
