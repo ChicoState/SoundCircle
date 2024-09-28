@@ -1,4 +1,4 @@
-import { Controller, Get, Route, SuccessResponse, Tags } from 'tsoa';
+import { Controller, Get, Query, Route, SuccessResponse, Tags } from 'tsoa';
 import { findUsersByPosts } from '../../Models/Posts/post.model';
 import { Post } from '../../../Types/posts';
 
@@ -12,9 +12,14 @@ export class PostController extends Controller {
    * @returns Array of posts with comments
    */
   @Get('/')
-  public async getPostsWithComments(): Promise<Post[]> {
+  public async getPostsWithComments(
+    @Query('limit') limitStr?: string,
+    @Query('offset') offsetStr?: string
+  ): Promise<Post[]> {
     try {
-      const result = await findUsersByPosts();
+      const limit = parseInt(limitStr || '5', 10);
+      const offset = parseInt(offsetStr || '0, 10');
+      const result = await findUsersByPosts(limit, offset);
       return result;
     } catch (error) {
       console.error('Error in getPostsWithComments:', error);
