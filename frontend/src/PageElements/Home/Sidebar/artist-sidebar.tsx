@@ -50,7 +50,7 @@ function ArtistsBox() {
     });
 
     return (
-        <div className = "Artists grid grid-cols-3 grid-rows-2 place-content-center gap-x-4 gap-y-2">
+        <div className = "Artists grid grid-cols-3 grid-rows-2 place-content-center gap-x-4 gap-y-2 rounded-lg px-10 pt-4">
             {artists.map((artist) => 
                 <div key = {artist.id}>
                     <CircularPictureWithLabel label = {artist.name} imageUrl = {artist.imageUrl} />
