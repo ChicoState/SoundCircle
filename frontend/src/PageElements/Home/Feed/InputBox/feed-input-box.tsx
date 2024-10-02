@@ -24,20 +24,19 @@ const FeedInputBox = () => {
 
     // Return the visible text box
     return (
-        <div className="relative inline-block w-1/4">
+        <div className="relative inline-block">
             <textarea
-                className="resize-none overflow-auto min-h-[50px] w-full p-3 pb-12 rounded-lg hover:bg-gray-200 focus:bg-white transition duration-300"
+                className="resize-none overflow-auto w-[30rem] h-[1rem] p-2 pb-10 rounded-lg hover:bg-gray-200 focus:bg-white transition duration-300"
                 ref={textAreaRef}
                 value={text}
                 onChange={handleChange}
-                rows={2}
                 placeholder="Type your input here..."
             />
             <button 
                 className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-3 rounded shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100"
                 onClick={() => {}}
             >
-                Submit
+                Create Post
             </button>
         </div>
     );
