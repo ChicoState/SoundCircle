@@ -3,13 +3,15 @@ import "./Home.css";
 import FeedContainer from "../PageElements/Home/Feed/feed-container";
 import InputContainer from "../PageElements/Home/Feed/input-container";
 import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
+import SearchBar from "../Components/Searchbar";
 
 const Home = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/*Main Page Container*/}
-            <div className="bg-gray-500 py-5">
+            <div className="bg-gray-500 flex flex-col items-center py-5">
                 {/*Header Section*/}
+                <div className="flex-auto place-content-center"><SearchBar/></div>
             </div>
 
             <div className="flex flex-grow">
