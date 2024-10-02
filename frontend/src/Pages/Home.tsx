@@ -2,7 +2,7 @@ import "./Home.css";
 // import { useNavigate } from "react-router-dom";
 import FeedContainer from "../PageElements/Home/Feed/feed-container";
 import InputContainer from "../PageElements/Home/Feed/input-container";
-import PeopleBox from "../PageElements/Home/Sidebar/people-sidebar";
+import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 
 const Home = () => {
     return (
@@ -25,7 +25,7 @@ const Home = () => {
 
                 <div className="w-1/4 bg-gray-700 p-4">
                     {/*Right Column Section*/}
-                    <PeopleBox/>
+                    <SidebarContainer/>
                 </div>
             </div>
 
