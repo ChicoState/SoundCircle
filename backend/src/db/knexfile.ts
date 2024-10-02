@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 // Dynamically resolve the path to the .env file
-const envPath = path.resolve(__dirname, '../../.env.local');
+const envPath = path.resolve("backend/.env.local", '../../.env.local');
 dotenv.config({ path: envPath });
 
 const { PG_USER, PG_PASSWORD, PG_DATABASE } = process.env;
