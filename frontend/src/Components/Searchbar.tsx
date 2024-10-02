@@ -12,7 +12,7 @@ function SearchBar() {
     try {
         const response = await fetch(
             // DEMO API KEY HERE!!
-            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${"YOUR-API-KEY"}`
+            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${process.env.REACT_APP_API_GEOCODING_KEY}`
         );
 
         if (!response.ok) {
@@ -20,6 +20,7 @@ function SearchBar() {
         }
 
         const data = await response.json();
+        console.log(data)
 
         if (data.results && data.results.length > 0) {
             setResults(data.results);
