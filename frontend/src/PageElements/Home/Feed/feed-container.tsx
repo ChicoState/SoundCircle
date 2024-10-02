@@ -19,7 +19,7 @@ const FeedContainer = () => {
         setError(null);
         try {
             setLoading(true); // Start loading, could also link this to an indicator
-            const response = await fetch(`http://localhost:8080/posts?limit=${GET_POST_LIMIT}&offset=${offset}`); // Get the data from the backend
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts?limit=${GET_POST_LIMIT}&offset=${offset}`); // Get the data from the backend
             if (!response.ok) {
                 throw new Error(`HTTP Error: Status ${response.status}`);
             }
@@ -56,7 +56,7 @@ const FeedContainer = () => {
     }
 
     return (
-        <div className="text-white">
+        <div className="p-5 space-y-5 text-white overflow-y-auto overscroll-none w-full max-h-[70vh]">
             {/* Handle Loading State */}
             {loading && <p>Loading Posts...</p>}
 
