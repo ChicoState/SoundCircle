@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import CircularPictureWithLabel from "../../../Components/CircularPicture";
 import SquarePictureWithLabel from "../../../Components/SquarePicture";
 
 interface Event {
@@ -14,8 +13,6 @@ const dummyEvents: Event[] = [
     { id: 2, name: 'Event2', imageUrl: 'https://via.placeholder.com/150' },
     { id: 3, name: 'Event3', imageUrl: 'https://via.placeholder.com/150' },
     { id: 4, name: 'Event4', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 5, name: 'Event5', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 6, name: 'Event6', imageUrl: 'https://via.placeholder.com/150' }
 ];
 
 function EventsBox() {
@@ -51,7 +48,7 @@ function EventsBox() {
     });
 
     return (
-        <div className = "Events grid grid-cols-2 grid-rows-2 place-content-center gap-x-4 gap-y-2">
+        <div className = "Events grid grid-cols-2 grid-rows-2 place-content-center gap-x-4 gap-y-2 rounded-lg px-10 pt-4">
             {events.map((event) => 
                 <div key = {event.id}>
                     <SquarePictureWithLabel label = {event.name} imageUrl = {event.imageUrl} />
