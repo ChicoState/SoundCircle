@@ -19,7 +19,10 @@ const FeedContainer = () => {
         setError(null);
         try {
             setLoading(true); // Start loading, could also link this to an indicator
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts?limit=${GET_POST_LIMIT}&offset=${offset}`); // Get the data from the backend
+             
+            // Get the data from the backend
+            // We don't need to specify a method, because it uses @Get by default
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts?limit=${GET_POST_LIMIT}&offset=${offset}`);
 
             // Check if the response is good, otherwise throw error
             if (!response.ok) {
