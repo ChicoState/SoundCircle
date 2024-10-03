@@ -35,8 +35,8 @@ const FeedInputBox = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    usernameStr: "SCDev User", // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
-                    postDataStr: text
+                    usernameStr: "SCDev User",  // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
+                    postDataStr: text,          // Send the text in the textarea box
                 }),
             });
 
@@ -46,14 +46,18 @@ const FeedInputBox = () => {
             }
 
             // Handle the response data
-            const data = await response.json();
-            console.log("Post created successfully: ", data);
+            // Currently we do not process any response data
+
+            // const data = await response.json();
+            // console.log("Post created successfully: ", data);
+
+            console.log("Post created successfully");
 
             // Clear the textarea
             setText('');
 
         } catch (error) {
-            console.error("Error creating post: ", error);
+            console.error(`Error creating post: `, error);
         }
     }
 
