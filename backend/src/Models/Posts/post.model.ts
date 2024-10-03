@@ -5,8 +5,8 @@ import { UserPost } from '../../../Types/posts';
     try {
       // Replace 'posts' with your actual posts table name
       const postsWithComments = await db<UserPost[]>('posts')
-        .select('posts.id', 'posts.username', 'post_content') // Adjust fields as necessary
-        .orderBy('id', 'asc') // Sort by ID in ascending order
+        .select('posts.id', 'posts.username', 'post_content', 'created_at') // Adjust fields as necessary
+        .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
         .limit(limit) // Send only a # back
         .offset(offset); // Which records we've already sent
       return postsWithComments;
@@ -19,8 +19,14 @@ import { UserPost } from '../../../Types/posts';
 
   export const createUserPost = async (username: string, postText: string) => {
     try {
-      // Model interface
-      // Return interface
+      // Create and insert the new post into the 'posts' table of our database
+      await db('posts').insert({
+        username: username,
+        post_content: postText,
+        created_at: new Date()
+      });
+
+      console.log('New post created succesfully');
     } catch (error) {
       console.error('Error sending post:', error);
       throw new Error('Failed to create post.');
