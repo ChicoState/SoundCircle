@@ -20,7 +20,7 @@ function SearchBar() {
         }
 
         const data = await response.json();
-        const coordinates = data.results[0].geometry; // get coordinates to send to backend
+        coordinates = data.results[0].geometry; // get coordinates to send to backend
         console.log(coordinates);
 
         if (data.results && data.results.length > 0) {
