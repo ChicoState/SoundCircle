@@ -1,6 +1,6 @@
-import { Controller, Get, Query, Route, SuccessResponse, Tags } from 'tsoa';
-import { findUsersByPosts } from '../../Models/Posts/post.model';
-import { Post } from '../../../Types/posts';
+import { Controller, Get, Post, Query, Body, Route, SuccessResponse, Tags } from 'tsoa';
+import { createUserPost, findUsersByPosts } from '../../Models/Posts/post.model';
+import { UserPost } from '../../../Types/posts';
 
 @SuccessResponse('200', 'Ok')
 @Route('posts')
@@ -13,19 +13,59 @@ export class PostController extends Controller {
    */
   @Get('/')
   public async getPostsWithComments(
-    @Query('limit') limitStr?: string,
-    @Query('offset') offsetStr?: string
-  ): Promise<Post[]> {
+    @Query('limit') limitStr?: string,  // Accept a limit passed as a string
+    @Query('offset') offsetStr?: string // Accept an offset passed as a string
+  ): Promise<UserPost[]> {
     try {
-      const limit = parseInt(limitStr || '5', 10);
-      const offset = parseInt(offsetStr || '0, 10');
+      const limit = parseInt(limitStr || '5');    // Parse limit string, default to 5
+      const offset = parseInt(offsetStr || '0');  // Parse offset string, default to 0
+
+      // Run the 'findUsersByPosts' db function and return the results
       const result = await findUsersByPosts(limit, offset);
+      
+      // Throw different errors for different results
+      if (result.length === 0)
+      {
+        // 204 = No Content status
+        this.setStatus(204);
+      } else {
+        // 200 = OK status (not always needed, but helpful)
+        this.setStatus(200);
+      }
+
       return result;
+
     } catch (error) {
+      // Throw an error to both the backend, HTTP error, and frontend
       console.error('Error in getPostsWithComments:', error);
       this.setStatus(500);
       throw new Error('Failed to fetch posts with comments');
     }
   }
 
+
+  /*
+   * Create a new post and shove it in the DB
+   * !!! TECHNICAL DEBT: Currently interpreting data as a pure string. Not sure if this works for api calls, but for now will work.
+   */
+  @Post('/')
+  public async postNewUserPost(
+    // HTTP likes to use @Body for POST requests
+    @Body() body: { usernameStr?: string; postDataStr?: string; }
+  ): Promise<void> {
+    try {
+      const username = body.usernameStr || 'Default User'; // Default to 'Default User' if no username provided
+      const postData = body.postDataStr || '';             // Default to empty string if no postData provided
+
+      // Call the database function to insert new post information
+      await createUserPost(username, postData);
+
+      this.setStatus(201); // Set HTTP status to 201 for success on new information added
+    } catch (error) {
+      // Throw an error to both the backend, HTTP error, and frontend
+      console.error('Error in postNewUserPost: ', error);
+      this.setStatus(500);
+      throw new Error('Failed to create new user post');
+    }
+  }
 }

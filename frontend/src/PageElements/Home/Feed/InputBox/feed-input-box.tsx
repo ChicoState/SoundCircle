@@ -22,6 +22,45 @@ const FeedInputBox = () => {
         }
     }, [text]);
 
+    // Attempt to send data to the database
+    const handleSubmit = async () => {
+        if (!text.trim()) return; // Prevents submitting empty posts
+
+        try {
+            // Try to send a fetch request to the backend
+            // We need to specify that we want to ask for a @Post
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    usernameStr: "SCDev User",  // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
+                    postDataStr: text,          // Send the text in the textarea box
+                }),
+            });
+
+            if (!response.ok)
+            {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Handle the response data
+            // Currently we do not process any response data
+
+            // const data = await response.json();
+            // console.log("Post created successfully: ", data);
+
+            console.log("Post created successfully");
+
+            // Clear the textarea
+            setText('');
+
+        } catch (error) {
+            console.error(`Error creating post: `, error);
+        }
+    }
+
     // Return the visible text box
     return (
         <div className="relative inline-block">
@@ -34,7 +73,7 @@ const FeedInputBox = () => {
             />
             <button 
                 className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-3 rounded shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100"
-                onClick={() => {}}
+                onClick={handleSubmit}
             >
                 Create Post
             </button>
