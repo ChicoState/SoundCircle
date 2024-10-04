@@ -9,7 +9,7 @@ function Post({ userName, postContent }: PostProperties) {
     return (
         <div className="post">
             <h1>{userName}</h1>
-            <p>{postContent}</p>
+            <h2>{postContent}</h2>
         </div>
     );
 }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface CircularPictureWithLabelProps {
   label: string;
   imageUrl: string;
@@ -12,7 +10,7 @@ function CircularPictureWithLabel({ label, imageUrl }: CircularPictureWithLabelP
       <img 
         src={imageUrl}
         alt={label}
-        className="CircularPicture rounded-full object-cover"
+        className="CircularPicture shadow-lg rounded-full object-cover"
       />
       
       {/* Label */}

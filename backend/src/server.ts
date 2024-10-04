@@ -1,6 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { RegisterRoutes } from "../build/routes"; // Adjust the import path to where TSOA generated the routes
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config({ path: ".env.local" });
@@ -12,6 +13,7 @@ export const server = express();
 
 // JSON body parsing middleware
 server.use(express.json());
+server.use(cors());
 
 // Register TSOA-generated routes
 RegisterRoutes(server);
