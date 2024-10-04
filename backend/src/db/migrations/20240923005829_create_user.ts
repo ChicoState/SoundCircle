@@ -2,10 +2,10 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("users", (table) => {
-    table.increments("id").primary();
+    table.increments("id").primary().unsigned().notNullable();
     table.specificType('artists', 'text[]');       // Array of text
     table.specificType('genres', 'text[]');        // Array of text
-    table.specificType('friends', 'integer[]');    // Array of integers
+    //table.specificType('friends', 'integer[]');    // Array of integers
     table.string("image");                         // Image URL or path
     table.string("description");                   // Description field
     table.float('longitude');                      // More precision for coordinates
