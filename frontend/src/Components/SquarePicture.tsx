@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface SquarePictureWithLabelProps {
   label: string;
   imageUrl: string;
@@ -12,7 +10,7 @@ function SquarePictureWithLabel({ label, imageUrl }: SquarePictureWithLabelProps
       <img 
         src={imageUrl}
         alt={label}
-        className="CircularPicture shadow-md rounded-lg object-cover"
+        className="CircularPicture shadow-lg rounded-lg object-cover"
       />
       
       {/* Label */}
