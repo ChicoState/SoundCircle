@@ -1,5 +1,8 @@
 // To use run:
 // npx ts-node dummyData.ts
+//
+// If 'Unknown command: ts-node', you need to install it via:
+// npm install -g ts-node
 
 // This is created so that we can test and use consistent dummy data.
 // Please add any data used by the database here
