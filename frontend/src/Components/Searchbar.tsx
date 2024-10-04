@@ -8,11 +8,11 @@ function SearchBar() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents page reload on search submission
     console.log('Searching for location:', location);
+    let coordinates = null;
     
     try {
         const response = await fetch(
-            // DEMO API KEY HERE!!
-            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${process.env.REACT_APP_API_GEOCODING_KEY}`
+            `${process.env.REACT_APP_API_GEOCODING_URL}/v1/json?q=${encodeURIComponent(location)}&key=${process.env.REACT_APP_API_GEOCODING_KEY}`
         );
 
         if (!response.ok) {
@@ -20,7 +20,8 @@ function SearchBar() {
         }
 
         const data = await response.json();
-        console.log(data)
+        const coordinates = data.results[0].geometry; // get coordinates to send to backend
+        console.log(coordinates);
 
         if (data.results && data.results.length > 0) {
             setResults(data.results);
@@ -36,7 +37,30 @@ function SearchBar() {
         setError("Failed to fetch geocoding data");
         setResults(null);
     }
-    
+
+    // Try to send coordinates to the backend
+    try {
+      if (coordinates) {
+        const postResponse = await fetch('', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ coordinates }),
+        });
+
+        if (!postResponse.ok) {
+          throw new Error(`Error posting coordinates to backend: ${postResponse.status}`);
+        }
+        console.log('Coordinates sent to backend');
+      }
+      else {
+        throw new Error('Coordinates are undefined');
+      }
+    } catch (err) {
+      console.error('Error posting coordinates to backend', err);
+      setError('Failed to send coordinates to backend');
+    }
     setLocation(''); // Clear the input after submission
   };
 
