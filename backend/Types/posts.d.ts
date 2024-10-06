@@ -1,6 +1,6 @@
 export interface UserPost {
   id: number;
   username: string;
-  post_Content: string;
+  post_content: string;
   created_at: Date;
 }

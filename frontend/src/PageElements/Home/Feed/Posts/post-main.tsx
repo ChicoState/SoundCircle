@@ -1,6 +1,6 @@
 // This class is for populating information from post-container.tsx and formatting it
 
-interface PostProperties {
+export interface PostProperties {
     userName: string;
     postContent: string;
 }

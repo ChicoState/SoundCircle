@@ -1,9 +1,15 @@
 // User facing input for creating a post
 import FeedInputBox from './InputBox/feed-input-box';
+import { PostProperties } from './Posts/post-main';
 
-const InputContainer = () => {
+// Allow passing of local posts
+interface InputContainerProps {
+    onPostSubmit: (newPost: PostProperties) => void;
+}
+
+const InputContainer: React.FC<InputContainerProps> = ({ onPostSubmit }) => {
     return (
-        <FeedInputBox/>
+        <FeedInputBox onPostSubmit={onPostSubmit}/>
     );
 }
 
