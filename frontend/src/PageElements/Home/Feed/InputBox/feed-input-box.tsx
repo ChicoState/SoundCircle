@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { PostProperties } from "../Posts/post-main";
 
-const FeedInputBox = () => {
+// Allow listening of newly created posts
+interface FeedInputBoxProps {
+    onPostSubmit: (newPost: PostProperties) => void;
+}
+
+const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const [text, setText] = useState('');   // Handles storing text to pass
     const maxCharacters = 256;              // Max characters allowed
     const textAreaRef = useRef<HTMLTextAreaElement>(null);       // Directly modify this item instead of using states
+    const defaultUserName = "SCDev";
+
 
     // Change the contents of "text"
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,8 +43,8 @@ const FeedInputBox = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    usernameStr: "SCDev User",  // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
-                    postDataStr: text,          // Send the text in the textarea box
+                    usernameStr: defaultUserName,  // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
+                    postDataStr: text,             // Send the text in the textarea box
                 }),
             });
 
@@ -47,14 +55,13 @@ const FeedInputBox = () => {
 
             // Handle the response data
             // Currently we do not process any response data
-
-            // const data = await response.json();
-            // console.log("Post created successfully: ", data);
-
-            console.log("Post created successfully");
+            const data = await response.json();
 
             // Clear the textarea
             setText('');
+
+            // Send the new Post to the feed-container
+            onPostSubmit(data);
 
         } catch (error) {
             console.error(`Error creating post: `, error);

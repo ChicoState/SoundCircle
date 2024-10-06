@@ -52,15 +52,19 @@ export class PostController extends Controller {
   public async postNewUserPost(
     // HTTP likes to use @Body for POST requests
     @Body() body: { usernameStr?: string; postDataStr?: string; }
-  ): Promise<void> {
+  ): Promise<UserPost> {
     try {
       const username = body.usernameStr || 'Default User'; // Default to 'Default User' if no username provided
       const postData = body.postDataStr || '';             // Default to empty string if no postData provided
 
       // Call the database function to insert new post information
-      await createUserPost(username, postData);
+      const newPost = await createUserPost(username, postData);
 
       this.setStatus(201); // Set HTTP status to 201 for success on new information added
+
+      // Return the post
+      return newPost;
+
     } catch (error) {
       // Throw an error to both the backend, HTTP error, and frontend
       console.error('Error in postNewUserPost: ', error);

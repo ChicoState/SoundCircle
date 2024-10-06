@@ -2,6 +2,8 @@
 
 import Post from "./post-main";
 
+// This likely does NOT need to be defined again.
+// Can probably just pass a Post
 interface PostContainerProperties {
     userName: string;
     postContent: string;

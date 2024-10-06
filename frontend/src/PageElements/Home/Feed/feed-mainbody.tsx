@@ -3,8 +3,14 @@
     
 import { useCallback, useEffect, useRef, useState } from "react";
 import PostContainer from "./Posts/post-container";
+import { PostProperties } from "./Posts/post-main";
 
-const FeedMainBody = () => {
+// Listen for new local posts to add at top of list
+interface FeedMainBodyProps {
+    newLocalPost?: PostProperties;
+}
+
+const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost }) => {
     const [data, setData] = useState<any[]>([]); // Data pulled from fetch
     const [loading, setLoading] = useState(true); // Bool for load state
     const [error, setError] = useState(null); // Error state
@@ -66,6 +72,17 @@ const FeedMainBody = () => {
         fetchDataForPosts();
     }, [fetchDataForPosts]);
 
+    // Grab the new local post and update the feed
+    useEffect(() => {
+        if (newLocalPost) {
+            setData((prevData) => [newLocalPost, ...prevData]);
+        }
+    }, [newLocalPost]);
+
+    // Log updated data when it changes
+    useEffect(() => {
+    }, [data]);
+
     // Get more posts and change our offset
     const loadMorePosts = () => {
         if (!loading && !isFetching.current) {
@@ -74,7 +91,7 @@ const FeedMainBody = () => {
     }
 
     // If the length of data < GET_POST_LIMIT, disable the button
-    const disableLoadMoreButton = loading || data.length % GET_POST_LIMIT !== 0;
+    const disableLoadMoreButton = loading || data.length === 0;
 
     return (
         <div className="p-5 space-y-5 text-white overflow-y-auto overscroll-none w-full max-h-[70vh]">
@@ -86,9 +103,9 @@ const FeedMainBody = () => {
 
             {/* Render posts */}
             {data.length > 0 ? (
-                data.map(({id, username, post_content, created_at}) => (
+                data.map(({id, username, post_content, created_at}, index) => (
                     <PostContainer
-                        key={id}
+                        key={`${id}-${index}`}
                         userName={username}
                         postContent={post_content}
                     />
