@@ -1,63 +1,107 @@
-import { useEffect, useState } from "react";
-import CircularPictureWithLabel from "../../../Components/CircularPicture";
+import { useState, useEffect } from 'react';
 
-interface People {
-    id: number;
-    name: string;
-    imageUrl: string;
+interface Person {
+  id: number;
+  name: string;
+  imageUrl: string;
 }
 
-// Dummy data to use before API is set up
-const dummyPeople: People[] = [
-    { id: 1, name: 'Person1', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Person2', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Person3', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 4, name: 'Person4', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 5, name: 'Person5', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 6, name: 'Person6', imageUrl: 'https://via.placeholder.com/150' }
-];
-
 function PeopleBox() {
-    // Setting people to use the dummy data
-    const [people, setPeople] = useState<People[]>(dummyPeople);
+  // Dummy data for now  
+  const dummyPeople: Person[] = [
+    { id: 1, name: 'Person 1', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+1' },
+    { id: 2, name: 'Person 2', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+2' },
+    { id: 3, name: 'Person 3', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+3' },
+    { id: 4, name: 'Person 4', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+4' },
+    { id: 5, name: 'Person 5', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+5' },
+    { id: 6, name: 'Person 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+6' },
+  ];
 
-    // This is the actual line to use once the API is set up
-    // const [people, setPeople] = useState<People[]>([]);
+  // Setting people to use the dummy data
+  const [people, setPeople] = useState<Person[]>(dummyPeople);
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  // This is the actual line to use once the API is set up
+  // const [people, setPeople] = useState<Person[]>([]);
 
-    useEffect(() => {
-        const fetchPeople = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch("HTTP ENDPOINT");
-                if (!response.ok) {
-                    throw new Error('HTTP Error: Status ${response.status}');
-                }
-                const data = await response.json();
-                setPeople(data);
-            } catch (error : any) {
-                setError(error.message);
-                setPeople([]);
-                console.log("Failure to fetch people", error);
-            } finally {
-                setLoading(false);
-            }
-        }
-        // Commenting this out until API is set up
-        // fetchPeople();
-    });
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-        <div className = "People grid grid-cols-3 grid-rows-2 place-content-center gap-x-4 gap-y-2 rounded-lg px-10 pt-4">
-            {people.map((people) => 
-                <div key = {people.id}>
-                    <CircularPictureWithLabel label = {people.name} imageUrl = {people.imageUrl} />
+  useEffect(() => {
+      const fetchPeople = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setPeople(data);
+          } catch (error : any) {
+              setError(error.message);
+              setPeople([]);
+              console.log("Failure to fetch people", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+      // Commenting this out until API is set up
+      // fetchPeople();
+  });
+
+
+  // Runs when next arrow is clicked
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % people.length);
+  };
+
+  // Runs when prev arrow is clicked
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? people.length - 3 : prevIndex - 3
+    );
+  };
+
+  return (
+    <div className="relative w-full max-w-lg mx-auto p-4 bg-gray-900 rounded-lg shadow-md overflow-hidden">
+      <div className="relative flex items-center">
+        {/* Previous Arrow */}
+        <button
+          onClick={handlePrev}
+          className="left-0 z-10 p-1 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100">
+          &#60;
+        </button>
+
+        <div className="overflow-hidden w-full">
+          {/* Person Display */}
+          <div
+            className="whitespace-nowrap transition-transform duration-500"
+            style={{ transform: `translateX(-${(currentIndex / 3) * 100}%)` }}
+          >
+            {people.map((person) => (
+              <div key={person.id} className="inline-block w-1/3 px-2">
+                <div className="flex flex-col items-center justify-center">
+                  <img
+                    src={person.imageUrl}
+                    alt={person.name}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                  <p className= "mt-1 text-gray-300 text-sm">{person.name}</p>
                 </div>
-            )}
+              </div>
+            ))}
+          </div>
         </div>
-    )
+
+        {/* Next Arrow */}
+        <button
+          onClick={handleNext}
+          className="right-0 z-10 p-1 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100">
+          &#62;
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default PeopleBox;
