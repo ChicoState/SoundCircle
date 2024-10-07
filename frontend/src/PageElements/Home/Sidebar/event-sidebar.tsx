@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Event {
   id: number;
@@ -13,24 +13,51 @@ function EventsBox() {
     { id: 2, name: 'Event 2', imageUrl: 'https://via.placeholder.com/150x150.png?text=Event+2' },
     { id: 3, name: 'Event 3', imageUrl: 'https://via.placeholder.com/150x150.png?text=Event+3' },
     { id: 4, name: 'Event 4', imageUrl: 'https://via.placeholder.com/150x150.png?text=Event+4' },
-    { id: 5, name: 'Event 5', imageUrl: 'https://via.placeholder.com/150x150.png?text=Event+5' },
-    { id: 6, name: 'Event 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Event+6' },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Number of events to display at a time
-  const eventsToShow = 2;
+  // Setting events to use the dummy data
+  const [events, setEvents] = useState<Event[]>(dummyEvents);
+
+  // This is the actual line to use once the API is set up
+  // const [events, setEvents] = useState<Event[]>([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchEvents = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setEvents(data);
+          } catch (error : any) {
+              setError(error.message);
+              setEvents([]);
+              console.log("Failure to fetch events", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+      // Commenting this out until API is set up
+      // fetchEvents();
+  });
+
 
   // Runs when next arrow is clicked
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + eventsToShow) % dummyEvents.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 2) % events.length);
   };
 
   // Runs when prev arrow is clicked
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? dummyEvents.length - eventsToShow : prevIndex - eventsToShow
+      prevIndex === 0 ? events.length - 2 : prevIndex - 2
     );
   };
 
@@ -45,12 +72,12 @@ function EventsBox() {
         </button>
 
         <div className="overflow-hidden w-full">
-          {/* Event Cover Display */}
+          {/* Event Display */}
           <div
             className="whitespace-nowrap transition-transform duration-500"
-            style={{ transform: `translateX(-${(currentIndex / eventsToShow) * 100}%)` }}
+            style={{ transform: `translateX(-${(currentIndex / 2) * 100}%)` }}
           >
-            {dummyEvents.map((event) => (
+            {events.map((event) => (
               <div key={event.id} className="inline-block w-1/2 px-2"> {/* Changed width to 1/2 */}
                 <div className="flex flex-col items-center justify-center">
                   <img

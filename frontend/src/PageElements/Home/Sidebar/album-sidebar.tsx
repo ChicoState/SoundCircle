@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 
 interface Album {
   id: number;
@@ -19,15 +19,46 @@ function AlbumsBox() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Setting albums to use the dummy data
+  const [albums, setAlbums] = useState<Album[]>(dummyAlbums);
+
+  // This is the actual line to use once the API is set up
+  // const [albums, setAlbums] = useState<Album[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchAlbums = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setAlbums(data);
+          } catch (error : any) {
+              setError(error.message);
+              setAlbums([]);
+              console.log("Failure to fetch albums", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+      // Commenting this out until API is set up
+      // fetchAlbums();
+  });
+
+
   // Runs when next arrow is clicked
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 3) % dummyAlbums.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % albums.length);
   };
 
   // Runs when prev arrow is clicked
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? dummyAlbums.length - 3 : prevIndex - 3
+      prevIndex === 0 ? albums.length - 3 : prevIndex - 3
     );
   };
 
@@ -47,7 +78,7 @@ function AlbumsBox() {
             className="whitespace-nowrap transition-transform duration-500"
             style={{ transform: `translateX(-${(currentIndex / 3) * 100}%)` }}
           >
-            {dummyAlbums.map((album) => (
+            {albums.map((album) => (
               <div key={album.id} className="inline-block w-1/3 px-2">
                 <div className="flex flex-col items-center justify-center">
                   <img

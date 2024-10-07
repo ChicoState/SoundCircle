@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Person {
   id: number;
@@ -17,17 +17,48 @@ function PeopleBox() {
     { id: 6, name: 'Person 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Person+6' },
   ];
 
+  // Setting people to use the dummy data
+  const [people, setPeople] = useState<Person[]>(dummyPeople);
+
+  // This is the actual line to use once the API is set up
+  // const [people, setPeople] = useState<Person[]>([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchPeople = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setPeople(data);
+          } catch (error : any) {
+              setError(error.message);
+              setPeople([]);
+              console.log("Failure to fetch people", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+      // Commenting this out until API is set up
+      // fetchPeople();
+  });
+
 
   // Runs when next arrow is clicked
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 3) % dummyPeople.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % people.length);
   };
 
   // Runs when prev arrow is clicked
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? dummyPeople.length - 3 : prevIndex - 3
+      prevIndex === 0 ? people.length - 3 : prevIndex - 3
     );
   };
 
@@ -47,7 +78,7 @@ function PeopleBox() {
             className="whitespace-nowrap transition-transform duration-500"
             style={{ transform: `translateX(-${(currentIndex / 3) * 100}%)` }}
           >
-            {dummyPeople.map((person) => (
+            {people.map((person) => (
               <div key={person.id} className="inline-block w-1/3 px-2">
                 <div className="flex flex-col items-center justify-center">
                   <img

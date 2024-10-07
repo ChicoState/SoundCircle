@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Artist {
   id: number;
@@ -17,17 +17,47 @@ function ArtistsBox() {
     { id: 6, name: 'Artist 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+6' },
   ];
 
+  // Setting artists to use the dummy data
+  const [artists, setArtists] = useState<Artist[]>(dummyArtists);
+
+  // This is the actual line to use once the API is set up
+  // const [artists, setArtists] = useState<Artist[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchArtists = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setArtists(data);
+          } catch (error : any) {
+              setError(error.message);
+              setArtists([]);
+              console.log("Failure to fetch artists", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+      // Commenting this out until API is set up
+      // fetchArtists();
+  });
+
 
   // Runs when next arrow is clicked
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 3) % dummyArtists.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % artists.length);
   };
 
   // Runs when prev arrow is clicked
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? dummyArtists.length - 3 : prevIndex - 3
+      prevIndex === 0 ? artists.length - 3 : prevIndex - 3
     );
   };
 
@@ -47,7 +77,7 @@ function ArtistsBox() {
             className="whitespace-nowrap transition-transform duration-500"
             style={{ transform: `translateX(-${(currentIndex / 3) * 100}%)` }}
           >
-            {dummyArtists.map((artist) => (
+            {artists.map((artist) => (
               <div key={artist.id} className="inline-block w-1/3 px-2">
                 <div className="flex flex-col items-center justify-center">
                   <img
