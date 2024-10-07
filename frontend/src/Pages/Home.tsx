@@ -5,8 +5,12 @@ import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 import SearchBar from "../Components/Searchbar";
 import SCLogo from "../Components/SoundCircle.gif"
 import UserIcon from "../Components/UserIconTemp.png"
+import { useState } from "react";
+import handleLogin from "../utils/handleLogin";
 
 const Home = () => {
+    const [isUserLoggedIn, userLoggedIn] = useState(false);
+
     return (
         <div className="min-h-screen flex flex-col">
             {/*Main Page Container*/}
@@ -14,7 +18,24 @@ const Home = () => {
             {/*<div className="bg-gray-500 flex flex-col items-center py-5">*/}
                 {/*Header Section*/}
                 <img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 left-0 m-2" />
-                <img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 right-0 m-2" />
+                <div className="">
+                {isUserLoggedIn ? (
+                <img
+                    src={UserIcon}
+                    alt="SC Logo"
+                    style={{ width: '50px', height: '50px' }}
+                    className="absolute top-0 right-0 m-2"
+                />
+                ) : (
+                <button
+                    style={{ width: '75px', height: '50px' }}
+                    className="absolute top-0 right-0 m-2 border-4 border-gray-900"
+                    onClick={handleLogin} // Optional: handle the login action here
+                >
+                    Log In
+                </button>
+                )}
+                </div>
                 <div className="flex-auto place-content-center"><SearchBar/></div>
             </div>
 
