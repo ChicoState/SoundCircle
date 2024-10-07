@@ -11,6 +11,7 @@ module.exports = {
         mauveine: '#9000b3ff',
         purple: '#7e007bff',
         blackBean: '#37000aff',
+        RoyalBlue: '#5a67d8ff', 
       },
     },
   },
