@@ -5,9 +5,9 @@ export const findUserByName = async (username: string) => {
     try {
         // Attempt to find the username in the database and return the information
         const foundUser = await db<User>('users')
-            .select('users.username', 'users.userPostIds', 'users.currentLocation')
+            .select('users.id', 'users.username', 'users.userPostIds', 'users.currentLocation', 'users.created_at')
             .where('username', username)
-            .first(); // Get the first match
+            .first(); // Get the first match, meaning we can stop looking
 
         return foundUser;
 
@@ -27,7 +27,7 @@ export const createNewUserProfile = async (username: string) => {
             userPostIds: [],
             currentLocation: []
         })
-        .returning(['username', 'userPostIds', 'currentLocation']);
+        .returning(['id', 'username', 'userPostIds', 'currentLocation','created_at']);
 
         // If there was an error returning a newly made user throw an error
         if (!newUser)
