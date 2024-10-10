@@ -2,7 +2,6 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.alterTable("users", (table) => {
-        table.increments("id").primary();
         table.string('username').notNullable().unique();
         table.json('userPostIds').defaultTo((JSON.stringify([]))); // Default to empty array
         table.json('currentLocation').defaultTo((JSON.stringify([]))); // Default to empty array
@@ -21,6 +20,22 @@ export async function up(knex: Knex): Promise<void> {
 
 
 export async function down(knex: Knex): Promise<void> {
-    await knex.schema.dropTableIfExists("users");
+    return knex.schema.alterTable("users", (table) => {
+        // Re-add dropped columns
+        table.specificType('artists', 'text[]');       // Array of text
+        table.specificType('genres', 'text[]');        // Array of text
+        //table.specificType('friends', 'integer[]');    // Array of integers
+        table.string("image");                         // Image URL or path
+        table.string("description");                   // Description field
+        table.float('longitude');                      // More precision for coordinates
+        table.float('latitude');                       // More precision for coordinates
+        table.float('radius');                         // Float for precision, depends on use case
+   
+        // Drop any added columns
+        table.dropColumn('username');
+        table.dropColumn('userPostIds'); // Default to empty array
+        table.dropColumn('currentLocation'); // Default to empty array
+        table.dropColumn('created_at');
+    });
 }
 
