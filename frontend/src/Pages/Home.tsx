@@ -5,12 +5,20 @@ import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 import SearchBar from "../Components/Searchbar";
 import SCLogo from "../Components/SoundCircle.gif"
 import UserIcon from "../Components/UserIconTemp.png"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import handleLogin from "../utils/handleLogin";
+import Cookies from "js-cookie";
 
 const Home = () => {
-    const [isUserLoggedIn, userLoggedIn] = useState(false);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+    useEffect(() => {
+        const accessToken = Cookies.get('access_token')
+        console.log(accessToken)
+        if (accessToken) {
+          setIsUserLoggedIn(true);
+        }
+      }, [isUserLoggedIn]);
     return (
         <div className="min-h-screen flex flex-col">
             {/*Main Page Container*/}
@@ -27,13 +35,17 @@ const Home = () => {
                     className="absolute top-0 right-0 m-2"
                 />
                 ) : (
-                <button
-                    style={{ width: '75px', height: '50px' }}
-                    className="absolute top-0 right-0 m-2 border-4 border-gray-900"
-                    onClick={handleLogin} // Optional: handle the login action here
-                >
+                    <button className="absolute top-0 right-0 m-2 border 2px p-2"
+                    >
+                        <a
+                    href="http://localhost:8080/login"
+                  >
                     Log In
-                </button>
+                  </a>
+                    </button>
+
+
+
                 )}
                 </div>
                 <div className="flex-auto place-content-center"><SearchBar/></div>

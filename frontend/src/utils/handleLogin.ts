@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react";
 
-function handleLogin(): MouseEventHandler<HTMLButtonElement> {
+function handleLogin(): string {
   return "";
 }
 
