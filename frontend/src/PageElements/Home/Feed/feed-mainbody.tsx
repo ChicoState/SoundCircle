@@ -103,7 +103,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost }) => {
 
             {/* Render posts */}
             {data.length > 0 ? (
-                data.map(({id, username, post_content, created_at}, index) => (
+                data.map(({id, user_id, username, post_content, created_at, comments, reactions}, index) => (
                     <PostContainer
                         key={`${id}-${index}`}
                         userName={username}
