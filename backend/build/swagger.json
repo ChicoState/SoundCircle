@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Post": {
+			"UserPost": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -16,14 +16,19 @@
 					"username": {
 						"type": "string"
 					},
-					"post_Content": {
+					"post_content": {
 						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
 					"id",
 					"username",
-					"post_Content"
+					"post_content",
+					"created_at"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -50,7 +55,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Post"
+										"$ref": "#/components/schemas/UserPost"
 									},
 									"type": "array"
 								}
@@ -63,7 +68,62 @@
 					"Posts"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "offset",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostNewUserPost",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserPost"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"postDataStr": {
+										"type": "string"
+									},
+									"usernameStr": {
+										"type": "string"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
