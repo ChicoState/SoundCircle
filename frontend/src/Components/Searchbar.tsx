@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-function SearchBar() {
+// Allows defining tailwind from outside of the class to adjust searchbar to be used most places 
+interface SearchBarProps {
+  className?: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   const [location, setLocation] = useState(''); // holds user-entered location
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
@@ -65,14 +70,14 @@ function SearchBar() {
   };
 
   return (
-    <div className="relative inline-block w-full max-w-md">
+    <div className={`${className}`}>
       <form onSubmit={handleSubmit} className="flex">
         <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter city, state, or ZIP"
-          className="py-1 px-3 rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
+          placeholder="Search by City, Zipcode, Artist, Album, Genre, or Username"
+          className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
         />
         <button
           type="submit"
