@@ -3,6 +3,7 @@ export interface User {
     id: number;
     username: string;
     userPostIds: number[];
-    currentLocation: number[];
+    latitude: number;
+    longitude: number;
     created_at: Date;
 }

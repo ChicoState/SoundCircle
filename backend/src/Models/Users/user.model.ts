@@ -5,7 +5,7 @@ export const findUserByName = async (username: string) => {
     try {
         // Attempt to find the username in the database and return the information
         const foundUser = await db<User>('users')
-            .select('users.id', 'users.username', 'users.userPostIds', 'users.currentLocation', 'users.created_at')
+            .select('users.id', 'users.username', 'users.userPostIds', 'users.latitude', 'users.longitude', 'users.created_at')
             .where('username', username)
             .first(); // Get the first match, meaning we can stop looking
 
@@ -25,9 +25,8 @@ export const createNewUserProfile = async (username: string) => {
         .insert({
             username: username,
             userPostIds: [],
-            currentLocation: []
         })
-        .returning(['id', 'username', 'userPostIds', 'currentLocation','created_at']);
+        .returning(['id', 'username', 'userPostIds', 'latitude', 'longitude','created_at']);
 
         // If there was an error returning a newly made user throw an error
         if (!newUser)
