@@ -4,39 +4,42 @@ function SearchBar() {
   const [location, setLocation] = useState(''); // holds user-entered location
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false); // show/hide suggestions dropdown
+
+  // Define empty suggestions
+  const emptySuggestions = Array.from({ length: 10 }, (_, index) => `Suggestion ${index + 1}`);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents page reload on search submission
     console.log('Searching for location:', location);
-    
+    let coordinates = null;
+
+    // Simulate a submission (the original API logic)
     try {
-        const response = await fetch(
-            // DEMO API KEY HERE!!
-            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${"YOUR-API-KEY"}`
-        );
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.results && data.results.length > 0) {
-            setResults(data.results);
-            console.log("Geocoding results: ", data.results);
-        }
-        else {
-            console.log("No results found");
-            setResults(null);
-            setError("No results found");
-        }
+      // Mocking API call for geocoding
+      setTimeout(() => {
+        console.log('Geocoding API Mock Call');
+      }, 1000);
     } catch (err) {
-        console.error("Error fetching geocoding data", err);
-        setError("Failed to fetch geocoding data");
-        setResults(null);
+      console.error("Error fetching geocoding data", err);
+      setError("Failed to fetch geocoding data");
+      setResults(null);
     }
-    
-    setLocation(''); // Clear the input after submission
+
+    // Reset location and hide suggestions after submit
+    setLocation('');
+    setShowSuggestions(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setLocation(query);
+    setShowSuggestions(true); // Show suggestions when the user types
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setLocation(suggestion); // Set the clicked suggestion in the input
+    setShowSuggestions(false); // Hide suggestions after selection
   };
 
   return (
@@ -45,9 +48,11 @@ function SearchBar() {
         <input
           type="text"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={handleInputChange}
           placeholder="Enter city, state, or ZIP"
           className="py-1 px-3 rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
+          onFocus={() => setShowSuggestions(true)} // Show suggestions when focused
+          onBlur={() => setShowSuggestions(false)}   // Hide suggestions on blur
         />
         <button
           type="submit"
@@ -55,8 +60,25 @@ function SearchBar() {
           Search
         </button>
       </form>
+
+      {/* Render empty suggestions dropdown */}
+      {showSuggestions && (
+        <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 max-h-48 overflow-y-auto z-10">
+          <ul>
+            {emptySuggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                className="py-2 px-4 cursor-pointer hover:bg-gray-200"
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                {suggestion} {/* Display empty suggestion */}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default SearchBar;
