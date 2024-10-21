@@ -1,5 +1,4 @@
 import "./Home.css";
-// import { useNavigate } from "react-router-dom";
 import FeedContainer from "../PageElements/Home/Feed/feed-container";
 import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 import SearchBar from "../Components/Searchbar";
@@ -22,7 +21,7 @@ const Home = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/*Main Page Container*/}
-            <div className="bg-gradient-to-r from-periwinkle to-RoyalBlue flex flex-col items-center py-5 relative">
+            <div>
             {/*<div className="bg-gray-500 flex flex-col items-center py-5">*/}
                 {/*Header Section*/}
                 <img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 left-0 m-2" />
@@ -65,10 +64,6 @@ const Home = () => {
                     {/*Right Column Section*/}
                     <SidebarContainer/>
                 </div>
-            </div>
-
-            <div className="bg-gray-500 py-3">
-                {/*Footer Section*/}
             </div>
         </div>
     );
