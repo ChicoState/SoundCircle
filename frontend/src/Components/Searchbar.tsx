@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 interface SearchBarProps {
-  Test: string;
+  className: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ Test }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   const [location, setLocation] = useState(''); // holds user-entered location
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
