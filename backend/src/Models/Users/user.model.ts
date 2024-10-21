@@ -1,5 +1,5 @@
 import db from '../../db/db';
-import { User } from 'Types/users';
+import { User } from "../../../Types/users"
 
 export const findUserByName = async (username: string) => {
     try {
@@ -16,7 +16,6 @@ export const findUserByName = async (username: string) => {
         throw new Error('Failed to fetch user by username');
     }
 }
-
 
 export const createNewUserProfile = async (username: string) => {
     try {
@@ -40,5 +39,34 @@ export const createNewUserProfile = async (username: string) => {
     } catch (error) {
         console.error('Error creating user: ', error);
         throw new Error('Failed to create user');
+    }
+}
+
+// This function will be used to update the location of a user
+export const updateUserLocation = async (username: string, latitude: number, longitude: number) => {
+    try {
+        // Get the ID of the user so we can search the database
+        const foundUser = await findUserByName(username);
+
+        // Throw an error if that user isn't in the DB
+        if (!foundUser) {
+            throw new Error('User not found');
+        }
+
+        // Update the location of the user who matches the ID from findUserByName.
+        const updatedUser = await db<User>('users')
+            .where('id', foundUser.id)
+            .update({
+                latitude: latitude,
+                longitude: longitude,
+            })
+            .returning(['id', 'username', 'userPostIds', 'created_at', 'latitude', 'longitude']);
+
+        // Return the first user in the user array created above
+        return updatedUser[0];
+        
+    } catch (error) {
+        console.error('Error updating user location', error);
+        throw new Error('Failed to update user location');
     }
 }

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route, SuccessResponse, Tags } from 'tsoa';
-import { createNewUserProfile, findUserByName } from 'src/Models/Users/user.model';
+import { createNewUserProfile, findUserByName, updateUserLocation } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 @SuccessResponse('200', 'Ok')
@@ -63,6 +63,42 @@ export class UserController extends Controller {
             console.error('Error in postNewUserProfile: ', error);
             this.setStatus(500);
             throw new Error('Failed to create new user profile');
+        }
+    }
+
+    /**
+     * Update a user's location 
+     * @returns User type
+     */
+    @Post('/newLocation')
+    public async postUserLocation(
+        // Define the body of the post request
+        @Body() body: { usernameStr: string, latitude: number, longitude: number }
+    ): Promise<User> {
+        try {
+            // Get the data from the request body
+            const username = body.usernameStr;
+            const newLatitude = body.latitude;
+            const newLongitude = body.longitude;
+
+            // Update the user with the function from user.model.ts
+            const updatedUser = await updateUserLocation(username, newLatitude, newLongitude);
+
+            // If we were unable to update the user throw an error and set a bad response code
+            if (!updatedUser) {
+                this.setStatus(400);
+                throw new Error('Failed to update user');
+            }
+            
+            // If we didn't get any errors, set an OK status
+            this.setStatus(200);
+    
+            return updatedUser;
+
+        } catch (error) {
+            console.error('Error in postUserLocation: ', error);
+            this.setStatus(500);
+            throw new Error('Failed to update user location');
         }
     }
 }
