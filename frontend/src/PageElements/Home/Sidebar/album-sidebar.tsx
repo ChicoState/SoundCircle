@@ -1,33 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 
-interface Artist {
+interface Album {
   id: number;
   name: string;
   imageUrl: string;
 }
 
-function ArtistsBox() {
+function AlbumsBox() {
   // Dummy data for now  
-  const dummyArtists: Artist[] = [
-    { id: 1, name: 'Artist 1', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+1' },
-    { id: 2, name: 'Artist 2', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+2' },
-    { id: 3, name: 'Artist 3', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+3' },
-    { id: 4, name: 'Artist 4', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+4' },
-    { id: 5, name: 'Artist 5', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+5' },
-    { id: 6, name: 'Artist 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Artist+6' },
+  const dummyAlbums: Album[] = [
+    { id: 1, name: 'Album 1', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+1' },
+    { id: 2, name: 'Album 2', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+2' },
+    { id: 3, name: 'Album 3', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+3' },
+    { id: 4, name: 'Album 4', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+4' },
+    { id: 5, name: 'Album 5', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+5' },
+    { id: 6, name: 'Album 6', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+6' },
   ];
 
-  // Setting artists to use the dummy data
-  const [artists, setArtists] = useState<Artist[]>(dummyArtists);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Setting albums to use the dummy data
+  const [albums, setAlbums] = useState<Album[]>(dummyAlbums);
 
   // This is the actual line to use once the API is set up
-  // const [artists, setArtists] = useState<Artist[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      const fetchArtists = async () => {
+      const fetchAlbums = async () => {
           try {
               setLoading(true);
               const response = await fetch("HTTP ENDPOINT");
@@ -35,29 +36,29 @@ function ArtistsBox() {
                   throw new Error('HTTP Error: Status ${response.status}');
               }
               const data = await response.json();
-              setArtists(data);
+              setAlbums(data);
           } catch (error : any) {
               setError(error.message);
-              setArtists([]);
-              console.log("Failure to fetch artists", error);
+              setAlbums([]);
+              console.log("Failure to fetch albums", error);
           } finally {
               setLoading(false);
           }
       }
       // Commenting this out until API is set up
-      // fetchArtists();
+      // fetchAlbums();
   });
 
 
   // Runs when next arrow is clicked
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 3) % artists.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % albums.length);
   };
 
   // Runs when prev arrow is clicked
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? artists.length - 3 : prevIndex - 3
+      prevIndex === 0 ? albums.length - 3 : prevIndex - 3
     );
   };
 
@@ -72,20 +73,20 @@ function ArtistsBox() {
         </button>
 
         <div className="overflow-hidden w-full">
-          {/* Artist Display */}
+          {/* Album Cover Display */}
           <div
             className="whitespace-nowrap transition-transform duration-500"
             style={{ transform: `translateX(-${(currentIndex / 3) * 100}%)` }}
           >
-            {artists.map((artist) => (
-              <div key={artist.id} className="inline-block w-1/3 px-2">
+            {albums.map((album) => (
+              <div key={album.id} className="inline-block w-1/3 px-2">
                 <div className="flex flex-col items-center justify-center">
                   <img
-                    src={artist.imageUrl}
-                    alt={artist.name}
-                    className="w-full h-full object-cover rounded-full"
+                    src={album.imageUrl}
+                    alt={album.name}
+                    className="w-full h-full object-cover rounded-lg"
                   />
-                  <p className= "mt-1 text-gray-300 text-sm">{artist.name}</p>
+                  <p className= "mt-1 text-gray-300 text-sm">{album.name}</p>
                 </div>
               </div>
             ))}
@@ -103,4 +104,4 @@ function ArtistsBox() {
   );
 }
 
-export default ArtistsBox;
+export default AlbumsBox;

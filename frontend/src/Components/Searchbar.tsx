@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-function SearchBar() {
+interface SearchBarProps {
+  Test: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ Test }) => {
   const [location, setLocation] = useState(''); // holds user-entered location
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +46,10 @@ function SearchBar() {
     setShowSuggestions(false); // Hide suggestions after selection
   };
 
+  const closeSuggestions = () => {
+    setShowSuggestions(false); // Close the suggestions dropdown
+  };
+
   return (
     <div className="relative inline-block w-full max-w-md">
       <form onSubmit={handleSubmit} className="flex">
@@ -52,7 +60,7 @@ function SearchBar() {
           placeholder="Enter city, state, or ZIP"
           className="py-1 px-3 rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
           onFocus={() => setShowSuggestions(true)} // Show suggestions when focused
-          onBlur={() => setShowSuggestions(false)}   // Hide suggestions on blur
+          onBlur={() => setShowSuggestions(false)}
         />
         <button
           type="submit"
