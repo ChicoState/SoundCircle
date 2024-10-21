@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Query, Body, Route, SuccessResponse, Tags } from 'tsoa';
-import { createNewUserProfile, findUserByName } from 'src/Models/Users/user.model';
+import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
+import { createNewUserProfile, findUserByEmail } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
-@SuccessResponse('200', 'Ok')
+// @SuccessResponse('200', 'Ok')
 @Route('users')
-@Tags('Users')
+// @Tags('Users')
 export class UserController extends Controller {
 
     /**
@@ -14,10 +14,10 @@ export class UserController extends Controller {
     @Get('/')
     public async getUserByName(
         @Query('username') usernameStr: string
-    ): Promise<User> {
+    ): Promise<User[]> {
         try {
             // Attempt to get the user data from db
-            const result = await findUserByName(usernameStr);
+            const result = await findUserByEmail(usernameStr);
 
             if (result)
             {
@@ -43,26 +43,23 @@ export class UserController extends Controller {
      */
     @Post('/')
     public async postNewUserProfile(
-        @Body() body: { usernameStr: string; }
-    ): Promise<User> {
-        try {
-            // Attempt to parse the passed information
-            const username = body.usernameStr;
-
-            // Call the database to insert new user information
-            const newUser = await createNewUserProfile(username);
-
-            // Set HTTP status to 201 for success
-            this.setStatus(201);
-
-            // Return the user
-            return newUser;
-
-        } catch (error) {
-            // Throw an error to both the backend, HTTP, and frontend
-            console.error('Error in postNewUserProfile: ', error);
-            this.setStatus(500);
-            throw new Error('Failed to create new user profile');
+    @Body() body: { usernameStr: string }
+): Promise<void> {
+    try {
+        if (!body || !body.usernameStr) {
+            throw new Error('Username is required'); // Handle missing username
         }
+        console.log(body.usernameStr);
+        await createNewUserProfile(body.usernameStr);
+        this.setStatus(201); // Created
+
+    } catch (error) {
+        console.error('Error in postNewUserProfile:', error);
+        this.setStatus(500);
+        throw new Error('Failed to create new user profile');
     }
 }
+
+}
+
+

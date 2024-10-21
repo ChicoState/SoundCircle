@@ -1,45 +1,49 @@
+// import { date } from 'joi';
 import db from '../../db/db';
-import { User } from 'Types/users';
+import { User } from '../../../Types/users';
 
-export const findUserByName = async (username: string) => {
+export const findUserByEmail = async (username: string) => {
     try {
-        // Attempt to find the username in the database and return the information
-        const foundUser = await db<User>('users')
-            .select('users.id', 'users.username', 'users.userPostIds', 'users.currentLocation', 'users.created_at')
-            .where('username', username)
-            .first(); // Get the first match, meaning we can stop looking
-
-        return foundUser;
-
+        console.log(username);
+        // Attempt to find the user by email and return the information
+        const foundUser = await db<Promise<User>>('users')
+            .select('username')
+            .where('username', username); // Changed to 'email'
+        return foundUser as User[];
     } catch (error) {
-        console.error('Error fetching user by name: ', error);
-        throw new Error('Failed to fetch user by username');
+        console.error('Error fetching user by email: ', error);
+        throw new Error('Failed to fetch user by email');
     }
-}
+};
+
+
 
 
 export const createNewUserProfile = async (username: string) => {
-    try {
-        // Attempt to create a new user and insert them into the DB
-        const [newUser] = await db<User>('users')
-        .insert({
-            username: username,
-            userPostIds: [],
-            currentLocation: []
-        })
-        .returning(['id', 'username', 'userPostIds', 'currentLocation','created_at']);
+    // Check if the username is valid
+    if (!username) {
+        throw new Error('Username cannot be null or empty'); // Validate username
+    }
 
-        // If there was an error returning a newly made user throw an error
-        if (!newUser)
-        {
+    try {
+        // Create a new user and insert them into the DB without specifying the ID
+        const [newUser] = await db<User>('users')
+            .insert({
+                username: username,              // Insert the username
+                userPostIds: [],                 // Default empty array in JSON
+                currentLocation: []              // Default empty array in JSON
+            })
+            .returning(['username', 'userPostIds', 'currentLocation', 'created_at']); // Include relevant fields
+
+        if (!newUser) {
             throw new Error('No user was created.');
         }
 
-        console.log('New user created successfully');
+        console.log('New user created successfully:', newUser);
         return newUser;
-
     } catch (error) {
         console.error('Error creating user: ', error);
         throw new Error('Failed to create user');
     }
-}
+};
+

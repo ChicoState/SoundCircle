@@ -1,8 +1,8 @@
-// Define a 'User' for the DB
 export interface User {
-    id: number;
-    username: string;
-    userPostIds: number[];
-    currentLocation: number[];
-    created_at: Date;
+    id: number;               // Primary key, likely an integer
+    username: string;         // Username should be a string, not a number
+    email: string;            // Email field should be a string
+    userPostIds: number[];     // Array of post IDs, assuming they are integers
+    currentLocation: number[]; // Array of numbers representing location coordinates
+    created_at: Date;         // Timestamp of user creation
 }
