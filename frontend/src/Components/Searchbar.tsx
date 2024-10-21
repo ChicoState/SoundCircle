@@ -67,7 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         <input
           type="text"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={(e) =>{ setLocation(e.target.value); handleInputChange(e);}}
           placeholder="Search by City, Zipcode, Artist, Album, Genre, or Username"
           className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
         />
