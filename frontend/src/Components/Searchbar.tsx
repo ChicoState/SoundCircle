@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
   className: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
+  const [searchData, setSearchData] = useState('');
   const [location, setLocation] = useState(''); // holds user-entered location
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false); // show/hide suggestions dropdown
+  const nextPage = useNavigate();
+
+  // Adjust searchData to contain what is in the input box any time it is changed
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchData(value);
+    setShowSuggestions(true); // Show suggestions when the user types
+  }
+
+  // Go to the next page and send our input data to be interpreted there
+  const handleSearchButton = (event: React.FormEvent) => {
+    event?.preventDefault();
+    nextPage('/Search', { state: { searchData } });
+  }
 
   // Define empty suggestions
   const emptySuggestions = Array.from({ length: 10 }, (_, index) => `Suggestion ${index + 1}`);
@@ -35,11 +51,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
     setShowSuggestions(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setLocation(query);
-    setShowSuggestions(true); // Show suggestions when the user types
-  };
 
   const handleSuggestionClick = (suggestion: string) => {
     setLocation(suggestion); // Set the clicked suggestion in the input
@@ -51,16 +62,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   };
 
   return (
-    <div className="relative inline-block w-full max-w-md">
+    <div className={`${className}`}>
       <form onSubmit={handleSubmit} className="flex">
         <input
           type="text"
           value={location}
-          onChange={handleInputChange}
-          placeholder="Enter city, state, or ZIP"
-          className="py-1 px-3 rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
-          onFocus={() => setShowSuggestions(true)} // Show suggestions when focused
-          onBlur={() => setShowSuggestions(false)}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Search by City, Zipcode, Artist, Album, Genre, or Username"
+          className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none hover:bg-gray-200 focus:bg-white transition duration-300"
         />
         <button
           type="submit"
