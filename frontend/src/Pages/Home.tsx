@@ -21,35 +21,19 @@ const Home = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/*Main Page Container*/}
-            <div>
-            {/*<div className="bg-gray-500 flex flex-col items-center py-5">*/}
-                {/*Header Section*/}
-                <img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 left-0 m-2" />
-                <div className="">
-                {isUserLoggedIn ? (
-                <img
-                    src={UserIcon}
-                    alt="SC Logo"
-                    style={{ width: '50px', height: '50px' }}
-                    className="absolute top-0 right-0 m-2"
-                />
-                ) : (
-                    <button className="absolute top-0 right-0 m-2 border 2px p-2"
-                    >
-                        <a
-                    href="http://localhost:8080/login"
-                  >
-                    Log In
-                  </a>
-                    </button>
-
-
-
-                )}
-                </div>
-                <div className="flex-auto place-content-center"><SearchBar/></div>
+            <div className="flex items-center justify-between">
+            <img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="m-2" />
+            <div className="flex-grow text-center">
+                <SearchBar />
             </div>
-
+            {isUserLoggedIn ? (
+                <img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="m-2" />
+            ) : (
+                <button className="m-2 border 2px p-2">
+                    <a href="http://localhost:8080/login">Log In</a>
+                </button>
+            )}
+        </div>
             <div className="flex flex-grow">
                 {/*Main Body Sections*/}
 
