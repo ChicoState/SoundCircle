@@ -63,7 +63,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
 
   return (
     <div className={`${className}`}>
-      <form onSubmit={handleSubmit} className="flex">
+      <form onSubmit={handleSearchButton} className="flex">
         <input
           type="text"
           value={location}
