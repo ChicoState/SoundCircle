@@ -31,9 +31,10 @@ export const createNewUserProfile = async (username: string) => {
             .insert({
                 username: username,              // Insert the username
                 userPostIds: [],                 // Default empty array in JSON
-                currentLocation: []              // Default empty array in JSON
+                longitude: 0,
+                latitude: 0
             })
-            .returning(['username', 'userPostIds', 'currentLocation', 'created_at']); // Include relevant fields
+            .returning(['username', 'userPostIds', 'created_at']); // Include relevant fields
 
         if (!newUser) {
             throw new Error('No user was created.');

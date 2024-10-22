@@ -26,12 +26,13 @@
 						},
 						"type": "array"
 					},
-					"currentLocation": {
-						"items": {
-							"type": "number",
-							"format": "double"
-						},
-						"type": "array"
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
 					},
 					"created_at": {
 						"type": "string",
@@ -43,7 +44,8 @@
 					"username",
 					"email",
 					"userPostIds",
-					"currentLocation",
+					"longitude",
+					"latitude",
 					"created_at"
 				],
 				"type": "object",
