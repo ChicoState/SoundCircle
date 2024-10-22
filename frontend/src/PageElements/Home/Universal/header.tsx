@@ -12,7 +12,7 @@ const Header = () => {
             <SearchBar className="w-full max-w-3xl"/>
 
             {/* Rigth User */}
-            <img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 right-0 m-2" />
+            <img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="absolute top-0 right-0 m-2" />
         </header>
     );
 }

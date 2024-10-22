@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route, SuccessResponse, Tags } from 'tsoa';
-import { createNewUserProfile, findUserByName } from 'src/Models/Users/user.model';
+import { createNewUserProfile, findUserByName } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 @SuccessResponse('200', 'Ok')

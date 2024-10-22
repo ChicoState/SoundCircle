@@ -43,5 +43,5 @@
     }
   },
 
-  "include": ["src/**/*.ts", "src/db/**/*.ts", "./node_modules/@types"]
+  "include": ["./src/**.ts"]
 }

@@ -1,5 +1,5 @@
 import db from '../../db/db';
-import { User } from 'Types/users';
+import { User } from '../../../Types/users';
 
 export const findUserByName = async (username: string) => {
     try {

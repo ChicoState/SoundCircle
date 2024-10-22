@@ -7,7 +7,50 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Post": {
+			"UserPost": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"user_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"post_content": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"comments": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"reactions": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"user_id",
+					"username",
+					"post_content",
+					"created_at",
+					"comments",
+					"reactions"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"User": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -16,14 +59,31 @@
 					"username": {
 						"type": "string"
 					},
-					"post_Content": {
-						"type": "string"
+					"userPostIds": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"currentLocation": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
 					"id",
 					"username",
-					"post_Content"
+					"userPostIds",
+					"currentLocation",
+					"created_at"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -50,7 +110,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Post"
+										"$ref": "#/components/schemas/UserPost"
 									},
 									"type": "array"
 								}
@@ -63,7 +123,133 @@
 					"Posts"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "offset",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostNewUserPost",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserPost"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"postDataStr": {
+										"type": "string"
+									},
+									"usernameStr": {
+										"type": "string"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetUserByName",
+				"responses": {
+					"200": {
+						"description": "User type",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Fetch information about a given user",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "username",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostNewUserProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Create a new user and store them into the DB",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"usernameStr": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"usernameStr"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
