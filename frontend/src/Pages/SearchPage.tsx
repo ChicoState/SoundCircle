@@ -8,14 +8,14 @@ const SearchResultsPage = () => {
     const { searchData } = location.state || {};
 
     return (
-        <div className='min-h-screen flex flex-col'>
+        <div className='min-h-screen flex flex-col bg-gray-900'>
             <div>
                 <Header/>
             </div>
 
             <div className="flex flex-grow">
                 {/*Main Body Sections*/}
-                <div className="bg-gray-900 w-3/4 flex flex-grow">
+                <div className="w-3/4 flex flex-grow">
                     {/*Left Column Section*/}
                     <ul className="w-full p-5 items-center text-center">
                     <SearchMainFeed searchData={searchData}/>

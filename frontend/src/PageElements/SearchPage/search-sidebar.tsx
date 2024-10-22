@@ -123,6 +123,16 @@ const SearchSideBar = () => {
                 filterResultsLocationFilter(6);
             }}/>
 
+            <div/>
+
+            <FilterButton 
+            text="Specific Location" 
+            selected={selectedButtonLocationFilter === 7} 
+            onClick={() => {
+                handleButtonClickLocationFilter(7);
+                filterResultsLocationFilter(7);
+            }}/>
+
         </div>
     );
 }

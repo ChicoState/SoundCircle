@@ -9,8 +9,10 @@ const FilterButton = ({text, selected, onClick}: FilterButtonProps) => {
     return (
         <button
             // Toggle the visuals based on the selected boolean
-            className={`px-4 py-2 w-full text-start font-semibold text-lg rounded-lg transition duration-200
-                ${selected ? 'bg-gradient-to-r from-RoyalBlue to-transparent text-white' : 'bg-transparent text-gray-500 hover:bg-gradient-to-r from-gray-600 to-transparent hover:text-gray-400'}
+            className={`px-4 py-2 w-full text-start font-semibold text-lg rounded-lg transition: ease-in-out duration-300
+                ${selected 
+                ? 'text-white bg-gradient-to-r from-RoyalBlue to-transparent to-90% pointer-events-none' 
+                : 'text-gray-500 hover:bg-gradient-to-r from-gray-600 to-transparent to-70% hover:text-gray-400'}
             `}
             onClick={onClick}
         >
