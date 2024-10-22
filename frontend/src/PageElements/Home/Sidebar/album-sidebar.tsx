@@ -7,7 +7,7 @@ interface Album {
 }
 
 function AlbumsBox() {
-  // Dummy data for now  
+  // Dummy data for now
   const dummyAlbums: Album[] = [
     { id: 1, name: 'Album 1', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+1' },
     { id: 2, name: 'Album 2', imageUrl: 'https://via.placeholder.com/150x150.png?text=Album+2' },

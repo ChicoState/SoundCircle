@@ -3,20 +3,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../Components/CustomButton';
-  
+
   const Home = () => {
     const [count, setCount] = useState(1);
-  
+
     const handleButtonPress = () => {
       setCount(count + 1);
     }
-  
+
     const nextPage = useNavigate();
-  
+
     return (
       <div className="App">
         <header className="App-header"> {/* Header *//*}
-          <h1>React.js Header</h1> 
+          <h1>React.js Header</h1>
         </header>
         <body className="App-body"> {/* Body *//*}
           <p>
