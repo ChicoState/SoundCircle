@@ -13,6 +13,8 @@ const Header = () => {
         console.log(accessToken);
         if (accessToken) {
             setIsUserLoggedIn(true);
+        } else {
+            setIsUserLoggedIn(false);
         }
     }, [isUserLoggedIn]);
 
