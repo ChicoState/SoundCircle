@@ -24,7 +24,7 @@ const Header = () => {
 
             {/* Center Searchbar */}
             <div className="flex-grow flex justify-center">
-                <SearchBar className="w-full max-w-3xl" />
+                <SearchBar className="w-full max-w-2xl" />
             </div>
 
             {/* Right User/Profile */}
