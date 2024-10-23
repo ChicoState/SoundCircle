@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Query, Body, Route, SuccessResponse, Tags } from 'tsoa';
+import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
 import { createUserPost, findUsersByPosts } from '../../Models/Posts/post.model';
 import { UserPost } from '../../../Types/posts';
 
-@SuccessResponse('200', 'Ok')
+// @SuccessResponse('200', 'Ok')
 @Route('posts')
-@Tags('Posts')
+// @Tags('Posts')
 export class PostController extends Controller {
 
   /**
@@ -22,7 +22,7 @@ export class PostController extends Controller {
 
       // Run the 'findUsersByPosts' db function and return the results
       const result = await findUsersByPosts(limit, offset);
-      
+
       // Throw different errors for different results
       if (result.length === 0)
       {
