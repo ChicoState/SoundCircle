@@ -19,10 +19,10 @@ const Header = () => {
     }, [isUserLoggedIn]);
 
     return (
-        <header className="bg-gradient-to-r from-periwinkle to-RoyalBlue flex items-center justify-between py-5 px-4">
+        <header className="bg-gradient-to-r from-periwinkle to-RoyalBlue flex items-center h-[60px] px-2">
             {/* Left Logo */}
-            <div className="flex items-center">
-                <Link to="/"><img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 left-0 m-2" /></Link>
+            <div>
+                <Link to="/"><img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }}/></Link>
             </div>
 
             {/* Center Searchbar */}
@@ -31,11 +31,11 @@ const Header = () => {
             </div>
 
             {/* Right User/Profile */}
-            <div className="flex items-center">
+            <div>
                 {isUserLoggedIn ? (
-                    <Link to="/user"><img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="absolute top-0 right-0 m-2" /></Link>
+                    <Link to="/user"><img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} /></Link>
                 ) : (
-                    <button className="m-2 border-2 p-2">
+                    <button className='rounded-3xl w-[80px] text-center bg-white p-2 font-semibold'>
                         <a href="http://localhost:8080/login">Log In</a>
                     </button>
                 )}
