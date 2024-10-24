@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
   className: string;
+  placeHolderText?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => {
   const [searchData, setSearchData] = useState('');
   const [results, setResults] = useState<any[] | null>(null); // holds results of api call
   const [error, setError] = useState<string | null>(null);
@@ -107,7 +108,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
           value={searchData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
-          placeholder="Search by City, Zipcode, Artist, Album, Genre, or Username"
+          placeholder={placeHolderText || "Search"}
           className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none"
         />
         <button
