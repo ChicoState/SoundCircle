@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
-import { createNewUserProfile, findUserByEmail } from '../../Models/Users/user.model';
+import { createNewUserProfile, findUserByEmail, updateUserLocation } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 // @SuccessResponse('200', 'Ok')
@@ -44,22 +44,54 @@ export class UserController extends Controller {
     @Post('/')
     public async postNewUserProfile(
     @Body() body: { usernameStr: string }
-): Promise<void> {
-    try {
-        if (!body || !body.usernameStr) {
-            throw new Error('Username is required'); // Handle missing username
-        }
-        console.log(body.usernameStr);
-        await createNewUserProfile(body.usernameStr);
-        this.setStatus(201); // Created
+    ): Promise<void> {
+        try {
+            if (!body || !body.usernameStr) {
+                throw new Error('Username is required'); // Handle missing username
+            }
+            console.log(body.usernameStr);
+            await createNewUserProfile(body.usernameStr);
+            this.setStatus(201); // Created
 
-    } catch (error) {
-        console.error('Error in postNewUserProfile:', error);
-        this.setStatus(500);
-        throw new Error('Failed to create new user profile');
+        } catch (error) {
+            console.error('Error in postNewUserProfile:', error);
+            this.setStatus(500);
+            throw new Error('Failed to create new user profile');
+        }
+    }
+
+    /**
+     * Update a user's location 
+     * @returns User type
+     */
+    @Post('/newLocation')
+    public async postUserLocation(
+        // Define the body of the post request
+        @Body() body: { userEmailStr: string, latitude: number, longitude: number }
+    ): Promise<User> {
+        try {
+            // Get the data from the request body
+            const userEmail = body.userEmailStr;
+            const newLatitude = body.latitude;
+            const newLongitude = body.longitude;
+
+            // Update the user with the function from user.model.ts
+            const updatedUser = await updateUserLocation(userEmail, newLatitude, newLongitude);
+
+            // If we were unable to upda the user throw an error and set a bad response code
+            if (!updatedUser) {
+                this.setStatus(400);
+                throw new Error('Failed to update user');
+            }
+            
+            // If we didn't get any errors, set an OK status
+            this.setStatus(200);
+    
+            return updatedUser;
+        } catch (error) {
+            console.error('Error in postUserLocation: ', error);
+            this.setStatus(500);
+            throw new Error('Failed to update user location');
+        }
     }
 }
-
-}
-
-
