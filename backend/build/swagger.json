@@ -167,6 +167,54 @@
 				}
 			}
 		},
+		"/users/newLocation": {
+			"post": {
+				"operationId": "PostUserLocation",
+				"responses": {
+					"200": {
+						"description": "User type",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update a user's location",
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"longitude": {
+										"type": "number",
+										"format": "double"
+									},
+									"latitude": {
+										"type": "number",
+										"format": "double"
+									},
+									"userEmailStr": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"longitude",
+									"latitude",
+									"userEmailStr"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/posts": {
 			"get": {
 				"operationId": "GetPostsWithComments",
