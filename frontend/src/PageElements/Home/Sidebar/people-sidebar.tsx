@@ -65,7 +65,7 @@ function PeopleBox() {
   return (
     <div className="relative w-full max-w-lg mx-auto p-2 bg-gray-900 rounded-lg shadow-md overflow-hidden">
       {/* Simple title */}
-      <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
+      <h2 className="text-white text-lg font-medium mb-2"> People </h2>
       <div className="relative flex items-center">
         {/* Previous Arrow */}
         <button

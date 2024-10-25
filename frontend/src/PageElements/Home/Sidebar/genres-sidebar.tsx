@@ -51,7 +51,7 @@ function GenresBox() {
         <div className="w-full max-w-lg mx-auto">
             <div className="bg-gray-900 rounded-lg px-2 pt-2">
                 {/* Simple title */}
-                <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
+                <h2 className="text-white text-lg font-medium mb-2"> Genres </h2>
                 <div className="Genres flex flex-wrap place-content-center  gap-x-2 gap-y-2">
                     {genres.map((genre) => (
                         <div
