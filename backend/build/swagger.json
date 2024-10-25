@@ -80,6 +80,17 @@
 					"reactions": {
 						"type": "number",
 						"format": "double"
+					},
+					"locationName": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -89,7 +100,10 @@
 					"post_content",
 					"created_at",
 					"comments",
-					"reactions"
+					"reactions",
+					"locationName",
+					"latitude",
+					"longitude"
 				],
 				"type": "object",
 				"additionalProperties": false

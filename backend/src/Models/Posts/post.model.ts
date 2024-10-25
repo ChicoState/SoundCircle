@@ -5,7 +5,8 @@ export const findUsersByPosts = async (limit: number, offset: number) => {
   try {
     // Replace 'posts' with your actual posts table name
     const postsWithComments = await db<UserPost[]>('posts')
-      .select('posts.id', 'posts.user_id', 'posts.username', 'post_content', 'created_at', 'posts.comments', 'posts.reactions') // Adjust fields as necessary
+      .select('posts.id', 'posts.user_id', 'posts.username', 'post_content', 'created_at', 'posts.comments', 'posts.reactions',
+        'posts.locationName', 'posts.latitude', 'posts.longitude') // Adjust fields as necessary
       .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
       .limit(limit) // Send only a # back
       .offset(offset); // Which records we've already sent
@@ -26,7 +27,8 @@ export const createUserPost = async (username: string, postText: string) => {
       post_content: postText,
       created_at: new Date()
     })
-    .returning(['id', 'comments', 'user_id', 'reactions', 'username', 'post_content', 'created_at']); // Specify that we also want to return the new post
+    .returning(['id', 'comments', 'user_id', 'reactions', 'username', 'post_content', 'created_at', 
+      'locationName', 'latitude', 'longitude']); // Specify that we also want to return the new post
 
     if (!newPost)
     {
