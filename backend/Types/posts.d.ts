@@ -6,4 +6,7 @@ export interface UserPost {
   created_at: Date;
   comments: string[]; // Needs to be chaneged to a 'comment' type
   reactions: number;
+  locationName: string;
+  latitude: number;
+  longitude: number;
 }
