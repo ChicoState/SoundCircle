@@ -62,7 +62,9 @@ function EventsBox() {
   };
 
   return (
-    <div className="relative w-full max-w-lg mx-auto p-4 bg-gray-900 rounded-lg shadow-md overflow-hidden">
+    <div className="relative w-full max-w-lg mx-auto p-2 bg-gray-900 rounded-lg shadow-md overflow-hidden">
+      {/* Simple title */}
+      <h2 className="text-white text-lg font-medium mb-2"> Events </h2>
       <div className="relative flex items-center">
         {/* Previous Arrow */}
         <button

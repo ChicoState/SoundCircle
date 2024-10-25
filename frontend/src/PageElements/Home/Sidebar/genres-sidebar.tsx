@@ -48,17 +48,23 @@ function GenresBox() {
 
 
     return (
-        <div className="Genres flex flex-wrap place-content-center bg-gray-900 gap-x-2 gap-y-2 rounded-lg px-10 pt-4">
-            {genres.map((genre) => (
-                <div
-                    key={genre.id}
-                    className="flex flex-auto items-center justify-center rounded-lg mb-2 bg-gray-700 shadow-md transition duration-300"
-                >
-                    <span className="mx-1 text-gray-300">
-                        {genre.name}
-                    </span>
+        <div className="w-full max-w-lg mx-auto">
+            <div className="bg-gray-900 rounded-lg px-2 pt-2">
+                {/* Simple title */}
+                <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
+                <div className="Genres flex flex-wrap place-content-center  gap-x-2 gap-y-2">
+                    {genres.map((genre) => (
+                        <div
+                            key={genre.id}
+                            className="flex flex-auto items-center justify-center rounded-lg mb-2 bg-gray-700 shadow-md transition duration-300"
+                        >
+                            <span className="mx-1 text-gray-300">
+                                {genre.name}
+                            </span>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </div>
         </div>
     );
 }
