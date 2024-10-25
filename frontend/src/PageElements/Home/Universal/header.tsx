@@ -27,7 +27,7 @@ const Header = () => {
             <div className="flex space-x-0 ml-4">
                 <Link to="/"><img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="mt-1 mr-4"/></Link>
                 <NavigationButton buttonText="Home" navigationPath="/" className={`w-[100px] h-[60px] border-r border-l border-black border-opacity-40 ${isButtonActive("/")}`}/>
-                <NavigationButton buttonText="Explore" navigationPath="" className={`w-[100px] h-[60px] border-r border-black border-opacity-40 ${isButtonActive("")}`}/>
+                <NavigationButton buttonText="Feed" navigationPath="/Feed" className={`w-[100px] h-[60px] border-r border-black border-opacity-40 ${isButtonActive("/Feed")}`}/>
             </div>
 
             {/* Center Searchbar */}
