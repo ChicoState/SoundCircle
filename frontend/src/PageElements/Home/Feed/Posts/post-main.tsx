@@ -1,15 +1,20 @@
 // This class is for populating information from post-container.tsx and formatting it
 
+import CommentBox from "../../../../Components/CommentBox";// Adjust the path as necessary
+
 export interface PostProperties {
     userName: string;
     postContent: string;
 }
 
-function Post({ userName, postContent }: PostProperties) {
+function Post({ userName, postContent}: PostProperties) {
     return (
         <div className="post">
-            <h1>{userName}</h1>
-            <h2>{postContent}</h2>
+            {/* Render CommentBox */}
+            <CommentBox 
+                userName={userName} 
+                postContent={postContent} 
+            />
         </div>
     );
 }
