@@ -5,24 +5,25 @@
     position: sticky; /* Makes container sticky */
     top: 100px; /* Adjust as needed to control the sticky position */
     position: relative; /* Relative positioning for layout */
+    left:1025px;
 }
 
 .description-box {
     width: 100%; /* Ensures it fills the container */
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(221, 221, 221);
     border-radius: 4px;
     resize: none; /* Prevents manual resizing */
     min-height: 80px; /* Minimum height */
     background-color: #fefefe;
     overflow: hidden; /* Hides scrollbars */
     margin-left: -275px;
+    opacity: 100%;
 }
 
 /* Button styling */
 .action-button {
-    background-color: #007bff; /* Blue background */
     color: white; /* White text */
     border: none; /* No border */
     border-radius: 4px; /* Rounded corners */
@@ -36,4 +37,10 @@
 
 .action-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
+}
+
+.Edit-Icon{
+    width: 10%;
+    border-radius: 4px;
+    background-color: #0056b3;
 }

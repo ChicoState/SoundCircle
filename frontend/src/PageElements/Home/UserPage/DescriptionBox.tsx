@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";import './DescriptionBox.css';
 import Cookies from "js-cookie";
-import { Link, useLocation } from "react-router-dom";
+import EditIcon from "../../../Components/pen.png";
 
 const DescriptionBox: React.FC = () => {
     const [description, setDescription] = useState<string>('');
     const [isEditing, setIsEditing] = useState<boolean>(true);
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
@@ -21,13 +21,8 @@ const DescriptionBox: React.FC = () => {
 
     useEffect(() => {
         const accessToken = Cookies.get('access_token');
-        console.log(accessToken);
-        if (accessToken) {
-            setIsUserLoggedIn(true);
-        }else{
-            setIsUserLoggedIn(false);
-        }
-    }, [isUserLoggedIn]);
+        setIsUserLoggedIn(!!accessToken);
+    }, []);
 
     return (
         <div className="description-container">
@@ -44,12 +39,12 @@ const DescriptionBox: React.FC = () => {
                 placeholder="Write your description here..."
                 readOnly={!isEditing} // Disable editing if not in editing mode
             />
-            {isUserLoggedIn ? (
-                <button onClick={isEditing ? handleSave : handleEdit} className="action-button">
-                    {isEditing ? 'Save' : 'Edit'}
-                </button>
-            ):(
-               <p></p>
+            {isUserLoggedIn && (
+                <div className="action-container">
+                    <button onClick={isEditing ? handleSave:handleEdit} className="Action">
+                        <img src={EditIcon} alt="Edit Icon" className="Edit-Icon"/>
+                    </button>
+                </div>
             )}
         </div>
     );

@@ -47,7 +47,9 @@ const Header = () => {
                 {isUserLoggedIn ? (
                     <div className="flex items-center">
                         <button onClick={handleLogout} className="LogOutButton">Log Out</button>
-                        <Link to="/user"><img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="UserIcon" /></Link>
+                        {location.pathname !== "/user" && (
+                            <Link to="/user"><img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="UserIcon" /></Link>
+                        )}                    
                     </div>
                 ) : (
                     <button className="m-2 border-2 p-2">

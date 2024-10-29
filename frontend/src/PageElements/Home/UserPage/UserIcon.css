@@ -2,6 +2,8 @@
     display: flex;
     align-items: flex-start;
     position: relative;
+    left: 50px;
+    opacity: 75%;
 }
 
 .User-Image {
@@ -10,15 +12,16 @@
     align-items: center; /* Centers content horizontally */
     justify-content: center; /* Centers content vertically within the container */
     position: relative; /* Changed from sticky to relative */
-    left: 25px; /* Increase this value to shift more to the right */
+    left: 1050px; /* Increase this value to shift more to the right */
     background-color: #f8f9fa;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     width: 80%; /* Adjust this to make it fit nicely within the left side */
     max-width: 300px; /* Ensures a max width so it doesn't stretch too far */
     text-align: center;
     margin-left: auto; /* Automatically adjusts margin to align right */
     margin-right: auto; /* Automatically adjusts margin to center */
+    top:10px;
 }
 
 .circular-user {
@@ -51,11 +54,11 @@
 .container::before {
     content: "";
     width: 2px;
-    height: 100vh;
-    background-color: white;
+    height: 90vh;
+    background-color: rgb(88, 86, 86);
     position: absolute;
-    left: 30%;
-    top: -20px;
+    left: 1030px;
+    top: -1px;
     transform: translateX(-50%);
     opacity: 0.6;
 }
