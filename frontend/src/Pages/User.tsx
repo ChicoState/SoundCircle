@@ -1,6 +1,9 @@
 import "./User.css";
 import Header from "../PageElements/Home/Universal/header";
 import UserImage from "../PageElements/Home/UserPage/UserIcon";
+import AlbumsBox from "../PageElements/Home/Sidebar/album-sidebar";
+import ArtistsBox from "../PageElements/Home/Sidebar/artist-sidebar";
+import GenresBox from "../PageElements/Home/Sidebar/genres-sidebar";
 import { useState } from "react";
 
 const UserPage = () => {
@@ -9,7 +12,24 @@ const UserPage = () => {
 
     // Function to render content based on selected tab
     const renderTabContent = () => {
-        return <div className="tab-content"></div>; // Empty div for tab content
+        switch(activeTab){
+            case "Taste":
+                return (
+                    <div>
+                        <div className="ArtistsBoxContainer">
+                            <ArtistsBox/>
+                        </div>
+                        <div className="Genres-Container">
+                            <GenresBox/>
+                        </div>
+                        <div className="Albums-Container">
+                            <AlbumsBox/>
+                        </div>
+                    </div>
+                    );
+            default:
+                return <div className="tab-content"></div>; 
+        }
     };
 
     return (
@@ -19,7 +39,7 @@ const UserPage = () => {
             
             {/* Navigation Bar */}
             <nav className="nav-bar">
-                {["Taste", "Post", "Likes", "Following", "About Me"].map((tab) => (
+                {["Taste", "Post", "Likes", "Following"].map((tab) => (
                     <button
                         key={tab}
                         className={`nav-button ${activeTab === tab ? "active" : ""}`}
@@ -31,7 +51,7 @@ const UserPage = () => {
             </nav>
 
             <div className="flex flex-grow">
-                <div className="bg-gray-900 w-3/4 p-4">
+                <div className="bg-gray-900 w-3/4 mt-100">
                     <UserImage username={username} />
                     <p className="UserName">{username}</p>
                     

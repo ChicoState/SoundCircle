@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import './DescriptionBox.css';
+import { useEffect, useState } from "react";import './DescriptionBox.css';
+import Cookies from "js-cookie";
+import EditIcon from "../../../Components/pen.png";
 
 const DescriptionBox: React.FC = () => {
     const [description, setDescription] = useState<string>('');
     const [isEditing, setIsEditing] = useState<boolean>(true);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
@@ -16,6 +18,11 @@ const DescriptionBox: React.FC = () => {
     const handleEdit = () => {
         setIsEditing(true); // Re-enable editing
     };
+
+    useEffect(() => {
+        const accessToken = Cookies.get('access_token');
+        setIsUserLoggedIn(!!accessToken);
+    }, []);
 
     return (
         <div className="description-container">
@@ -32,9 +39,13 @@ const DescriptionBox: React.FC = () => {
                 placeholder="Write your description here..."
                 readOnly={!isEditing} // Disable editing if not in editing mode
             />
-            <button onClick={isEditing ? handleSave : handleEdit} className="action-button">
-                {isEditing ? 'Save' : 'Edit'}
-            </button>
+            {isUserLoggedIn && (
+                <div className="action-container">
+                    <button onClick={isEditing ? handleSave:handleEdit} className="Action">
+                        <img src={EditIcon} alt="Edit Icon" className="Edit-Icon"/>
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

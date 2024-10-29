@@ -29,3 +29,27 @@
     padding: 10px;
     color: white;
 }
+
+.ArtistsBoxContainer{
+    margin-top: -775px; /* Adjust this value to control the upward movement */
+    padding-bottom: 10px;
+    overflow: hidden;
+    left: 175px;
+    position: relative;
+}
+
+.Genres-Container{
+    margin-top: 15px; /* Adjust this value to control the upward movement */
+    padding-bottom: 10px;
+    overflow: hidden;
+    left: 175px;
+    position: relative;
+}
+
+.Albums-Container{
+    margin-top: 15px; /* Adjust this value to control the upward movement */
+    padding-bottom: 10px;
+    overflow: hidden;
+    left: 175px;
+    position: relative;
+}
