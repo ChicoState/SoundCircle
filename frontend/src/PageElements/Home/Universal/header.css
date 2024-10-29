@@ -1,0 +1,23 @@
+.LogOutButton{
+    display: flex;
+    flex-direction: column; /* Aligns all children vertically */
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically within the container */
+    position: relative; /* Changed from sticky to relative */
+    border-radius: 8px;
+    text-align: center;
+    margin-left: -150px;
+    top: 0px;
+}
+
+.UserIcon{
+    display: flex;
+    flex-direction: column; /* Aligns all children vertically */
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically within the container */
+    position: relative; /* Changed from sticky to relative */
+    border-radius: 8px;
+    text-align: center;
+    margin-left: 20px;
+    top: 0px;
+}
