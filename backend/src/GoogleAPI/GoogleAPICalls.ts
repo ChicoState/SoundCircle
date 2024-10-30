@@ -1,6 +1,11 @@
 // To use:
 // npm i -D @types/google.maps
 // npm install axios
+
+//////////////////////
+// THIS IS UNTESTED //
+//////////////////////
+
 import dotenv from 'dotenv';
 import axios from 'axios';
 
