@@ -5,7 +5,7 @@ export const findUsersByPosts = async (limit: number, offset: number) => {
   try {
     // Replace 'posts' with your actual posts table name
     const postsWithComments = await db<UserPost[]>('posts')
-      .select('posts.id', 'posts.user_id', 'posts.username', 'post_content', 'created_at', 'posts.comments', 'posts.reactions',
+      .select('posts.id', 'posts.user_id', 'posts.username', 'posts.post_content', 'posts.created_at', 'posts.comments', 'posts.reactions',
         'posts.locationName', 'posts.latitude', 'posts.longitude') // Adjust fields as necessary
       .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
       .limit(limit) // Send only a # back
@@ -14,6 +14,15 @@ export const findUsersByPosts = async (limit: number, offset: number) => {
   } catch (error) {
     console.error('Error fetching posts with comments:', error);
     throw new Error('Failed to fetch posts with comments');
+  }
+}
+
+
+export const findPostsByLocation = async(limit: number, offset: number, latitude: number, longitude: number, searchDistance: number) => {
+  try {
+    const posts = await db<UserPost[]>('posts')
+    .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions', 'locationName', 'latitude', 'longitude')
+    
   }
 }
 

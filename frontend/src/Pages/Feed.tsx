@@ -2,7 +2,7 @@ import FeedContainer from "../PageElements/Home/Feed/feed-container";
 import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 import Header from "../PageElements/Home/Universal/header";
 
-const Home = () => {
+const Feed = () => {
     return (
         <div className="min-h-screen flex-col overflow-y-hidden">
             {/*Main Page Container*/}
@@ -31,4 +31,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Feed;

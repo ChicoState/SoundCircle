@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
-import { createUserPost, findUsersByPosts } from '../../Models/Posts/post.model';
+import { createUserPost, findUsersByPosts, findPostsByLocation } from '../../Models/Posts/post.model';
 import { UserPost } from '../../../Types/posts';
 
 // @SuccessResponse('200', 'Ok')
@@ -40,6 +40,42 @@ export class PostController extends Controller {
       console.error('Error in getPostsWithComments:', error);
       this.setStatus(500);
       throw new Error('Failed to fetch posts with comments');
+    }
+  }
+
+
+  @Get('/feed')
+  public async getPostsByLocation(
+    @Query('limit') limitStr?: string,  // Accept a limit passed as a string
+    @Query('offset') offsetStr?: string, // Accept an offset passed as a string
+    @Query('latitude') latitudeNum?: number,
+    @Query('longitude') longitudeNum?: number,
+    @Query('searchDistance') searchDistanceNum?: number
+  ): Promise<UserPost[]> {
+    try {
+      const limit = parseInt(limitStr || '5');    // Parse limit string, default to 5
+      const offset = parseInt(offsetStr || '0');  // Parse offset string, default to 0
+      const latitude = latitudeNum || 0.0;
+      const longitude = longitudeNum || 0.0;
+      const searchDistance = searchDistanceNum || 25;
+
+      // Run the function to get the data by location
+      const result = await findPostsByLocation(limit, offset, latitude, longitude, searchDistance);
+
+      // Throw different errors for different results
+      if (result.length === 0)
+        {
+          // 204 = No Content status
+          this.setStatus(204);
+        } else {
+          // 200 = OK status (not always needed, but helpful)
+          this.setStatus(200);
+        }
+  
+        return result;
+
+    } catch (error) {
+
     }
   }
 

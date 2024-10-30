@@ -28,6 +28,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost }) => {
              
             // Get the data from the backend
             // We don't need to specify a method, because it uses @Get by default
+            // Want to send the current users location
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts?limit=${GET_POST_LIMIT}&offset=${offset}`);
 
             // Check if the response is good, otherwise throw error
