@@ -25,16 +25,16 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
 
     // Try to sort posts in the DB
     const posts = await db<UserPost[]>('posts')
-    .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions', 'locationName', 'latitude', 'longitude')
-    // Find posts only within the boundaries of our given latitude and longitude
-    .where('latitude', '>=', latitude - latRange)
-    .andWhere('latitude', '<=', latitude + latRange)
-    .andWhere('longitude', '>=', longitude - lngRange)
-    .andWhere('longitude', '<=', longitude + lngRange)
-    // Order by time created and limit return count of posts to keep db indexing from straining memory
-    .orderBy('created_at', 'desc')
-    .limit(limit)
-    .offset(offset);
+      .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions', 'locationName', 'latitude', 'longitude')
+      // Find posts only within the boundaries of our given latitude and longitude
+      .where('latitude', '>=', latitude - latRange)
+      .andWhere('latitude', '<=', latitude + latRange)
+      .andWhere('longitude', '>=', longitude - lngRange)
+      .andWhere('longitude', '<=', longitude + lngRange)
+      // Order by time created and limit return count of posts to keep db indexing from straining memory
+      .orderBy('created_at', 'desc')
+      .limit(limit)
+      .offset(offset);
 
     return posts;
   } catch (error) {
