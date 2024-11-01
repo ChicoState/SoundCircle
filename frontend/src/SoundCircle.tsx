@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import SearchResultsPage from './Pages/SearchPage';
 import UserPage from './Pages/User';
-import Feed from './Pages/Feed';
+import Feed from './Pages/Feed/Feed';
 
 const SoundCircle = () => {
   return (
