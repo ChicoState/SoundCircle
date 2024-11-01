@@ -75,7 +75,10 @@ export class PostController extends Controller {
         return result;
 
     } catch (error) {
-
+      // Throw an error to both the backend, HTTP error, and frontend
+      console.error('Error in getPostsByLocation:', error);
+      this.setStatus(500);
+      throw new Error('Failed to fetch posts by location.');
     }
   }
 
