@@ -5,6 +5,7 @@ import UserIcon from "../../../Components/UserIconTemp.png";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavigationButton from "../../../Components/Universal/NavigationButton";
+import './header.css';
 
 const Header = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
@@ -16,10 +17,16 @@ const Header = () => {
         console.log(accessToken);
         if (accessToken) {
             setIsUserLoggedIn(true);
-        } else {
+        }else{
             setIsUserLoggedIn(false);
         }
     }, [isUserLoggedIn]);
+
+    const handleLogout = () => {
+        Cookies.remove('access_token');
+        setIsUserLoggedIn(false);
+        console.log("user logged out");
+    };
 
     return (
         <header className="bg-gradient-to-r from-periwinkle to-RoyalBlue grid grid-cols-3 items-center h-[60px]">
@@ -38,10 +45,15 @@ const Header = () => {
             {/* Right User/Profile */}
             <div className="flex justify-end items-center mr-4">
                 {isUserLoggedIn ? (
-                    <Link to="/user"><img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} /></Link>
+                    <div className="flex items-center">
+                        <button onClick={handleLogout} className="LogOutButton">Log Out</button>
+                        {location.pathname !== "/user" && (
+                            <Link to="/user"><img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="UserIcon" /></Link>
+                        )}                    
+                    </div>
                 ) : (
-                    <button className='rounded-3xl w-[80px] text-center bg-white p-2 font-semibold'>
-                        <a href="http://localhost:8080/login">Log In</a>
+                    <button className="m-2 border-2 p-2">
+                        <Link to='http://localhost:8080/login'><a style={{ width: '50px', height: '50px' } }>Log In</a></Link>
                     </button>
                 )}
             </div>

@@ -1,0 +1,46 @@
+.description-container {
+    width: 80%; /* Adjust width as needed */
+    max-width: 300px;
+    margin-top: 190px;
+    position: sticky; /* Makes container sticky */
+    top: 100px; /* Adjust as needed to control the sticky position */
+    position: relative; /* Relative positioning for layout */
+    left:1025px;
+}
+
+.description-box {
+    width: 100%; /* Ensures it fills the container */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 4px;
+    resize: none; /* Prevents manual resizing */
+    min-height: 80px; /* Minimum height */
+    background-color: #fefefe;
+    overflow: hidden; /* Hides scrollbars */
+    margin-left: -275px;
+    opacity: 100%;
+}
+
+/* Button styling */
+.action-button {
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px 10px; /* Padding for the buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    margin-top: 5px; /* Space between textarea and button */
+    transition: background-color 0.3s; /* Smooth transition */
+    margin-left: 25px;
+}
+
+.action-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.Edit-Icon{
+    width: 10%;
+    border-radius: 4px;
+    background-color: #0056b3;
+}
