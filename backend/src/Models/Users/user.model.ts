@@ -197,3 +197,29 @@ export const removeUserFriend = async (currentUser: string, delUserFriend: strin
         throw new Error(`Unable to remove ${delUserFriend} from ${currentUser}'s friends list`)
     }
 }
+
+// Function to get friend recommendations, although FOR NOW it's just getting random users
+export const findFriendRecommendations = async (userEmail: string, limit: number) => {
+    try {
+        if (!userEmail) {
+            throw new Error('Empty or null username provided')
+        }
+
+        const foundUser = await findUserByEmail(userEmail);
+
+        if (!foundUser || !foundUser[0]) {
+            throw new Error(`Unable to find user ${userEmail}`);
+        }
+
+        const randomUsers = await db<User>('users')
+            .whereNot('id', foundUser[0].id)
+            .orderByRaw('RANDOM()')
+            .limit(limit);
+
+        return randomUsers;
+
+    } catch(error) {
+        console.error(`Unable to get friend recommendations: ${error}`);
+        throw new Error('Unable to get friend recommendations');
+    }
+}
