@@ -12,7 +12,13 @@ import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from '../build/routes';
 import { findUserByEmail } from './Models/Users/user.model';
 
-// import { User } from '../Types/users';
+import 'express-session';
+
+declare module 'express-session' {
+  interface Session {
+    needsSetup?: boolean;
+  }
+}
 
 // Define custom types
 interface GoogleUser {
@@ -123,8 +129,8 @@ app.get(
   async (req: Request, res: Response) => {
     const user = req.user as GoogleUser;
     const email = user.profile.emails?.[0]?.value;
+
     try {
-      console.log(user.accessToken);
       res.cookie('access_token', user.accessToken, {
         httpOnly: false,
         secure: true,
@@ -134,12 +140,11 @@ app.get(
 
       if (email) {
         const userExists = await findUserByEmail(email);
-
         if (!userExists.length) {
-          // Redirect new user to the setup page with the email in query params
+          req.session.needsSetup = true; // Flag to indicate setup is required
           res.redirect(`http://localhost:3000/usersetup?email=${encodeURIComponent(email)}`);
         } else {
-          // Existing user, redirect to homepage
+          req.session.needsSetup = false;
           res.redirect('http://localhost:3000/');
         }
       }
@@ -151,9 +156,11 @@ app.get(
 );
 
 
+
 app.get('/usersetup/', ensureUserSetupAccess, (req: Request, res: Response) => {
   res.send(`User setup page for ${req.user?.profile?.displayName}`);
 });
+
 
 
 // Error handling

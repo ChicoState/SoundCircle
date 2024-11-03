@@ -2,13 +2,12 @@
 import db from '../../db/db';
 import { User } from '../../../Types/users';
 
-export const findUserByEmail = async (username: string) => {
+export const findUserByEmail = async (email: string) => {
     try {
-        console.log(username);
         // Attempt to find the user by email and return the information
         const foundUser = await db<Promise<User>>('users')
             .select('id', 'username')
-            .where('username', username); // Changed to 'email'
+            .where('email', email); // Changed to 'email'
         return foundUser as User[];
     } catch (error) {
         console.error('Error fetching user by email: ', error);
