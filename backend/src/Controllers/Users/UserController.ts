@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
-import { createNewUserProfile, findUserByEmail, updateUserLocation } from '../../Models/Users/user.model';
+import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFriends, addUserFriend, removeUserFriend } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 // @SuccessResponse('200', 'Ok')
@@ -92,6 +92,88 @@ export class UserController extends Controller {
             console.error('Error in postUserLocation: ', error);
             this.setStatus(500);
             throw new Error('Failed to update user location');
+        }
+    }
+
+    /**
+     * 
+     * @returns Integer array of userIDs
+     */
+    @Get('/friends')
+    public async getUserFriends(
+        @Query('username') usernameStr: string
+    ): Promise<number[]> {
+        try {
+            const friends = getUserFriends(usernameStr);
+            
+            // Friends not found
+            if (!friends) {
+                this.setStatus(404)
+                throw new Error(`Unable to retrieve ${usernameStr}'s friends`)
+            }
+
+            this.setStatus(200);
+            return friends;
+        } catch(error) {
+            this.setStatus(500);
+            throw new Error(`Error retrieving ${usernameStr}'s friends`)
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @returns Updated user with new friend added
+     */
+    @Post('/addFriend')
+    public async postAddUserFriend(
+        @Body() body: { currentUserStr?: string; newFriendStr?: string; }
+    ): Promise<User> {
+        try {
+            const currentUser = body.currentUserStr || '';
+            const newFriend = body.newFriendStr || '';
+
+            const updatedUser = await addUserFriend(currentUser, newFriend);
+            
+            if (!updatedUser) {
+                this.setStatus(400);
+                throw new Error('Failed to update user');
+            }
+
+            this.setStatus(200);
+
+            return updatedUser;
+        } catch(error) {
+            this.setStatus(500);
+            throw new Error(`Failed to add new user friend`);
+        }
+    }
+
+    /**
+     * 
+     * @returns Updated user with specified friend removed
+     */
+    @Post('/removeFriend')
+    public async postRemoveUserFriend(
+        @Body() body: { currentUserStr?: string; delFriendStr?: string; }
+    ): Promise<User> {
+        try {
+            const currentUser = body.currentUserStr || '';
+            const delFriend = body.delFriendStr || '';
+
+            const updatedUser = await removeUserFriend(currentUser, delFriend);
+            
+            if (!updatedUser) {
+                this.setStatus(400);
+                throw new Error('Failed to update user');
+            }
+
+            this.setStatus(200);
+
+            return updatedUser;
+        } catch(error) {
+            this.setStatus(500);
+            throw new Error(`Failed to remove user friend`);
         }
     }
 }

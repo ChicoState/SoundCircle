@@ -37,6 +37,13 @@
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
+					},
+					"friends": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -46,7 +53,8 @@
 					"userPostIds",
 					"longitude",
 					"latitude",
-					"created_at"
+					"created_at",
+					"friends"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -229,6 +237,113 @@
 				}
 			}
 		},
+		"/users/friends": {
+			"get": {
+				"operationId": "GetUserFriends",
+				"responses": {
+					"200": {
+						"description": "Integer array of userIDs",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"type": "number",
+										"format": "double"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"description": "String specifying the user whose friends we're getting",
+						"in": "query",
+						"name": "username",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/addFriend": {
+			"post": {
+				"operationId": "PostAddUserFriend",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"newFriendStr": {
+										"type": "string"
+									},
+									"currentUserStr": {
+										"type": "string"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/removeFriend": {
+			"post": {
+				"operationId": "PostRemoveUserFriend",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"delFriendStr": {
+										"type": "string"
+									},
+									"currentUserStr": {
+										"type": "string"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/posts": {
 			"get": {
 				"operationId": "GetPostsWithComments",
@@ -302,6 +417,72 @@
 						}
 					}
 				}
+			}
+		},
+		"/posts/feed": {
+			"get": {
+				"operationId": "GetPostsByLocation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/UserPost"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "offset",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "latitude",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "longitude",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "searchDistance",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		}
 	},

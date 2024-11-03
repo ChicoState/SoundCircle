@@ -6,4 +6,5 @@ export interface User {
     longitude: number;
     latitude: number;
     created_at: Date;         // Timestamp of user creation
+    friends: number[];        // Array of user IDs
 }
