@@ -8,19 +8,19 @@ import NavigationButton from "../../../Components/Universal/NavigationButton";
 import './header.css';
 
 const Header = () => {
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const location = useLocation(); // Get current location (page)
     const isButtonActive = (path:string) => (location.pathname === path ? "bg-black bg-opacity-50 text-white font-normal" : "");  // Adjust button visuals depending on our current path
 
     useEffect(() => {
         const accessToken = Cookies.get('access_token');
-        console.log(accessToken);
+        console.log("Access Token:", accessToken); // Debugging line to check token presence in console
         if (accessToken) {
             setIsUserLoggedIn(true);
         }else{
             setIsUserLoggedIn(false);
         }
-    }, [isUserLoggedIn]);
+    }, []); // Empty dependency array to run only on mount
 
     const handleLogout = () => {
         Cookies.remove('access_token');
@@ -49,7 +49,7 @@ const Header = () => {
                         <button onClick={handleLogout} className="LogOutButton">Log Out</button>
                         {location.pathname !== "/user" && (
                             <Link to="/user"><img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="UserIcon" /></Link>
-                        )}                    
+                        )}
                     </div>
                 ) : (
                     <button className="m-2 border-2 p-2">
