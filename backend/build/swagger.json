@@ -259,7 +259,6 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "String specifying the user whose friends we're getting",
 						"in": "query",
 						"name": "username",
 						"required": true,
@@ -275,7 +274,7 @@
 				"operationId": "PostAddUserFriend",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated user with new friend added",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -312,7 +311,7 @@
 				"operationId": "PostRemoveUserFriend",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated user with specified friend removed",
 						"content": {
 							"application/json": {
 								"schema": {
