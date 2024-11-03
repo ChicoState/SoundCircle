@@ -7,19 +7,19 @@ import { Link, useLocation } from "react-router-dom";
 import NavigationButton from "../../../Components/Universal/NavigationButton";
 
 const Header = () => {
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const location = useLocation(); // Get current location (page)
     const isButtonActive = (path:string) => (location.pathname === path ? "bg-black bg-opacity-50 text-white font-normal" : "");  // Adjust button visuals depending on our current path
 
     useEffect(() => {
         const accessToken = Cookies.get('access_token');
-        console.log(accessToken);
+        console.log("Access Token:", accessToken); // Debugging line to check token presence in console
         if (accessToken) {
             setIsUserLoggedIn(true);
         } else {
             setIsUserLoggedIn(false);
         }
-    }, [isUserLoggedIn]);
+    }, []); // Empty dependency array to run only on mount
 
     return (
         <header className="bg-gradient-to-r from-periwinkle to-RoyalBlue grid grid-cols-3 items-center h-[60px]">
@@ -38,7 +38,7 @@ const Header = () => {
             {/* Right User/Profile */}
             <div className="flex justify-end items-center mr-4">
                 {isUserLoggedIn ? (
-                    <Link to="/user"><img src={UserIcon} alt="SC Logo" style={{ width: '50px', height: '50px' }} /></Link>
+                    <Link to="/user"><img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} /></Link>
                 ) : (
                     <button className='rounded-3xl w-[80px] text-center bg-white p-2 font-semibold'>
                         <a href="http://localhost:8080/login">Log In</a>

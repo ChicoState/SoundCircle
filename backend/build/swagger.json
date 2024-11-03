@@ -26,6 +26,9 @@
 						},
 						"type": "array"
 					},
+					"locationName": {
+						"type": "string"
+					},
 					"longitude": {
 						"type": "number",
 						"format": "double"
@@ -44,9 +47,74 @@
 					"username",
 					"email",
 					"userPostIds",
+					"locationName",
 					"longitude",
 					"latitude",
 					"created_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_User_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"userPostIds": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"locationName": {
+						"type": "string"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"UserLocationUpdate": {
+				"properties": {
+					"userEmailStr": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"locationName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userEmailStr",
+					"latitude",
+					"longitude",
+					"locationName"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -125,7 +193,7 @@
 				"operationId": "GetUserByName",
 				"responses": {
 					"200": {
-						"description": "User type",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -154,11 +222,26 @@
 			"post": {
 				"operationId": "PostNewUserProfile",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Message indicating successful creation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
-				"description": "Create a new user and store them into the DB",
+				"description": "Create a new user and store them in the DB",
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -167,12 +250,20 @@
 						"application/json": {
 							"schema": {
 								"properties": {
-									"usernameStr": {
+									"email": {
+										"type": "string"
+									},
+									"location": {
+										"type": "string"
+									},
+									"username": {
 										"type": "string"
 									}
 								},
 								"required": [
-									"usernameStr"
+									"email",
+									"location",
+									"username"
 								],
 								"type": "object"
 							}
@@ -186,11 +277,11 @@
 				"operationId": "PostUserLocation",
 				"responses": {
 					"200": {
-						"description": "User type",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/Partial_User_"
 								}
 							}
 						}
@@ -204,25 +295,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"properties": {
-									"longitude": {
-										"type": "number",
-										"format": "double"
-									},
-									"latitude": {
-										"type": "number",
-										"format": "double"
-									},
-									"userEmailStr": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"longitude",
-									"latitude",
-									"userEmailStr"
-								],
-								"type": "object"
+								"$ref": "#/components/schemas/UserLocationUpdate"
 							}
 						}
 					}

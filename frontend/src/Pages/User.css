@@ -5,3 +5,27 @@
     min-height: 100vh;
     background-color: #1b141d;
 }
+
+/* User.css */
+
+.text-periwinkle-600 {
+    color: #6a7fdb; /* Darker periwinkle for text */
+}
+.border-periwinkle-500 {
+    border-color: #8a9ad6; /* Border periwinkle */
+}
+.border-periwinkle-300 {
+    border-color: #a9b9e4; /* Lighter border for inputs */
+}
+.bg-royal-blue-500 {
+    background-color: #4169e1; /* Royal blue */
+}
+.bg-royal-blue-600 {
+    background-color: #3153b7; /* Darker royal blue for hover */
+}
+.focus\:border-royal-blue-500:focus {
+    border-color: #4169e1; /* Royal blue focus border */
+}
+.focus\:ring-royal-blue-200:focus {
+    box-shadow: 0 0 0 2px rgba(65, 105, 225, 0.5); /* Light royal blue focus ring */
+}

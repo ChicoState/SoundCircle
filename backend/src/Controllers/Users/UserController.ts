@@ -1,10 +1,16 @@
-import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
+import { Controller, Get, Post, Query, Body, Route, SuccessResponse } from 'tsoa';
 import { createNewUserProfile, findUserByEmail, updateUserLocation } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
-// @SuccessResponse('200', 'Ok')
+
+interface UserLocationUpdate {
+    userEmailStr: string;
+    latitude: number;
+    longitude: number;
+    locationName: string;
+}
+
 @Route('users')
-// @Tags('Users')
 export class UserController extends Controller {
 
     /**
@@ -12,24 +18,20 @@ export class UserController extends Controller {
      * @returns User type
      */
     @Get('/')
+    @SuccessResponse('200', 'Ok')
     public async getUserByName(
         @Query('username') usernameStr: string
     ): Promise<User[]> {
         try {
-            // Attempt to get the user data from db
             const result = await findUserByEmail(usernameStr);
 
-            if (result)
-            {
-                // OK
+            if (result) {
                 this.setStatus(200);
+                return result;
             } else {
-                // No content
                 this.setStatus(204);
+                throw new Error('No user found');
             }
-
-            return result;
-
         } catch (error) {
             console.error('Error in getUserByName: ', error);
             this.setStatus(500);
@@ -37,56 +39,50 @@ export class UserController extends Controller {
         }
     }
 
-
     /**
-     * Create a new user and store them into the DB
+     * Create a new user and store them in the DB
+     * @returns Message indicating successful creation
      */
     @Post('/')
     public async postNewUserProfile(
-    @Body() body: { usernameStr: string }
-    ): Promise<void> {
+    @Body() body: { username: string; location: string; email: string }
+        ): Promise<{ message: string }> {
         try {
-            if (!body || !body.usernameStr) {
-                throw new Error('Username is required'); // Handle missing username
+            if (!body.username || !body.location) {
+                this.setStatus(400);
+                throw new Error("Username and location are required");
             }
-            console.log(body.usernameStr);
-            await createNewUserProfile(body.usernameStr);
-            this.setStatus(201); // Created
+
+            await createNewUserProfile(body.username, body.location, body.email);
+            return { message: "User profile created successfully" };
 
         } catch (error) {
-            console.error('Error in postNewUserProfile:', error);
+            console.error("Error in postNewUserProfile:", error);
             this.setStatus(500);
-            throw new Error('Failed to create new user profile');
+            throw new Error("Failed to create new user profile");
         }
     }
 
     /**
-     * Update a user's location 
-     * @returns User type
+     * Update a user's location
+     * @returns Partial User data after update
      */
     @Post('/newLocation')
+    @SuccessResponse('200', 'Ok')
     public async postUserLocation(
-        // Define the body of the post request
-        @Body() body: { userEmailStr: string, latitude: number, longitude: number }
-    ): Promise<User> {
+        @Body() body: UserLocationUpdate
+    ): Promise<Partial<User>> {
         try {
-            // Get the data from the request body
-            const userEmail = body.userEmailStr;
-            const newLatitude = body.latitude;
-            const newLongitude = body.longitude;
+            const { userEmailStr, latitude, longitude, locationName } = body;
 
-            // Update the user with the function from user.model.ts
-            const updatedUser = await updateUserLocation(userEmail, newLatitude, newLongitude);
+            const updatedUser = await updateUserLocation(userEmailStr, latitude, longitude, locationName);
 
-            // If we were unable to upda the user throw an error and set a bad response code
             if (!updatedUser) {
                 this.setStatus(400);
-                throw new Error('Failed to update user');
+                throw new Error('Failed to update user location');
             }
-            
-            // If we didn't get any errors, set an OK status
+
             this.setStatus(200);
-    
             return updatedUser;
         } catch (error) {
             console.error('Error in postUserLocation: ', error);

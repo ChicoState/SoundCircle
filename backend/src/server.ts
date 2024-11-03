@@ -10,7 +10,9 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from '../build/routes';
-import { createNewUserProfile, findUserByEmail } from './Models/Users/user.model';
+import { findUserByEmail } from './Models/Users/user.model';
+
+// import { User } from '../Types/users';
 
 // Define custom types
 interface GoogleUser {
@@ -96,6 +98,23 @@ app.get(
   passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
+const ensureUserSetupAccess = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+
+  const loggedInUserID = req.user.profile.id; // User ID from the authenticated session (from Passport)
+  console.log(req)
+  // Compare URL param userID with logged-in user's ID
+  if ("3" !== loggedInUserID) {
+    return res.status(403).send('Forbidden: You cannot access this page.');
+  }
+
+  next(); // Proceed to the route handler if IDs match
+};
+
+
+
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
@@ -103,9 +122,9 @@ app.get(
   }),
   async (req: Request, res: Response) => {
     const user = req.user as GoogleUser;
-
+    const email = user.profile.emails?.[0]?.value;
     try {
-      // Set the access token in an HTTP-only cookie
+      console.log(user.accessToken);
       res.cookie('access_token', user.accessToken, {
         httpOnly: false,
         secure: true,
@@ -113,31 +132,29 @@ app.get(
         maxAge: 5 * 24 * 60 * 60 * 1000,
       });
 
-      const email = user.profile.emails?.[0]?.value;
       if (email) {
         const userExists = await findUserByEmail(email);
 
         if (!userExists.length) {
-          // User doesn't exist, create a new user
-          await createNewUserProfile(email);
-          console.log('User created successfully.');
+          // Redirect new user to the setup page with the email in query params
+          res.redirect(`http://localhost:3000/usersetup?email=${encodeURIComponent(email)}`);
         } else {
-          console.log("User already exists.");
+          // Existing user, redirect to homepage
+          res.redirect('http://localhost:3000/');
         }
-      }
-
-      // Redirect to frontend after user creation
-      if (!res.headersSent) {
-        res.redirect('http://localhost:3000/');
       }
     } catch (error) {
       console.error('Error handling Google callback: ', error);
-      if (!res.headersSent) {
-        res.status(500).send('Internal Server Error');
-      }
+      res.status(500).send('Internal Server Error');
     }
   }
 );
+
+
+app.get('/usersetup/', ensureUserSetupAccess, (req: Request, res: Response) => {
+  res.send(`User setup page for ${req.user?.profile?.displayName}`);
+});
+
 
 // Error handling
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
