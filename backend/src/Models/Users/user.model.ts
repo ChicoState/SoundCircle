@@ -60,7 +60,7 @@ export const updateUserLocation = async (userEmail: string, latitude: number, lo
                 longitude: longitude,
                 locationName: newLocationName
             })
-            .returning(['id', 'username', 'userPostIds', 'created_at', 'latitude', 'longitude', 'email', 'newLocationName', 'friends']);
+            .returning(['id', 'username', 'userPostIds', 'created_at', 'latitude', 'longitude', 'email', 'locationName', 'friends']);
 
         console.log(`Successfully updated location of user ${foundUser[0].username}`);
 
