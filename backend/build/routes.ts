@@ -25,13 +25,14 @@ const models: TsoaRoute.Models = {
             "longitude": {"dataType":"double","required":true},
             "latitude": {"dataType":"double","required":true},
             "created_at": {"dataType":"datetime","required":true},
+            "friends": {"dataType":"array","array":{"dataType":"double"},"required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_User_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"},"friends":{"dataType":"array","array":{"dataType":"double"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserLocationUpdate": {
@@ -163,6 +164,96 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/users/friends',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUserFriends)),
+
+            async function UserController_getUserFriends(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    usernameStr: {"in":"query","name":"username","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'getUserFriends',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/users/addFriend',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.postAddUserFriend)),
+
+            async function UserController_postAddUserFriend(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"newFriendStr":{"dataType":"string"},"currentUserStr":{"dataType":"string"}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'postAddUserFriend',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/users/removeFriend',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.postRemoveUserFriend)),
+
+            async function UserController_postRemoveUserFriend(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"delFriendStr":{"dataType":"string"},"currentUserStr":{"dataType":"string"}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'postRemoveUserFriend',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);
