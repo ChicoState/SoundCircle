@@ -1,10 +1,9 @@
-import FeedContainer from "../PageElements/Home/Feed/feed-container";
 import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
 import Header from "../PageElements/Home/Universal/header";
 
 const Home = () => {
     return (
-        <div className="min-h-screen flex-col overflow-y-hidden">
+        <div className="min-h-screen flex flex-col overflow-y-hidden">
             {/*Main Page Container*/}
             <div>
                 {/*Header Section*/}

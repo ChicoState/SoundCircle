@@ -10,8 +10,8 @@ import db from './src/db/db';
 
 const dummyPosts = [
     // Add more data as needed
-    { username: 'jam_gum0021', post_content: 'I was here first!', created_at: '1998-08-02 13:01:33.807425-07' },
-    { username: 'bigshooter', post_content: 'Thundercat appreciation post', created_at: '2024-10-02 17:06:13.807425-07' },
+    { username: 'jam_gum0021', user_id: 9000, post_content: 'I was here first!', created_at: '1998-08-02 13:01:33.807425-07', latitude: 39.7296900128278, longitude: -121.84480660808224},
+    { username: 'bigshooter', user_id: 9001, post_content: 'Thundercat appreciation post', created_at: '2024-10-02 17:06:13.807425-07', latitude: 39.72805752742642, longitude: -121.84643175009644},
 ];
 
 async function insertDummyData() {
