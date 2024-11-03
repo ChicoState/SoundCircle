@@ -96,6 +96,13 @@
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
+					},
+					"friends": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
 					}
 				},
 				"type": "object",
