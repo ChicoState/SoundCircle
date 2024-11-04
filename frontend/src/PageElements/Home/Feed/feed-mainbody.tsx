@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import PostContainer from "./Posts/post-container";
 import { PostProperties } from "./Posts/post-main";
 import { getCurrentLocation } from "../../../Functions/Searching/NearbyLocation";
+import Spinner from "../../../Components/Spinner";
 
 // Listen for new local posts to add at top of list
 export interface FeedMainBodyProps {
@@ -148,7 +149,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
             </div>
             
             {/* Handle Loading State */}
-            {loading && <p>Loading Posts...</p>}
+            {loading && <div className="flex justify-center"><Spinner/></div>}
 
             {/* Handle Error State */}
             {error && <p>Error loading posts: {error}</p>}
