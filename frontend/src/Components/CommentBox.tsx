@@ -44,7 +44,7 @@ function CommentBox({ userName, postContent }: CommentBoxProps) {
         </div>
 
         {/* Post Content */}
-        <div className="flex-1 ml-4 mt-2"> {/* flex-1 to take remaining space */}
+        <div className="flex-1 ml-4 mt-2">
           <div className="text-xl break-words overflow-hidden max-w-full ">
             {postContent}
           </div>
