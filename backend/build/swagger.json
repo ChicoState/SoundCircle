@@ -498,7 +498,7 @@
 				}
 			}
 		},
-		"/posts/feed": {
+		"/posts/location": {
 			"get": {
 				"operationId": "GetPostsByLocation",
 				"responses": {
