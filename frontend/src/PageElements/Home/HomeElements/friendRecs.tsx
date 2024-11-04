@@ -9,7 +9,7 @@ const FriendRecs: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const USERS_LIMIT = 8;
+    const USERS_LIMIT = 7;
 
     // Using a placeholder image until we get profile pics working
     const placeholder_url = "https://via.placeholder.com/150x150.png?text=Person"

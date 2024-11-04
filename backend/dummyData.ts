@@ -50,11 +50,11 @@ async function insertDummyData() {
         // Insert the dummy users
         for (const user of dummyUsers) {
             // Check if user already exists
-            const existingData = await db('posts')
-                .where({ user_id: user.id, created_at: user.created_at })
+            const existingData = await db('users')
+                .where({ id: user.id, created_at: user.created_at })
                 .first();
 
-            // If the post does not exist, add it to the database
+            // If the user does not exist, add it to the database
             if (!existingData) {
                 await db('users').insert(user);
                 console.log(`Inserted user: ${user.username}`);
