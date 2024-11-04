@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route, SuccessResponse } from 'tsoa';
-import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFriends, addUserFriend, removeUserFriend  } from '../../Models/Users/user.model';
+import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFriends, addUserFriend, removeUserFriend, findFriendRecommendations  } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 
@@ -170,6 +170,33 @@ export class UserController extends Controller {
         } catch(error) {
             this.setStatus(500);
             throw new Error(`Failed to remove user friend`);
+        }
+    }
+
+    @Get('/friendRecommendations')
+    public async getFriendRecommendations(
+        @Query('userEmail') userEmailStr?: string,
+        @Query('limit') llimitStr?: string,
+    ): Promise<User[]> {
+        try {
+            const userEmail = userEmailStr || '';
+            const limit = parseInt(llimitStr || '5');
+
+            const recs = await findFriendRecommendations(userEmail, limit);
+
+            if (recs.length === 0) {
+                this.setStatus(204);
+            }
+            else {
+                this.setStatus(200);
+            }
+
+            return recs;
+
+        } catch(error) {
+            console.error('Error getting friend recommendations: ', error);
+            this.setStatus(500);
+            throw new Error(`Unable to get friend recommendations`);
         }
     }
 }

@@ -19,6 +19,14 @@ const dummyPosts = [
 
 ];
 
+const dummyUsers = [
+    {id: 9000, username: 'jam_gum0021', userPostIds: [], created_at: '1998-08-02 13:01:33.807425-07', latitude: 39.7296900128278, longitude: -121.84480660808224, email: 'jammy@test.com', locationName: 'Chico', friends: [9001]},
+    {id: 9001, username: 'bigshooter', userPostIds: [], created_at: '2024-10-02 17:06:13.807425-07', latitude: 39.7296900128278, longitude: -121.84480660808224, email: 'thundercat@test.com', locationName: 'Chico', friends: [9000]},
+    {id: 9002, username: "flip_flop99", userPostIds: [], created_at: "2001-03-15 08:45:12.807425-07", latitude: 34.052235, longitude: -118.243683, email: "flippy@sample.com", locationName: "Los Angeles", friends: []},
+    {id: 9003, username: "beach_bum_86", userPostIds: [], created_at: "2020-06-30 14:23:47.221321-07", latitude: 25.761681, longitude: -80.191788, email: "beachy@testing.com", locationName: "Miami", friends: [9004]},
+    {id: 9004, username: "mountain_man_42", userPostIds: [], created_at: "1999-01-10 12:08:56.335219-07", latitude: 39.739236, longitude: -104.990251, email: "mountain42@example.com", locationName: "Denver", friends: [9003, 9001]},
+]
+
 async function insertDummyData() {
     try {
         // Insert dummy data into the 'posts' table
@@ -36,7 +44,18 @@ async function insertDummyData() {
         }
         
         // Insert other data
+        for (const user of dummyUsers) {
+            // For each post, check if the data already exists
+            const existingData = await db('posts')
+                .where({ user_id: user.id, created_at: user.created_at })
+                .first();
 
+            // If the post does not exist, add it to the database
+            if (!existingData) {
+                await db('users').insert(user);
+                console.log(`Inserted post for user: ${user.username}`);
+            }
+        }
         
         console.log('Dummy data inserted successfully.');
     } catch (error) {
