@@ -7,7 +7,7 @@ export interface PostProperties {
     postContent: string;
 }
 
-function Post({ userName, postContent}: PostProperties) {
+function Post({ userName, postContent }: PostProperties) {
     return (
         <div className="post">
             {/* Render CommentBox */}
