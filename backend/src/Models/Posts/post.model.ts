@@ -4,12 +4,15 @@ import { UserPost } from '../../../Types/posts';
 export const findUsersByPosts = async (limit: number, offset: number) => {
   try {
     // Replace 'posts' with your actual posts table name
-    const postsWithComments = await db<UserPost[]>('posts')
+    const posts = await db<UserPost[]>('posts')
       .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions','locationName', 'latitude', 'longitude') // Define posts info to get
       .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
       .limit(limit) // Send only a # back
       .offset(offset); // Which records we've already sent
-    return postsWithComments;
+
+    console.log('Posts fetched:', posts.length);
+
+    return posts;
   } catch (error) {
     console.error('Error fetching posts with comments:', error);
     throw new Error('Failed to fetch posts with comments');
@@ -19,6 +22,7 @@ export const findUsersByPosts = async (limit: number, offset: number) => {
 
 export const findPostsByLocation = async(limit: number, offset: number, latitude: number, longitude: number, searchDistance: number) => {
   try {
+    console.log('findPostsByLocation called at: ', latitude, ', ', longitude, ' | With distance radius of: ', searchDistance);
     // Calculate the lat/lng range from our distance
     const latRange = searchDistance / 69; // 69 = about 1 mile
     const lngRange = searchDistance / (69 * Math.cos((latitude * Math.PI) / 180)); // Math for globe adjustment
@@ -35,6 +39,8 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
       .orderBy('created_at', 'desc')
       .limit(limit)
       .offset(offset);
+
+    console.log('Location-based Posts fetched:', posts.length);
 
     return posts;
   } catch (error) {

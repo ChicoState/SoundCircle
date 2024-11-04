@@ -1,15 +1,20 @@
 // This class is for populating information from post-container.tsx and formatting it
 
 export interface PostProperties {
-    userName: string;
-    postContent: string;
+    id?: number;
+    user_id?: number;
+    username?: string;
+    post_content?: string;
+    created_at?: string;
+    comments?: string;
+    reactions?: number;
 }
 
-function Post({ userName, postContent }: PostProperties) {
+function Post({ username, post_content }: PostProperties) {
     return (
         <div className="post">
-            <h1>{userName}</h1>
-            <h2>{postContent}</h2>
+            <h1>{username}</h1>
+            <h2>{post_content}</h2>
         </div>
     );
 }

@@ -1,20 +1,14 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
-import Post from "./post-main";
+import Post, { PostProperties } from "./post-main";
 
-// This likely does NOT need to be defined again.
-// Can probably just pass a Post
-interface PostContainerProperties {
-    userName: string;
-    postContent: string;
-}
 
-function PostContainer({ userName, postContent }: PostContainerProperties) {
+function PostContainer({ username, post_content }: PostProperties) {
     return (
-        <div className="post-container">
+        <div>
             <Post
-                userName={userName}
-                postContent={postContent}
+                username={username}
+                post_content={post_content}
             />
         </div>
     );

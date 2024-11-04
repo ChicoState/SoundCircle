@@ -1,12 +1,19 @@
 import { useState } from "react";
-import NearbyFeed from "./NearbyFeed";
 import SidebarContainer from "../../PageElements/Home/Sidebar/sidebar-container";
 import Header from "../../PageElements/Home/Universal/header";
-import ForYouFeed from "./ForYouFeed";
+import FeedContainer from "../../PageElements/Home/Feed/feed-container";
+import { PostProperties } from "../../PageElements/Home/Feed/Posts/post-main";
+import InputContainer from "../../PageElements/Home/Feed/input-container";
 
 const Feed = () => {
     const [selectedTab, setSelectedTab] = useState<number | null>(0);
     const [selectedFilter, setSelectedFilter] = useState(false);
+    const [localPost, setLocalPost] = useState<PostProperties>();
+
+
+    const handleLocalPostSubmit = (newPost: PostProperties) => {
+        setLocalPost(newPost);
+    }
 
     const handleTabSelection = (index: number) => {
         // Prevent reloading current tab on re-selection
@@ -70,8 +77,16 @@ const Feed = () => {
                     </ul>
 
                     <ul className="pt-5 items-center text-center">
+                    <InputContainer 
+                        onPostSubmit={handleLocalPostSubmit}
+                    />
                         {/* Logic for displaying feeds based on active button */}
-                        {selectedTab === 0 ? <NearbyFeed/> : <ForYouFeed/>}
+                        <div className={selectedTab === 0 ? "block" : "hidden"}>
+                            <FeedContainer newLocalPost={localPost} nearbyFilter={true} /> 
+                        </div>
+                        <div className={selectedTab === 1 ? "block" : "hidden"}>
+                            <FeedContainer newLocalPost={localPost} nearbyFilter={false} /> 
+                        </div>
                     </ul>
                 </div>
 

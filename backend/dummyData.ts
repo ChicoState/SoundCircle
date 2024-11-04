@@ -22,11 +22,23 @@ const dummyPosts = [
 async function insertDummyData() {
     try {
         // Insert dummy data into the 'posts' table
-        await db('posts').insert(dummyPosts);
-        console.log('Dummy posts inserted successfully.');
-        
-        // Insert 
+        for (const post of dummyPosts) {
+            // For each post, check if the data already exists
+            const existingData = await db('posts')
+                .where({ user_id: post.user_id, created_at: post.created_at })
+                .first();
 
+            // If the post does not exist, add it to the database
+            if (!existingData) {
+                await db('posts').insert(post);
+                console.log(`Inserted post for user: ${post.username}`);
+            }
+        }
+        
+        // Insert other data
+
+        
+        console.log('Dummy data inserted successfully.');
     } catch (error) {
         // Throw errors
         console.error('Error inserting dummy data: ', error);

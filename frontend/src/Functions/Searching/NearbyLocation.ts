@@ -1,5 +1,5 @@
 // Use the browsers Geolocation API to get the current location
-function getCurrentLocation(): Promise<GeolocationCoordinates | null> {
+export function getCurrentLocation(): Promise<GeolocationCoordinates | null> {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -13,7 +13,7 @@ function getCurrentLocation(): Promise<GeolocationCoordinates | null> {
 }
 
 // Use latitude, longitude, and given distance to check if the search lat/long falls within the dist
-function isWithinDistance(
+export function isWithinDistance(
     currentLat: number,
     currentLng: number,
     searchLat: number,

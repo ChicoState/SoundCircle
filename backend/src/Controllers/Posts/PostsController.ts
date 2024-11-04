@@ -14,7 +14,7 @@ export class PostController extends Controller {
   @Get('/')
   public async getPostsWithComments(
     @Query('limit') limitStr?: string,  // Accept a limit passed as a string
-    @Query('offset') offsetStr?: string // Accept an offset passed as a string
+    @Query('offset') offsetStr?: string, // Accept an offset passed as a string
   ): Promise<UserPost[]> {
     try {
       const limit = parseInt(limitStr || '5');    // Parse limit string, default to 5
@@ -44,7 +44,7 @@ export class PostController extends Controller {
   }
 
 
-  @Get('/feed')
+  @Get('/location')
   public async getPostsByLocation(
     @Query('limit') limitStr?: string,  // Accept a limit passed as a string
     @Query('offset') offsetStr?: string, // Accept an offset passed as a string
