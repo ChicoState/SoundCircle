@@ -5,7 +5,11 @@ interface User {
     username: string,
 }
 
-const FriendRecs: React.FC = () => {
+interface FriendRecsProps {
+    filterID?: number;
+}
+
+const FriendRecs: React.FC<FriendRecsProps> = ({ filterID }) => {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -22,7 +26,7 @@ const FriendRecs: React.FC = () => {
             try {
                 setLoading(true);
                 
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/friendRecommendations?userEmail=${userEmail}&limit=${USERS_LIMIT}`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/friendRecommendations?userEmail=${userEmail}&limit=${USERS_LIMIT}&localID=${filterID}`);
 
                 if (!response.ok) {
                     throw new Error('Network error getting friend recommendations');

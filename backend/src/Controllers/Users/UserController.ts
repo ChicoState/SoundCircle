@@ -177,12 +177,16 @@ export class UserController extends Controller {
     public async getFriendRecommendations(
         @Query('userEmail') userEmailStr?: string,
         @Query('limit') llimitStr?: string,
+        @Query('localID') localUserID?: string,
     ): Promise<User[]> {
         try {
             const userEmail = userEmailStr || '';
             const limit = parseInt(llimitStr || '5');
+            const localID = parseInt(localUserID || '-1');
 
-            const recs = await findFriendRecommendations(userEmail, limit);
+            console.log("Parsed values for recommendations:", userEmail, ", ", limit, ", ", localID);
+
+            const recs = await findFriendRecommendations(userEmail, limit, localID);
 
             if (recs.length === 0) {
                 this.setStatus(204);

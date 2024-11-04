@@ -199,8 +199,10 @@ export const removeUserFriend = async (currentUser: string, delUserFriend: strin
 }
 
 // Function to get friend recommendations, although FOR NOW it's just getting random users
-export const findFriendRecommendations = async (userEmail: string, limit: number) => {
+export const findFriendRecommendations = async (userEmail: string, limit: number, localUserID: number) => {
     try {
+        let randomUsers;
+
         if (!userEmail) {
             throw new Error('Empty or null username provided')
         }
@@ -211,10 +213,20 @@ export const findFriendRecommendations = async (userEmail: string, limit: number
             throw new Error(`Unable to find user ${userEmail}`);
         }
 
-        const randomUsers = await db<User>('users')
-            .whereNot('id', foundUser[0].id)
-            .orderByRaw('RANDOM()')
-            .limit(limit);
+        if (localUserID) {
+            console.log("Yes filter for ID: ", localUserID);
+            randomUsers = await db<User>('users')
+                .whereNot('id', foundUser[0].id)
+                .whereNot('id', 2)
+                .orderByRaw('RANDOM()')
+                .limit(limit);
+        } else {
+            console.log("No filter for ID: ", localUserID);
+            randomUsers = await db<User>('users')
+                .whereNot('id', foundUser[0].id)
+                .orderByRaw('RANDOM()')
+                .limit(limit);
+        }
 
         return randomUsers;
 
