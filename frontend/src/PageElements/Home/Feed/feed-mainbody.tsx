@@ -18,7 +18,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
     const [loading, setLoading] = useState(true); // Bool for load state
     const [error, setError] = useState<string | null>(null); // Error state
     const [offset, setOffset] = useState(0); // Offset = which post #'s to skip when fetching
-    const GET_POST_LIMIT = 2;   // Limit for fetch
+    const GET_POST_LIMIT = 3;   // Limit for fetch
     const isFetching = useRef(false); // Make sure we don't spam fetches
     const [postCount, setPostCount] = useState(0);
 
@@ -121,14 +121,12 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
 
 
     return (
-        <div className="p-5 space-y-5 text-white overflow-y-auto overscroll-none w-full max-h-[70vh]">
+        <div className="p-5 space-y-5 text-white w-full">
             {/* Render posts */}
             {data.length > 0 ? (
-                data.map(({ id, user_id, username, post_content, created_at, comments, reactions }, index) => (
+                data.map((post, index) => (
                     <PostContainer
-                        key={`${id}-${index}`}
-                        username={username}
-                        post_content={post_content}
+                        key={`${post.id} - ${index}`} postData={post}
                     />
                 ))
             ) : (
