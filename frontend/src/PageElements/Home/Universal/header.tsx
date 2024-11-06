@@ -6,11 +6,15 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavigationButton from "../../../Components/Universal/NavigationButton";
 import './header.css';
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../Redux_Store/actions";
+import { selectUserID } from "../../../Redux_Store/selector";
 
 const Header = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const location = useLocation(); // Get current location (page)
     const isButtonActive = (path:string) => (location.pathname === path ? "bg-black bg-opacity-50 text-white font-normal" : "");  // Adjust button visuals depending on our current path
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const accessToken = Cookies.get('access_token');
@@ -25,7 +29,7 @@ const Header = () => {
     const handleLogout = () => {
         Cookies.remove('access_token');
         setIsUserLoggedIn(false);
-        console.log("user logged out");
+        dispatch(logoutUser()); // Tell Redux to set the current uid to null
     };
 
     return (

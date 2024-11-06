@@ -17,6 +17,7 @@ import 'express-session';
 declare module 'express-session' {
   interface Session {
     needsSetup?: boolean;
+    uid?: number;
   }
 }
 
@@ -145,6 +146,8 @@ app.get(
           res.redirect(`http://localhost:3000/usersetup?email=${encodeURIComponent(email)}`);
         } else {
           req.session.needsSetup = false;
+          console.log("User Exists:", userExists[0]?.id);
+          req.session.uid = userExists[0]?.id; 
           res.redirect('http://localhost:3000/');
         }
       }
@@ -179,4 +182,20 @@ RegisterRoutes(app);
 // Start server
 app.listen(parseInt(PORT), () => {
   console.log(`Server started on http://localhost:${PORT}`);
+});
+
+// Expose the user id
+app.get('/api/uid', (req: Request, res: Response) => {
+  try {
+    const user = req.session.uid;
+    console.log("Request for uid:", user);
+    if (user) {
+      return res.status(200).json({uid: user});
+    } else {
+      return res.status(404).json({message: 'User ID not found'});
+    }
+  } catch (error) {
+    console.error("Error in /api/uid:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 });
