@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./User.css";
-import Header from "../PageElements/Home/Universal/header";
-import UserImage from "../PageElements/Home/UserPage/UserIcon";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Redux_Store/actions";
+import store from "../Redux_Store/store";
 
 const UserSetupPage = () => {
     const [username, setUsername] = useState("");
     const [location, setLocation] = useState("");
     const [email, setEmail] = useState("");
-
     const locationObj = useLocation();
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Access email query parameter
@@ -31,8 +34,22 @@ const UserSetupPage = () => {
             });
 
             if (response.ok) {
+                const data = await response.json();
+                const user_id = data.user.id;
+
+                if (user_id) {
+                    await dispatch(setUser(data.user.id));
+                    console.log("Created User:", user_id);
+                    const updatedState = store.getState();
+                    console.log("Updated Redux state:", updatedState.user.user_id);
+                } else {
+                    console.log("There was an error retrieving the New User ID");
+                }
+
                 console.log("Profile saved successfully");
-                window.location.href = "http://localhost:3000/" // This is horrible practice and should be changed later
+                // This is horrible practice and should be changed later
+                // window.location.href = "http://localhost:3000/"
+                navigate('/', { replace: true }) // Navigate to Home and disable backtracking
             } else {
                 console.error("Failed to save profile");
             }

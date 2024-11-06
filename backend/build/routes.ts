@@ -268,6 +268,7 @@ export function RegisterRoutes(app: Router) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     userEmailStr: {"in":"query","name":"userEmail","dataType":"string"},
                     llimitStr: {"in":"query","name":"limit","dataType":"string"},
+                    localUserID: {"in":"query","name":"localID","dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

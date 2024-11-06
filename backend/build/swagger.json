@@ -458,6 +458,14 @@
 						"schema": {
 							"type": "string"
 						}
+					},
+					{
+						"in": "query",
+						"name": "localID",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
 					}
 				]
 			}

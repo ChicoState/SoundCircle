@@ -46,15 +46,18 @@ export class UserController extends Controller {
     @Post('/')
     public async postNewUserProfile(
     @Body() body: { username: string; location: string; email: string }
-        ): Promise<{ message: string }> {
+        ): Promise<{ message: string, user?: User }> {
         try {
             if (!body.username || !body.location) {
                 this.setStatus(400);
                 throw new Error("Username and location are required");
             }
 
-            await createNewUserProfile(body.username, body.location, body.email);
-            return { message: "User profile created successfully" };
+            const newUser = await createNewUserProfile(body.username, body.location, body.email);
+            return {
+                message: "User profile created successfully",
+                user: newUser
+            };
 
         } catch (error) {
             console.error("Error in postNewUserProfile:", error);
