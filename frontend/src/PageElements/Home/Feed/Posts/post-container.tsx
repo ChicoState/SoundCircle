@@ -2,14 +2,14 @@
 
 import Post, { PostProperties } from "./post-main";
 
+interface PostContainerProps {
+    postData: PostProperties
+}
 
-function PostContainer({ username, post_content }: PostProperties) {
+function PostContainer({ postData }: PostContainerProps) {
     return (
         <div>
-            <Post
-                username={username}
-                post_content={post_content}
-            />
+            <Post {...postData} />
         </div>
     );
 }
