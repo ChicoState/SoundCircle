@@ -1,5 +1,9 @@
 import { Get, Route, Query, Controller } from 'tsoa';
 import { ArtistMatches, ArtistSearchResponse } from '../../../Types/lastfm/artistSearch'
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env' });
+const { LAST_FM_KEY } = process.env;
 
 @Route('lastfm')
 export class LastfmController extends Controller {
@@ -9,8 +13,7 @@ export class LastfmController extends Controller {
      */
     @Get('artist/search')
     public async searchArtist(@Query() artistName: string): Promise<ArtistMatches> {
-        const apiKey = '3ae0261cc5d6cbf082fbd18f66dcfa35';  // Replace with your Last.fm API key
-        const url = `https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(artistName)}&api_key=${apiKey}&format=json`;
+        const url = `https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(artistName)}&api_key=${LAST_FM_KEY}&format=json`;
 
         const response = await fetch(url);
 
