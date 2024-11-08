@@ -7,6 +7,79 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"ArtistImage": {
+				"properties": {
+					"#text": {
+						"type": "string"
+					},
+					"size": {
+						"type": "string",
+						"enum": [
+							"small",
+							"medium",
+							"large",
+							"extralarge",
+							"mega"
+						]
+					}
+				},
+				"required": [
+					"#text",
+					"size"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Artist": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"listeners": {
+						"type": "string"
+					},
+					"mbid": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					},
+					"streamable": {
+						"type": "string"
+					},
+					"image": {
+						"items": {
+							"$ref": "#/components/schemas/ArtistImage"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"name",
+					"listeners",
+					"mbid",
+					"url",
+					"streamable",
+					"image"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ArtistMatches": {
+				"properties": {
+					"artist": {
+						"items": {
+							"$ref": "#/components/schemas/Artist"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"artist"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"User": {
 				"properties": {
 					"id": {
@@ -203,6 +276,36 @@
 		"contact": {}
 	},
 	"paths": {
+		"/lastfm/artist/search": {
+			"get": {
+				"operationId": "SearchArtist",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ArtistMatches"
+								}
+							}
+						}
+					}
+				},
+				"description": "Search for artists on Last.fm by name.",
+				"security": [],
+				"parameters": [
+					{
+						"description": "The name of the artist to search for",
+						"in": "query",
+						"name": "artistName",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/users": {
 			"get": {
 				"operationId": "GetUserByName",
@@ -243,6 +346,9 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"user": {
+											"$ref": "#/components/schemas/User"
+										},
 										"message": {
 											"type": "string"
 										}
