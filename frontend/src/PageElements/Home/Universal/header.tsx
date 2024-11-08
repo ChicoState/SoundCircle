@@ -6,11 +6,15 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavigationButton from "../../../Components/Universal/NavigationButton";
 import './header.css';
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../Redux_Store/actions";
+import { selectUserID } from "../../../Redux_Store/selector";
 
 const Header = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const location = useLocation(); // Get current location (page)
     const isButtonActive = (path:string) => (location.pathname === path ? "bg-black bg-opacity-50 text-white font-normal" : "");  // Adjust button visuals depending on our current path
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const accessToken = Cookies.get('access_token');
@@ -25,7 +29,7 @@ const Header = () => {
     const handleLogout = () => {
         Cookies.remove('access_token');
         setIsUserLoggedIn(false);
-        console.log("user logged out");
+        dispatch(logoutUser()); // Tell Redux to set the current uid to null
     };
 
     return (
@@ -46,13 +50,19 @@ const Header = () => {
             <div className="flex justify-end items-center mr-4">
                 {isUserLoggedIn ? (
                     <div className="flex items-center">
-                        <button onClick={handleLogout} className="LogOutButton">Log Out</button>
+                        <button onClick={handleLogout} className="flex m-2 px-4 py-1 bg-white rounded-full">
+                            Log Out
+                        </button>
                         {location.pathname !== "/user" && (
-                            <Link to="/user"><img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} className="UserIcon" /></Link>
+                            <Link to="/user">
+                                <img src={UserIcon} alt="User Icon" style={{ width: '50px', height: '50px' }} 
+                                    className=""
+                                />
+                            </Link>
                         )}
                     </div>
                 ) : (
-                    <button className="m-2 border-2 p-2">
+                    <button className="m-2 px-4 py-1 bg-white rounded-full">
                         <Link to='http://localhost:8080/login'><a style={{ width: '50px', height: '50px' } }>Log In</a></Link>
                     </button>
                 )}

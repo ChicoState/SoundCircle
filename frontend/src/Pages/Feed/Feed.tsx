@@ -27,20 +27,17 @@ const Feed = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col overflow-y-hidden">
-            {/*Main Page Container*/}
-            <div>
-            {/*<div className="bg-gray-500 flex flex-col items-center py-5">*/}
+        <div className="min-h-screen flex flex-col">
+            <div className="fixed top-0 right-0 left-0 z-50">
                 {/*Header Section*/}
                 <Header/>
             </div>
 
-            <div className="flex flex-grow">
+            <div className="flex flex-grow pt-14">
                 {/*Main Body Sections*/}
 
-                <div className="bg-gray-900 w-3/4 flex flex-grow flex-col">
+                <div className="bg-gray-900 w-3/4 flex flex-col">
                     {/*Left Column Section*/}
-
                     <ul className="w-full pt-5 pb-3 items-center text-center">
                         {/* Button to toggle filter box */}
                         <button 
@@ -53,39 +50,40 @@ const Feed = () => {
                             {selectedFilter ? 'Filters On' : 'Filters Off'}
                         </button>
                     </ul>
-
+                    
+                    {/* Top Buttons */}
                     <ul className="w-full items-center text-center">
-                        {/* Buttons to toggle between feeds */}
-                        <button 
-                        className={`h-5 px-2 mr-3 transition: duration-200
-                            ${selectedTab === 0
-                            ? 'font-semibold text-white'
-                            : 'font-normal text-gray-500 hover:text-gray-400 hover:font-semibold'}
-                        `}
-                        onClick={() => {handleTabSelection(0)}}>
-                            Nearby
-                        </button>
                         <button 
                         className={`h-5 px-2 ml-3 transition: duration-200
-                            ${selectedTab === 1
+                            ${selectedTab === 0
                             ? 'font-semibold text-white' 
                             : 'font-normal text-gray-500 hover:text-gray-400 hover:font-semibold'}
                         `}
-                        onClick={() => {handleTabSelection(1)}}>
+                        onClick={() => {handleTabSelection(0)}}>
                             For You
+                        </button>
+
+                        <button 
+                        className={`h-5 px-2 mr-3 transition: duration-200
+                            ${selectedTab === 1
+                            ? 'font-semibold text-white'
+                            : 'font-normal text-gray-500 hover:text-gray-400 hover:font-semibold'}
+                        `}
+                        onClick={() => {handleTabSelection(1)}}>
+                            Nearby
                         </button>
                     </ul>
 
-                    <ul className="pt-5 items-center text-center">
-                    <InputContainer 
-                        onPostSubmit={handleLocalPostSubmit}
-                    />
+                    {/* Input and Feed Display */}
+                    <ul className="pt-5 items-center text-center flex-grow">
+                        <InputContainer onPostSubmit={handleLocalPostSubmit}/>
+
                         {/* Logic for displaying feeds based on active button */}
                         <div className={selectedTab === 0 ? "block" : "hidden"}>
-                            <FeedContainer newLocalPost={localPost} nearbyFilter={true} /> 
+                            <FeedContainer newLocalPost={localPost} nearbyFilter={false} /> 
                         </div>
                         <div className={selectedTab === 1 ? "block" : "hidden"}>
-                            <FeedContainer newLocalPost={localPost} nearbyFilter={false} /> 
+                            <FeedContainer newLocalPost={localPost} nearbyFilter={true} /> 
                         </div>
                     </ul>
                 </div>
