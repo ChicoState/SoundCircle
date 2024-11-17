@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserIconTemp from "../../../Components/UserIconTemp.png";
+import UserIconTemp from "../Images/UserIconTemp.png";
 import DescriptionBox from "./DescriptionBox";
 import './UserIcon.css';
 

@@ -6,7 +6,10 @@ import PeopleBox from "./people-sidebar";
 
 const SidebarContainer = () => {
     return (
-        <div className="Sidebar-Container">
+        <div>
+            <div className="text-white text-start text-lg pl-2 pb-2 font-medium">
+                Recommended
+            </div>
              {/* <div className= "rounded-lg mb-5 pb-2"> */}
              <div className="rounded-lg mb-2 pb-2">
                 <AlbumsBox />

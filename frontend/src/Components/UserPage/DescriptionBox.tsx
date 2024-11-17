@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";import './DescriptionBox.css';
 import Cookies from "js-cookie";
-import EditIcon from "../../../Components/pen.png";
+import EditIcon from "../Images/pen.png";
 
 const DescriptionBox: React.FC = () => {
     const [description, setDescription] = useState<string>('');
