@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import Header from '../PageElements/Home/Universal/header';
-import SearchMainFeed from '../PageElements/SearchPage/search-main';
-import SearchSideBar from '../PageElements/SearchPage/search-sidebar';
+import Header from "../Components/Universal/header";
+import SearchMainFeed from "../Components/Search/search-main";
+import SearchSideBar from "../Components/Search/search-sidebar";
 
 const SearchResultsPage = () => {
     const location = useLocation();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FilterButton from "../../Components/SearchPageWidgets/FilterButton";
+import FilterButton from "../../Components/Search/FilterButton";
 
 
 const SearchSideBar = () => {

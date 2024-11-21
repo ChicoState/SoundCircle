@@ -3,7 +3,7 @@ import Home from './Pages/Home';
 import SearchResultsPage from './Pages/SearchPage';
 import UserPage from './Pages/User';
 import UserSetup from './Pages/UserSetup';
-import Feed from './Pages/Feed/Feed';
+import Feed from './Pages/Feed';
 
 const SoundCircle = () => {
   return (

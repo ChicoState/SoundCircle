@@ -1,9 +1,9 @@
 import { useState } from "react";
-import SidebarContainer from "../../PageElements/Home/Sidebar/sidebar-container";
-import Header from "../../PageElements/Home/Universal/header";
-import FeedContainer from "../../PageElements/Home/Feed/feed-container";
-import { PostProperties } from "../../PageElements/Home/Feed/Posts/post-main";
-import InputContainer from "../../PageElements/Home/Feed/input-container";
+import SidebarContainer from "../Components/Sidebar/sidebar-container";
+import Header from "../Components/Universal/header";
+import FeedContainer from "../Components/Feed/feed-container";
+import { PostProperties } from "../Components/Posts/post-main";
+import InputContainer from "../Components/Feed/input-container";
 
 const Feed = () => {
     const [selectedTab, setSelectedTab] = useState<number | null>(0);

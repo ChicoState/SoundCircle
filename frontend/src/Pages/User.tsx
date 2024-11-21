@@ -1,9 +1,9 @@
 import "./User.css";
-import Header from "../PageElements/Home/Universal/header";
-import UserImage from "../PageElements/Home/UserPage/UserIcon";
-import AlbumsBox from "../PageElements/Home/Sidebar/album-sidebar";
-import ArtistsBox from "../PageElements/Home/Sidebar/artist-sidebar";
-import GenresBox from "../PageElements/Home/Sidebar/genres-sidebar";
+import Header from "../Components/Universal/header";
+import UserImage from "../Components/UserPage/UserIcon";
+import AlbumsBox from "../Components/Sidebar/album-sidebar";
+import ArtistsBox from "../Components/Sidebar/artist-sidebar";
+import GenresBox from "../Components/Sidebar/genres-sidebar";
 import { useState } from "react";
 
 const UserPage = () => {
