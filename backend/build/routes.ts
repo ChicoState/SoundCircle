@@ -9,6 +9,8 @@ import { LastfmController } from './../src/Controllers/lastFm/lastfmController';
 import { UserController } from './../src/Controllers/Users/UserController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { PostController } from './../src/Controllers/Posts/PostsController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { PlacesController } from './../src/Controllers/GoogleAPI/GoogleAPIController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -438,6 +440,68 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'postNewUserPost',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/googleApi/placesAutocomplete',
+            ...(fetchMiddlewares<RequestHandler>(PlacesController)),
+            ...(fetchMiddlewares<RequestHandler>(PlacesController.prototype.getAutocomplete)),
+
+            async function PlacesController_getAutocomplete(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    input: {"in":"query","name":"input","required":true,"dataType":"string"},
+                    radius: {"in":"query","name":"radius","required":true,"dataType":"string"},
+                    types: {"in":"query","name":"types","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new PlacesController();
+
+              await templateService.apiHandler({
+                methodName: 'getAutocomplete',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/googleApi/placeDetails',
+            ...(fetchMiddlewares<RequestHandler>(PlacesController)),
+            ...(fetchMiddlewares<RequestHandler>(PlacesController.prototype.getPlaceDetails)),
+
+            async function PlacesController_getPlaceDetails(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    place_id: {"in":"query","name":"place_id","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new PlacesController();
+
+              await templateService.apiHandler({
+                methodName: 'getPlaceDetails',
                 controller,
                 response,
                 next,
