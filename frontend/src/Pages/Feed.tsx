@@ -27,8 +27,8 @@ const Feed = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="fixed top-0 right-0 left-0 z-50">
+        <div className="min-h-screen flex flex-col overflow-y-hidden bg-main_Background ">
+            <div>
                 {/*Header Section*/}
                 <Header/>
             </div>
@@ -36,37 +36,42 @@ const Feed = () => {
             <div className="flex flex-grow pt-14">
                 {/*Main Body Sections*/}
 
-                <div className="bg-gray-900 w-3/4 flex flex-col">
+                <div className="w-3/4 flex flex-col">
                     {/*Left Column Section*/}
                     <ul className="w-full pt-5 pb-3 items-center text-center">
                         {/* Button to toggle filter box */}
-                        <button 
+                        {/* <button 
                         className={`transition: duration-200
                             ${selectedFilter
-                            ? 'text-white font-semibold'
+                            ? 'text-black font-semibold'
                             : 'text-gray-500 hover:text-gray-400 hover:font-semibold'}
                         `}
                         onClick={handleFilterClick}>
                             {selectedFilter ? 'Filters On' : 'Filters Off'}
-                        </button>
+                        </button> */}
                     </ul>
-                    
-                    {/* Top Buttons */}
-                    <ul className="w-full items-center text-center">
+
+                    {/* Input and Feed Display */}
+                    <ul className="pt-5 items-center text-center">
+                        <InputContainer onPostSubmit={handleLocalPostSubmit}/>
+                    </ul>
+
+                    {/* Feed Type Buttons */}
+                    <ul className="pt-10 text-center">
                         <button 
-                        className={`h-5 px-2 ml-3 transition: duration-200
+                        className={`h-5 px-8 transition-all duration-200 relative
                             ${selectedTab === 0
-                            ? 'font-semibold text-white' 
+                            ? 'font-semibold text-black after:block after:w-6 after:h-1 after:bg-black after:absolute after:bottom-[-10px] after:left-1/2 after:-translate-x-1/2 after:rounded-full' 
                             : 'font-normal text-gray-500 hover:text-gray-400 hover:font-semibold'}
                         `}
                         onClick={() => {handleTabSelection(0)}}>
-                            For You
+                            Following
                         </button>
 
                         <button 
-                        className={`h-5 px-2 mr-3 transition: duration-200
+                        className={`h-5 px-8 transition-all duration-200 relative
                             ${selectedTab === 1
-                            ? 'font-semibold text-white'
+                            ? 'font-semibold text-black after:block after:w-6 after:h-1 after:bg-black after:absolute after:bottom-[-10px] after:left-1/2 after:-translate-x-1/2 after:rounded-full'
                             : 'font-normal text-gray-500 hover:text-gray-400 hover:font-semibold'}
                         `}
                         onClick={() => {handleTabSelection(1)}}>
@@ -74,10 +79,7 @@ const Feed = () => {
                         </button>
                     </ul>
 
-                    {/* Input and Feed Display */}
-                    <ul className="pt-5 items-center text-center flex-grow">
-                        <InputContainer onPostSubmit={handleLocalPostSubmit}/>
-
+                    <ul className="pt-5 text-center flex-grow">
                         {/* Logic for displaying feeds based on active button */}
                         <div className={selectedTab === 0 ? "block" : "hidden"}>
                             <FeedContainer newLocalPost={localPost} nearbyFilter={false} /> 
@@ -88,7 +90,7 @@ const Feed = () => {
                     </ul>
                 </div>
 
-                <div className="w-1/4 bg-gray-700 p-4">
+                <div className="w-1/4 p-4">
                     {/*Right Column Section*/}
                     <SidebarContainer/>
                 </div>

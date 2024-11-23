@@ -11,6 +11,7 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const maxCharacters = 256;              // Max characters allowed
     const textAreaRef = useRef<HTMLTextAreaElement>(null);       // Directly modify this item instead of using states
     const defaultUserName = "SCDev";
+    const [isFocused, setIsFocused] = useState(false);
 
 
     // Change the contents of "text"
@@ -70,20 +71,22 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
 
     // Return the visible text box
     return (
-        <div className="relative inline-block">
+        <div>
             <textarea
-                className="resize-none overflow-auto w-[30rem] h-[1rem] p-2 pb-10 rounded-lg hover:bg-gray-200 focus:bg-white transition duration-300"
+                className='resize-none overflow-auto w-[30rem] px-3 rounded-xl hover:outline-none focus:outline-none'
                 ref={textAreaRef}
                 value={text}
                 onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder="Type your input here..."
             />
-            <button 
+            {/* <button 
                 className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-3 rounded shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100"
                 onClick={handleSubmit}
             >
                 Create Post
-            </button>
+            </button> */}
         </div>
     );
 }

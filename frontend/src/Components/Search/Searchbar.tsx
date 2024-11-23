@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdSearch } from "react-icons/md";
 
 interface SearchBarProps {
   className: string;
@@ -91,21 +92,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => 
   };
 
   return (
-    <div className={`${className} relative`} ref={searchBarRef}>
-      <form onSubmit={handleFormSubmit} className="flex">
+    <div className={`${className}`} ref={searchBarRef}>
+      <form onSubmit={handleFormSubmit}>
         <input
+          className="py-1 px-3 pr-10 w-full rounded-full focus:outline-none bg-searchbar_Background hover:bg-searchbar_HoverBackground placeholder:text-searchbar_PlaceholderText"
           type="text"
           value={searchData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           placeholder={placeHolderText || 'Search'}
-          className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none"
         />
         <button
           type="submit"
-          className="bg-RoyalBlue text-white py-1 px-2 rounded-r-lg hover:bg-slateBlue transition duration-200"
+          className="absolute right-3 top-1 text-searchbar_IconColor"
         >
-          Search
+          <MdSearch className='w-6 h-6'/>
         </button>
       </form>
 

@@ -121,7 +121,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
 
 
     return (
-        <div className="p-5 space-y-5 text-white w-full">
+        <div className="p-5 space-y-5 text-black w-full">
             {/* Render posts */}
             {data.length > 0 ? (
                 data.map((post, index) => (
@@ -137,7 +137,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
                 {/* THIS BUTTON IS ONLY TEMPORARY */}
                 {!loading && data.length > 0 &&
                     <button
-                        className='text-white rounded-3xl px-10 bg-RoyalBlue'
+                        className='text-black rounded-3xl px-10 bg-RoyalBlue'
                         onClick={loadMorePosts}
                         disabled={disableLoadMoreButton}
                     >

@@ -54,24 +54,24 @@ const Home = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col overflow-y-hidden">
+        <div className="min-h-screen flex flex-col overflow-y-hidden bg-main_Background ">
             {/*Main Page Container*/}
             <div>
                 {/*Header Section*/}
                 <Header/>
             </div>
 
-            <div className="flex flex-grow">
+            <div className="flex flex-grow pt-14">
                 {/*Main Body Sections*/}
 
-                <div className="bg-gray-900 w-3/4 flex flex-grow">
+                <div className="w-3/4 flex flex-grow">
                     {/*Left Column Section*/}
                     <ul className="w-full p-5 items-center text-center">
                         <FriendRecs />
                     </ul>
                 </div>
 
-                <div className="w-1/4 bg-gray-700 p-4">
+                <div className="w-1/4 p-4">
                     {/*Right Column Section*/}
                     <SidebarContainer/>
                 </div>

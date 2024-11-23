@@ -1,3 +1,6 @@
+import LikeButton from "../Universal/LikeButton";
+import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
+
 // This class is for populating information from post-container.tsx and formatting it
 export interface PostProperties {
     id?: number;
@@ -10,59 +13,61 @@ export interface PostProperties {
     profilePicURL?: string;
 }
 
-function Post({ username, post_content, created_at, profilePicURL }: PostProperties) {
+function Post({ username, user_id, post_content, created_at, profilePicURL }: PostProperties) {
     // If we have a profile pic URL, use it. Otherwise use placeholder
-    const profilePic = profilePicURL ? profilePicURL : "https://via.placeholder.com/150x150.png?text=Person"
+    const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
     return (
-        <div className="flex justify-center mx-auto">
-          {/* Properties for the post box */}
-          <div className="
-                relative 
-                w-full 
-                max-w-3xl 
-                bg-gradient-to-br 
-                from-gray-200
-                to-periwinkle
-                sm:p-3 
-                text-black
-                rounded-xl
-            ">
-    
-            {/* Profile Section */}
-            <div className="flex items-center mb-4"> 
-              {/* Profile picture */}
-              <button className="flex items-center p-2 transition-transform transform hover:scale-105"> {/* Isolated Transform */}
-                <img
-                  alt=""
-                  src={profilePic}
-                  className="w-8 h-8 rounded-full object-cover border border-black"
-                />
-                <h1 className="text-lg font-bold ml-2">{username}</h1>
-              </button>
-            </div>
-    
-            {/* Post Content */}
-            <div className="flex-1 ml-4 mt-2">
-              <div className="text-start text-xl break-words overflow-hidden max-w-full px-2">
-                {post_content}
-              </div>
-    
-              {/* Footer Section */}
-              <footer className="flex justify-between items-center mt-4">
-                {/* Posted Date */}
-                <span className="text-xs">
-                  {created_at ? `${new Date(created_at).toLocaleDateString()}` : null}
-                </span>
-    
-                {/* Reply Button */}
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105">
-                  Reply
-                </button>
-              </footer>
-            </div>
+      <div className="flex justify-center">
+        {/* User Profile Pic */}
+        <div className="flex-none w-[100px]">
+            <NavigationButton_UserProfilePic
+              className="w-[80px] h-[80px] rounded-full"
+              username={username}
+              altText={username}
+              profileImage={profilePic}
+              navigationPath={`/User`}
+            />
+        </div>
+
+        {/* Post */}
+        <div className="relative bg-post_bgColor w-[800px] text-post_username rounded-xl text-start p-2">
+
+          {/* First Line */}
+          <div className="flex items-center">
+            {/* Username */}
+            <p className="flex-none text-lg font-bold">
+              {username}
+            </p>
+
+            {/* Like Button */}
+            <p className="absolute top-2 right-8">
+              <LikeButton likeCount={0} triggered={false}/>
+            </p>
+          </div>
+
+          {/* Second Line */}
+          <div className="text-sm font-semibold text-post_userid">
+            <p>
+              @{user_id}
+            </p>
+          </div>
+
+          {/* Body */}
+          <div className="pt-2">
+            <p>
+              {post_content}
+            </p>
+          </div>
+
+          {/* Last Line */}
+          <div className="absolute bottom-2 right-2">
+            <button className="font-semibold text-post_replyButton">
+              Reply
+            </button>
           </div>
         </div>
+      </div>
       );
 }
 

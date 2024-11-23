@@ -76,9 +76,11 @@ const SearchMainFeed: React.FC<SearchResultsPageProps> = ({searchData : string})
     }
 
     return (
-        <div className='p-5 space-y-5 text-white'>
+        <div className='space-y-2'>
             {/* NEED LOGIC FOR INTERPRETING RESULTS */}
-            <h1>Search results for '{searchData || "____"}'</h1>
+            <h1 className='text-start text-search_pageTextColorMain font-semibold text-2xl'>
+                Search results for {searchData || "__________"}
+            </h1>
         </div>
     );
 }
