@@ -1,5 +1,7 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
+import { useCallback, useEffect, useRef, useState } from "react";
+import PostComment, { CommentProperties } from "./comment-main";
 import Post, { PostProperties } from "./post-main";
 
 interface PostContainerProps {
@@ -7,9 +9,112 @@ interface PostContainerProps {
 }
 
 function PostContainer({ postData }: PostContainerProps) {
+    // Store the comments we fetch
+    const [data, setData] = useState<CommentProperties[]>([]);
+    const [loading, setLoading] = useState(true); // Bool for load state
+    const [error, setError] = useState<string | null>(null); // Error state
+    const [offset, setOffset] = useState(0); // Offset = which post #'s to skip when fetching
+    const GET_COMMENT_LIMIT = 2;   // Limit for fetch
+    const isFetching = useRef(false); // Make sure we don't spam fetches
+    const [commentCount, setCommentCount] = useState(0);    // Track the count so we can track the offset correctly
+    // If there is no more data on the last fetch, disable the button to fetch more comments
+    const disableLoadMoreButton = loading || data.length === 0;
+
+    // Fetch comments based on given id's
+    const fetchComments = useCallback( async () => {
+        if (postData.comment_ids?.length === undefined || postData.comment_ids?.length <= 0) return;
+        if (isFetching.current) return;
+        
+        isFetching.current = true;
+        setError(null)
+        setCommentCount(0)
+        setLoading(true)
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts/comments?limit=${GET_COMMENT_LIMIT}&offset=${offset}&comment_ids=${postData.comment_ids?.join(',')}`)
+        
+            if (!response.ok) {
+                throw new Error(`HTTP Error during Comment Get: Status ${response.status}`);
+            }
+
+            // Handle HTTP response 204 ("No Content")
+            if (response.status === 204)
+            {
+                console.log("No content (comments), status:", response.status);
+                return;
+            }
+
+            // Get data or none
+            let commentData = await response.json(); // Get data from json
+            if (!commentData || commentData.length === 0)
+            {
+                throw new Error('No posts found in response json.');
+            } else {
+                console.log("Found comments: ", commentData.length);
+            }
+
+            // If we haven't run this before, get the data.
+            // Otherwise, append the data
+            if (offset === 0) {
+                setData(commentData);
+            } else {
+                // Prevent duplicate data
+                setData(prevData => {
+                    const newComments = commentData.filter(((comment: CommentProperties) => !prevData.some(existingComment => existingComment.comment_content == comment.comment_content)));
+                    return [...prevData, ...newComments]
+                });
+            }
+
+            setCommentCount(commentData.length)
+            setError(null)
+        } catch (err : any) {
+            setError(err.message)
+            setData(data)
+        } finally {
+            setLoading(false)
+            isFetching.current = false
+        }
+    }, [offset] );
+
+    // Attempt to fetch more comments on button press by setting the offset higher
+    const loadMoreComments = async () => {
+        if (!loading && !isFetching.current) {
+            setOffset((prevOffset) => prevOffset + commentCount)
+        }
+    }
+    
+    useEffect(() => {
+        fetchComments();
+    }, [fetchComments]);
+
+
     return (
         <div>
             <Post {...postData} />
+            {/* Comments */}
+            <div>
+                {data.length > 0 ?(
+                    data.map(({id, user_id, username, comment_content}, index) => (
+                        <PostComment
+                            key={`${id} - ${index}`}
+                            user_id = {user_id}
+                            username = {username}
+                            comment_content = {comment_content}
+                        />
+                    ))
+                ) : (
+                    !loading && !error
+                )}
+            </div>
+            <div>
+                <button
+                    className=""
+                    onClick={loadMoreComments}
+                    hidden ={disableLoadMoreButton}
+                >
+                    Show More Comments
+                </button>
+            </div>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
-import { createUserPost, findUsersByPosts, findPostsByLocation } from '../../Models/Posts/post.model';
-import { UserPost } from '../../../Types/posts';
+import { createUserPost, findPostsByLocation, findPosts, findComments } from '../../Models/Posts/post.model';
+import { UserComment, UserPost } from '../../../Types/posts';
 
 // @SuccessResponse('200', 'Ok')
 @Route('posts')
@@ -12,7 +12,7 @@ export class PostController extends Controller {
    * @returns Array of posts with comments
    */
   @Get('/')
-  public async getPostsWithComments(
+  public async getPostsAny(
     @Query('limit') limitStr?: string,  // Accept a limit passed as a string
     @Query('offset') offsetStr?: string, // Accept an offset passed as a string
   ): Promise<UserPost[]> {
@@ -20,8 +20,8 @@ export class PostController extends Controller {
       const limit = parseInt(limitStr || '5');    // Parse limit string, default to 5
       const offset = parseInt(offsetStr || '0');  // Parse offset string, default to 0
 
-      // Run the 'findUsersByPosts' db function and return the results
-      const result = await findUsersByPosts(limit, offset);
+      // Run the 'findPosts' db function and return the results
+      const result = await findPosts(limit, offset);
 
       // Throw different errors for different results
       if (result.length === 0)
@@ -88,7 +88,7 @@ export class PostController extends Controller {
    * !!! TECHNICAL DEBT: Currently interpreting data as a pure string. Not sure if this works for api calls, but for now will work.
    */
   @Post('/')
-  public async postNewUserPost(
+  public async postNewPost(
     // HTTP likes to use @Body for POST requests
     @Body() body: { usernameStr?: string; postDataStr?: string; }
   ): Promise<UserPost> {
@@ -109,6 +109,44 @@ export class PostController extends Controller {
       console.error('Error in postNewUserPost: ', error);
       this.setStatus(500);
       throw new Error('Failed to create new user post');
+    }
+  }
+
+  @Get('/comments')
+  public async getComments(
+    @Query('limit') limitStr?: string,  // Accept a limit passed as a string
+    @Query('offset') offsetStr?: string, // Accept an offset passed as a string
+    @Query('comment_ids') comment_idsStr?: string,
+  ): Promise<UserComment[]> {
+    try {
+      console.log('Limit:', limitStr)
+      console.log('Offset:', offsetStr)
+      console.log('Comment IDs:',comment_idsStr)
+
+      const limit = parseInt(limitStr || '5');    // Parse limit string, default to 5
+      const offset = parseInt(offsetStr || '0');  // Parse offset string, default to 0
+      const comment_ids = comment_idsStr ? comment_idsStr.split(',').map(id => parseInt(id)) : [];
+
+      // Run the 'findUsersByPosts' db function and return the results
+      const result = await findComments(limit, offset, comment_ids);
+
+      // Throw different errors for different results
+      if (result.length === 0)
+      {
+        // 204 = No Content status
+        this.setStatus(204);
+      } else {
+        // 200 = OK status (not always needed, but helpful)
+        this.setStatus(200);
+      }
+
+      return result;
+
+    } catch (error) {
+      // Throw an error to both the backend, HTTP error, and frontend
+      console.error('Error in getPostsWithComments:', error);
+      this.setStatus(500);
+      throw new Error('Failed to fetch posts with comments');
     }
   }
 }
