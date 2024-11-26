@@ -13,6 +13,13 @@ import axios from 'axios';
 dotenv.config({ path: '.env' });
 const { GOOGLE_API_KEY } = process.env;
 
+// Data to send for updating user location in the frontend
+export interface LocationDetails {
+    locationName: string;
+    latitude: number;
+    longitude: number;
+}
+
 // Call google API and get the distance between origin and desitination points
 export const getDistanceBetweenPoints = async (
     origin: string,
@@ -90,7 +97,7 @@ export const placesAutocomplete = async (
 
 export const placeDetails = async (
     place_id: string,
-): Promise<string | null> => {
+): Promise<LocationDetails | null> => {
     try {
 
         const response = await axios.get("https://maps.googleapis.com/maps/api/place/details/json",
@@ -107,12 +114,16 @@ export const placeDetails = async (
             console.error(`No valid place data returned from GoogleAPI 'placeDetails'.`)
             return null;
         }
+        
+        const locationName = response.data.result.formatted_address;
+        const latitude =  response.data.result.geometry.location.lat; 
+        const longitude =  response.data.result.geometry.location.lng; 
 
-        const location = response.data.result.geometry.location;
-        console.log("Latitude:", location.lat);
-        console.log("Longitude:", location.lng);
+        console.log("Location name: ", locationName);
+        console.log("Latitude:", latitude);
+        console.log("Longitude:", longitude);
 
-        return locationData.result.geometry.location;
+        return { locationName, latitude, longitude };
     } catch(error) {
         console.error(`Error processing 'placeDetails' from GoogleAPI fetch:`, error);
         throw new Error(`Failed to fetch data from placesAutocomplete.`);

@@ -3,8 +3,8 @@ import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFrien
 import { User } from '../../../Types/users';
 
 
-interface UserLocationUpdate {
-    userEmailStr: string;
+export interface UserLocationUpdate {
+    userId: number; // Changed to userID for usage with redux store
     latitude: number;
     longitude: number;
     locationName: string;
@@ -76,9 +76,9 @@ export class UserController extends Controller {
         @Body() body: UserLocationUpdate
     ): Promise<Partial<User>> {
         try {
-            const { userEmailStr, latitude, longitude, locationName } = body;
+            const { userId, latitude, longitude, locationName } = body;
 
-            const updatedUser = await updateUserLocation(userEmailStr, latitude, longitude, locationName);
+            const updatedUser = await updateUserLocation(userId, latitude, longitude, locationName);
 
             if (!updatedUser) {
                 this.setStatus(400);

@@ -72,7 +72,7 @@ const models: TsoaRoute.Models = {
     "UserLocationUpdate": {
         "dataType": "refObject",
         "properties": {
-            "userEmailStr": {"dataType":"string","required":true},
+            "userId": {"dataType":"double","required":true},
             "latitude": {"dataType":"double","required":true},
             "longitude": {"dataType":"double","required":true},
             "locationName": {"dataType":"string","required":true},
@@ -90,6 +90,16 @@ const models: TsoaRoute.Models = {
             "created_at": {"dataType":"datetime","required":true},
             "comments": {"dataType":"array","array":{"dataType":"string"},"required":true},
             "reactions": {"dataType":"double","required":true},
+            "locationName": {"dataType":"string","required":true},
+            "latitude": {"dataType":"double","required":true},
+            "longitude": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LocationDetails": {
+        "dataType": "refObject",
+        "properties": {
             "locationName": {"dataType":"string","required":true},
             "latitude": {"dataType":"double","required":true},
             "longitude": {"dataType":"double","required":true},

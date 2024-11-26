@@ -1,5 +1,6 @@
 import { Controller, Get, Query, Route } from 'tsoa';
 import { placesAutocomplete, placeDetails } from '../../GoogleAPI/GoogleAPICalls';
+import { LocationDetails } from '../../GoogleAPI/GoogleAPICalls';
 
 @Route('googleApi')
 export class PlacesController extends Controller {
@@ -42,7 +43,7 @@ export class PlacesController extends Controller {
     @Get('/placeDetails')
     public async getPlaceDetails(
         @Query('place_id') place_id: string
-    ): Promise<string| null> {
+    ): Promise<LocationDetails | null> {
         try {
             const result = await placeDetails(place_id);
 
