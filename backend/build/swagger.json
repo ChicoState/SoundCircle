@@ -183,8 +183,9 @@
 			},
 			"UserLocationUpdate": {
 				"properties": {
-					"userEmailStr": {
-						"type": "string"
+					"userId": {
+						"type": "number",
+						"format": "double"
 					},
 					"latitude": {
 						"type": "number",
@@ -199,7 +200,7 @@
 					}
 				},
 				"required": [
-					"userEmailStr",
+					"userId",
 					"latitude",
 					"longitude",
 					"locationName"
@@ -257,6 +258,28 @@
 					"created_at",
 					"comments",
 					"reactions",
+					"locationName",
+					"latitude",
+					"longitude"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LocationDetails": {
+				"properties": {
+					"locationName": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
 					"locationName",
 					"latitude",
 					"longitude"
@@ -712,6 +735,89 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/googleApi/placesAutocomplete": {
+			"get": {
+				"operationId": "GetAutocomplete",
+				"responses": {
+					"200": {
+						"description": "A list of autocomplete results",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string",
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"description": "The text string on which to search (example: sacramento)",
+						"in": "query",
+						"name": "input",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Defines the distance (in meters) within which to return place results",
+						"in": "query",
+						"name": "radius",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Restricts the type of location returned (example: locality)",
+						"in": "query",
+						"name": "types",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/googleApi/placeDetails": {
+			"get": {
+				"operationId": "GetPlaceDetails",
+				"responses": {
+					"200": {
+						"description": "The geometry (lat / lng) of the location matching the place_id",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/LocationDetails"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"description": "This will take a place_id from the autocomplete results and return the coordinates so we can update the user's location",
+				"security": [],
+				"parameters": [
+					{
+						"description": "A textual identifier that uniquely identifies a place, returned from a Place Search.",
+						"in": "query",
+						"name": "place_id",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]
