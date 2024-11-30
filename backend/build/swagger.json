@@ -136,6 +136,33 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UserLocationUpdate": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"locationName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userId",
+					"latitude",
+					"longitude",
+					"locationName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Partial_User_": {
 				"properties": {
 					"id": {
@@ -180,33 +207,6 @@
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
-			},
-			"UserLocationUpdate": {
-				"properties": {
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"latitude": {
-						"type": "number",
-						"format": "double"
-					},
-					"longitude": {
-						"type": "number",
-						"format": "double"
-					},
-					"locationName": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"userId",
-					"latitude",
-					"longitude",
-					"locationName"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"UserPost": {
 				"properties": {
@@ -398,7 +398,7 @@
 										"type": "string"
 									},
 									"location": {
-										"type": "string"
+										"$ref": "#/components/schemas/UserLocationUpdate"
 									},
 									"username": {
 										"type": "string"

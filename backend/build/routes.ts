@@ -64,11 +64,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_User_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"},"friends":{"dataType":"array","array":{"dataType":"double"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserLocationUpdate": {
         "dataType": "refObject",
         "properties": {
@@ -78,6 +73,11 @@ const models: TsoaRoute.Models = {
             "locationName": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_User_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"},"friends":{"dataType":"array","array":{"dataType":"double"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserPost": {
@@ -190,7 +190,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UserController_postNewUserProfile(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"location":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}}},
+                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"location":{"ref":"UserLocationUpdate","required":true},"username":{"dataType":"string","required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
