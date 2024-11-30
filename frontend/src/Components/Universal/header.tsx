@@ -1,14 +1,12 @@
 import Cookies from "js-cookie";
-import SearchBar from "../../../Components/Searchbar";
-import SCLogo from "../../../Components/SoundCircle.gif";
-import UserIcon from "../../../Components/UserIconTemp.png";
+import SearchBar from "../Search/Searchbar";
+import SCLogo from "../Images/SoundCircle.gif"
+import UserIcon from "../Images/UserIconTemp.png";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import NavigationButton from "../../../Components/Universal/NavigationButton";
-import './header.css';
+import NavigationButton from "../Universal/NavigationButton";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../../Redux_Store/actions";
-import { selectUserID } from "../../../Redux_Store/selector";
+import { logoutUser } from "../../Redux_Store/actions";
 
 const Header = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);

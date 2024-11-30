@@ -9,6 +9,8 @@ import { LastfmController } from './../src/Controllers/lastFm/lastfmController';
 import { UserController } from './../src/Controllers/Users/UserController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { PostController } from './../src/Controllers/Posts/PostsController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { PlacesController } from './../src/Controllers/GoogleAPI/GoogleAPIController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -62,20 +64,20 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_User_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"},"friends":{"dataType":"array","array":{"dataType":"double"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserLocationUpdate": {
         "dataType": "refObject",
         "properties": {
-            "userEmailStr": {"dataType":"string","required":true},
+            "userId": {"dataType":"double","required":true},
             "latitude": {"dataType":"double","required":true},
             "longitude": {"dataType":"double","required":true},
             "locationName": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_User_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"username":{"dataType":"string"},"email":{"dataType":"string"},"userPostIds":{"dataType":"array","array":{"dataType":"double"}},"locationName":{"dataType":"string"},"longitude":{"dataType":"double"},"latitude":{"dataType":"double"},"created_at":{"dataType":"datetime"},"friends":{"dataType":"array","array":{"dataType":"double"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserPost": {
@@ -88,6 +90,16 @@ const models: TsoaRoute.Models = {
             "created_at": {"dataType":"datetime","required":true},
             "comments": {"dataType":"array","array":{"dataType":"string"},"required":true},
             "reactions": {"dataType":"double","required":true},
+            "locationName": {"dataType":"string","required":true},
+            "latitude": {"dataType":"double","required":true},
+            "longitude": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LocationDetails": {
+        "dataType": "refObject",
+        "properties": {
             "locationName": {"dataType":"string","required":true},
             "latitude": {"dataType":"double","required":true},
             "longitude": {"dataType":"double","required":true},
@@ -178,7 +190,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UserController_postNewUserProfile(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"location":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}}},
+                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true},"location":{"ref":"UserLocationUpdate","required":true},"username":{"dataType":"string","required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -438,6 +450,68 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'postNewUserPost',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/googleApi/placesAutocomplete',
+            ...(fetchMiddlewares<RequestHandler>(PlacesController)),
+            ...(fetchMiddlewares<RequestHandler>(PlacesController.prototype.getAutocomplete)),
+
+            async function PlacesController_getAutocomplete(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    input: {"in":"query","name":"input","required":true,"dataType":"string"},
+                    radius: {"in":"query","name":"radius","required":true,"dataType":"string"},
+                    types: {"in":"query","name":"types","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new PlacesController();
+
+              await templateService.apiHandler({
+                methodName: 'getAutocomplete',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/googleApi/placeDetails',
+            ...(fetchMiddlewares<RequestHandler>(PlacesController)),
+            ...(fetchMiddlewares<RequestHandler>(PlacesController.prototype.getPlaceDetails)),
+
+            async function PlacesController_getPlaceDetails(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    place_id: {"in":"query","name":"place_id","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new PlacesController();
+
+              await templateService.apiHandler({
+                methodName: 'getPlaceDetails',
                 controller,
                 response,
                 next,

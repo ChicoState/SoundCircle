@@ -8,12 +8,12 @@ interface Genre {
 function GenresBox() {
     // Dummy data for now
     const dummyGenres: Genre[] = [
-        { id: 1, name: 'Rock'},
-        { id: 2, name: 'Metal'},
-        { id: 3, name: 'Electronic'},
-        { id: 4, name: 'Hip-hop'},
-        { id: 5, name: 'Alternative'},
-        { id: 6, name: 'Punk'}
+        { id: 1, name: '#Rock'},
+        { id: 2, name: '#Metal'},
+        { id: 3, name: '#Electronic'},
+        { id: 4, name: '#Hip-hop'},
+        { id: 5, name: '#Alternative'},
+        { id: 6, name: '#Punk'}
     ];
 
     // Setting genres to use the dummy data

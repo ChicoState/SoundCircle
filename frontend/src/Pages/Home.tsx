@@ -1,6 +1,6 @@
-import SidebarContainer from "../PageElements/Home/Sidebar/sidebar-container";
-import Header from "../PageElements/Home/Universal/header";
-import FriendRecs from "../PageElements/Home/HomeElements/friendRecs";
+import SidebarContainer from "../Components/Sidebar/sidebar-container";
+import Header from "../Components/Universal/header";
+import FriendRecs from "../Components/Home/friendRecs";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../Redux_Store/actions";

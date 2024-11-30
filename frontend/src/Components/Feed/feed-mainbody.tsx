@@ -2,10 +2,10 @@
 // Also loosely handles the format of the feed (does not format posts and comments, just where they are relatively)
     
 import { useCallback, useEffect, useRef, useState } from "react";
-import PostContainer from "./Posts/post-container";
-import { PostProperties } from "./Posts/post-main";
-import { getCurrentLocation } from "../../../Functions/Searching/NearbyLocation";
-import Spinner from "../../../Components/Spinner";
+import PostContainer from "../Posts/post-container";
+import { PostProperties } from "../Posts/post-main";
+import { getCurrentLocation } from "../../Functions/Searching/NearbyLocation";
+import Spinner from "../../Components/Universal/Spinner";
 
 // Listen for new local posts to add at top of list
 export interface FeedMainBodyProps {

@@ -16,7 +16,7 @@ const FriendRecs: React.FC<FriendRecsProps> = ({ filterID }) => {
     const USERS_LIMIT = 7;
 
     // Using a placeholder image until we get profile pics working
-    const placeholder_url = "https://via.placeholder.com/150x150.png?text=Person"
+    const placeholder_url = `${process.env.REACT_APP_PLACEHOLDER_USER}`
 
     // Hardcoding userEmail for right now
     const userEmail = 'thundercat@test.com';

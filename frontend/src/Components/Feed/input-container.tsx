@@ -1,6 +1,6 @@
 // User facing input for creating a post
-import FeedInputBox from './InputBox/feed-input-box';
-import { PostProperties } from './Posts/post-main';
+import FeedInputBox from "./feed-input-box";
+import { PostProperties } from "../Posts/post-main";
 
 // Allow passing of local posts
 interface InputContainerProps {
