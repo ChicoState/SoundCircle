@@ -15,7 +15,7 @@ export const findUserByEmail = async (email: string) => {
     }
 };
 
-export const createNewUserProfile = async (username: string, locationName: string, email: string) => {
+export const createNewUserProfile = async (username: string, locationName: string, latitude: number, longitude: number, email: string) => {
     if (!username || !email) {
         throw new Error("Username and email cannot be null or empty");
     }
@@ -27,8 +27,8 @@ export const createNewUserProfile = async (username: string, locationName: strin
                 email,           // Add email to be saved in the database
                 locationName,    // Add location to be saved in the database
                 userPostIds: [],
-                longitude: 0,
-                latitude: 0,
+                longitude,
+                latitude,
             })
             .returning(["id", "username", "email", "userPostIds", "created_at", "latitude", "longitude", "locationName", "friends"]);
 

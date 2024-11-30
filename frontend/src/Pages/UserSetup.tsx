@@ -4,12 +4,15 @@ import "./User.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Redux_Store/actions";
 import store from "../Redux_Store/store";
+import LocationSearch from "../Components/Universal/LocationUpdateWidget";
 
 const UserSetupPage = () => {
     const [username, setUsername] = useState("");
-    const [location, setLocation] = useState("");
     const [email, setEmail] = useState("");
     const locationObj = useLocation();
+    const [latitude, setLatitude] = useState<number | null>(null);
+    const [longitude, setLongitude] = useState<number | null>(null);
+    const [locationName, setLocationName] = useState<string | null>(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -23,14 +26,41 @@ const UserSetupPage = () => {
         }
     }, [locationObj]);
 
+    // Function to accept data from the location search bar
+    const handleLocationSelect = (location: {
+        latitude: number;
+        longitude: number;
+        locationName: string;
+        placeId?: string;
+      }) => {
+        
+        setLatitude(location.latitude);
+        setLongitude(location.longitude);
+        setLocationName(location.locationName);
+      };
+
     const handleSaveProfile = async () => {
         try {
+            console.log(`Latitude: ${latitude}`);
+            console.log(`Longitude: ${longitude}`);
+            console.log(`LocationName: ${locationName}`);
             const response = await fetch("http://localhost:8080/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, location, email }),
+                body: JSON.stringify({
+                    username,
+                    location: {
+                        // I know putting the userId here is terrible but it's so I can
+                        // use the existing location update interface in the backend
+                        userId: 0,
+                        locationName, 
+                        latitude, 
+                        longitude
+                    },
+                    email,
+                }),
             });
 
             if (response.ok) {
@@ -79,18 +109,20 @@ const UserSetupPage = () => {
 
                     <div className="flex flex-col">
                         <label className="text-periwinkle-600 font-semibold">Location</label>
-                        <input
-                            type="text"
-                            placeholder="Enter location"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                            className="mt-1 px-4 py-2 border border-periwinkle-300 rounded-lg focus:border-royal-blue-500 focus:ring-2 focus:ring-royal-blue-200"
+                        <LocationSearch
+                            className="mt-1"
+                            inputClassName="mt-1 w-full px-4 py-2 border border-periwinkle-300 rounded-lg focus:border-royal-blue-500 focus:ring-2 focus:ring-royal-blue-200"
+                            placeHolderText="Search for your location"
+                            showUpdateButton = {false}
+                            onLocationChange={handleLocationSelect}
                         />
                     </div>
 
                     <button
                         type="button"
-                        className="w-full mt-6 bg-royal-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-royal-blue-600 transition"
+                        disabled={!locationName} // Disable if no location selected
+                        className={`w-full mt-6 text-white font-semibold py-2 rounded-lg hover:bg-royal-blue-600 transition
+                            ${!locationName ? 'bg-gray-400 cursor-not-allowed' : 'bg-royal-blue-500'}`}
                         onClick={handleSaveProfile}
                     >
                         Save Profile
