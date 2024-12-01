@@ -15,6 +15,9 @@ module.exports = {
         
         // Main Colors
         main_Background: '#E5E5E5',
+        main_Accent_LightGray: '#C2C2C2',
+        main_Accent_DarkGray: '#999999',
+        
 
         // Header
         header_Light: '#452763',

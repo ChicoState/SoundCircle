@@ -52,7 +52,7 @@ const Feed = () => {
                     </ul>
 
                     {/* Input and Feed Display */}
-                    <ul className="pt-5 items-center text-center">
+                    <ul className="pt-5 flex justify-center">
                         <InputContainer onPostSubmit={handleLocalPostSubmit}/>
                     </ul>
 

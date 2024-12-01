@@ -1,5 +1,6 @@
 import db from '../../db/db';
 import { UserPost } from '../../../Types/posts';
+import { User } from '../../../Types/users';
 
 export const findPosts = async (limit: number, offset: number) => {
   try {
@@ -50,13 +51,18 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
 }
 
 
-export const createUserPost = async (username: string, postText: string) => {
+export const createUserPost = async (userObj: User, postText: string) => {
   try {
     // Create and insert the new post into the 'posts' table of our database
     const [newPost] = await db<UserPost>('posts')
     .insert({
-      username: username,
+      user_id: userObj.id,
+      username: userObj.username,
       post_content: postText,
+      reactions: 0,
+      locationName: userObj.locationName,
+      latitude: userObj.latitude,
+      longitude: userObj.longitude,
       created_at: new Date()
     })
     .returning(['id', 'comment_ids', 'user_id', 'reactions', 'username', 'post_content', 'created_at', 

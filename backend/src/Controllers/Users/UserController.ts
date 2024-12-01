@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route, SuccessResponse } from 'tsoa';
-import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFriends, addUserFriend, removeUserFriend, findFriendRecommendations  } from '../../Models/Users/user.model';
+import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFriends, addUserFriend, removeUserFriend, findFriendRecommendations, findUserByID } from '../../Models/Users/user.model';
 import { User } from '../../../Types/users';
 
 
@@ -34,6 +34,30 @@ export class UserController extends Controller {
             }
         } catch (error) {
             console.error('Error in getUserByName: ', error);
+            this.setStatus(500);
+            throw new Error('Failed to get user by name');
+        }
+    }
+
+    @Get('/uid')
+    @SuccessResponse('200', 'Ok')
+    public async getUserByID(
+        @Query('user_id') user_idStr: string
+    ): Promise<User> {
+        try {
+            const uid = parseInt(user_idStr)
+            const result = await findUserByID(uid);
+
+            if (result) {
+                console.log("Returning user by id:", user_idStr)
+                this.setStatus(200);
+                return result;
+            } else {
+                this.setStatus(204);
+                throw new Error('No user found');
+            }
+        } catch (error) {
+            console.error('Error in getUserByID: ', error);
             this.setStatus(500);
             throw new Error('Failed to get user by name');
         }

@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { PostProperties } from "../Posts/post-main";
+import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
+import { FetchUserInfo, GetLocalUserID } from "../../Functions/GetLocalUserInfo"
+import { User } from "../../../../backend/Types/users"
+import { MdSend } from "react-icons/md";
 
 // Allow listening of newly created posts
 interface FeedInputBoxProps {
@@ -12,6 +16,37 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);       // Directly modify this item instead of using states
     const defaultUserName = "SCDev";
     const [isFocused, setIsFocused] = useState(false);
+
+    const { fetchUID } = GetLocalUserID()
+    const [userInfo, setUserInfo] = useState<User | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                // Step 1: Get the user id
+                const user_id = await fetchUID()
+                if (!user_id) {
+                    console.warn("No User ID found.")
+                    return
+                }
+
+                // Step 2: Fetch user information using the ID
+                const userDeets = await FetchUserInfo(user_id)
+                if (userDeets) {
+                    setUserInfo(userDeets)
+                }
+            } catch (error) {
+                console.error("Error fetching user data: ", error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        fetchUserData()
+    }, []);
+
+
 
 
     // Change the contents of "text"
@@ -35,23 +70,29 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const handleSubmit = async () => {
         if (!text.trim()) return; // Prevents submitting empty posts
 
+        console.log("Sending user as post owner:", userInfo)
+        console.log("Sending post data:", {
+            userObj: userInfo,
+            postDataStr: text,
+        })
+
         try {
             // Try to send a fetch request to the backend
             // We need to specify that we want to ask for a @Post
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts/newPost`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    usernameStr: defaultUserName,  // !!!!!! HARDCODED USERNAME => Should be: " usernameStr: username || 'Default User' "
-                    postDataStr: text,             // Send the text in the textarea box
+                    userObj: userInfo,
+                    postDataStr: text,
                 }),
-            });
+            })            
 
             if (!response.ok)
             {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error when creating new post: ${response.status}`);
             }
 
             // Handle the response data
@@ -65,30 +106,41 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
             onPostSubmit(data);
 
         } catch (error) {
-            console.error(`Error creating post: `, error);
+            console.error(`Error creating post:`, error);
         }
     }
 
     // Return the visible text box
     return (
-        <div>
-            <textarea
-                className='resize-none overflow-auto w-[30rem] px-3 rounded-xl hover:outline-none focus:outline-none'
-                ref={textAreaRef}
-                value={text}
-                onChange={handleChange}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                placeholder="Type your input here..."
-            />
-            {/* <button 
-                className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-3 rounded shadow hover:bg-blue-600 active:bg-blue-400 transition duration-100"
-                onClick={handleSubmit}
-            >
-                Create Post
-            </button> */}
+        <div className="flex items-center space-x-3">
+            {
+                !isLoading && userInfo != null ? (
+                    <>
+                        <NavigationButton_UserProfilePic
+                            className="w-12 h-12 rounded-full"
+                        />
+                        <textarea
+                            className='resize-none overflow-auto w-[30rem] px-3 rounded-xl hover:outline-none focus:outline-none'
+                            ref={textAreaRef}
+                            value={text}
+                            onChange={handleChange}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            placeholder="Type your input here..."
+                        />
+                        <button 
+                            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-main_Accent_LightGray text-main_Accent_DarkGray"
+                            onClick={handleSubmit}
+                        >
+                            <MdSend className="w-6 h-6"/>
+                        </button>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
         </div>
-    );
+    )
 }
 
 export default FeedInputBox;

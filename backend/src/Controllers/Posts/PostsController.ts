@@ -87,17 +87,27 @@ export class PostController extends Controller {
    * Create a new post and shove it in the DB
    * !!! TECHNICAL DEBT: Currently interpreting data as a pure string. Not sure if this works for api calls, but for now will work.
    */
-  @Post('/')
+  
+  @Post('/newPost')
   public async postNewPost(
     // HTTP likes to use @Body for POST requests
-    @Body() body: { usernameStr?: string; postDataStr?: string; }
+    @Body() body: any
   ): Promise<UserPost> {
     try {
-      const username = body.usernameStr || 'Default User'; // Default to 'Default User' if no username provided
-      const postData = body.postDataStr || '';             // Default to empty string if no postData provided
+      console.log('Received user object:', body.userObj)
+      console.log('Received post data:', body.postDataStr)
+
+      const userObj = body.userObj;
+      const postData = body.postDataStr;
+
+      console.log("Attempting to create new post...")
+
+      if (!userObj || !postData) {
+        throw new Error("AAAAAHHHH")
+      }
 
       // Call the database function to insert new post information
-      const newPost = await createUserPost(username, postData);
+      const newPost = await createUserPost(userObj, postData);
 
       this.setStatus(201); // Set HTTP status to 201 for success on new information added
 
