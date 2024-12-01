@@ -11,7 +11,7 @@ import { logoutUser } from "../../Redux_Store/actions";
 const Header = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const location = useLocation(); // Get current location (page)
-    const isButtonActive = (path:string) => (location.pathname === path ? "bg-black bg-opacity-50 text-white font-normal" : "");  // Adjust button visuals depending on our current path
+    const isButtonActive = (path:string) => `text-header_TextColor font-semibold ${location.pathname === path ? "bg-gradient-to-b from-header_ButtonDark to-header_ButtonLight" : ""}`;  // Adjust button visuals depending on our current path
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,21 +31,38 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-gradient-to-r from-periwinkle to-RoyalBlue grid grid-cols-3 items-center h-[60px]">
+        <header className="fixed top-0 right-0 left-0 z-50 bg-gradient-to-t from-header_Dark to-header_Light grid grid-cols-3 items-center h-[60px]">
             {/* Left Logo and Buttons */}
-            <div className="flex space-x-0 ml-4">
-                <Link to="/"><img src={SCLogo} alt="SC Logo" style={{ width: '50px', height: '50px' }} className="mt-1 mr-4"/></Link>
-                <NavigationButton buttonText="Home" navigationPath="/" className={`w-[100px] h-[60px] border-r border-l border-black border-opacity-40 ${isButtonActive("/")}`}/>
-                <NavigationButton buttonText="Feed" navigationPath="/Feed" className={`w-[100px] h-[60px] border-r border-black border-opacity-40 ${isButtonActive("/Feed")}`}/>
+            <div className="flex space-x-0 pl-20">
+                <Link to="/">
+                    <img src={SCLogo}
+                        alt="SC Logo"
+                        style={{ width: '50px', height: '50px' }}
+                        className="mt-1 mr-4"
+                    />
+                </Link>
+                <NavigationButton 
+                    buttonText="Home" 
+                    navigationPath="/" 
+                    className={`w-[100px] h-[60px] ${isButtonActive("/")}`}
+                />
+                <NavigationButton 
+                    buttonText="Feed" 
+                    navigationPath="/Feed" 
+                    className={`w-[100px] h-[60px] ${isButtonActive("/Feed")}`}
+                />
             </div>
 
             {/* Center Searchbar */}
             <div className="flex justify-center">
-                <SearchBar placeHolderText="Search by Artist, Album, Song, Genre, Event, Location" className="w-full"/>
+                <SearchBar 
+                    placeHolderText="Search" 
+                    className="w-full relative"
+                />
             </div>
 
             {/* Right User/Profile */}
-            <div className="flex justify-end items-center mr-4">
+            <div className="flex justify-end items-center pr-20">
                 {isUserLoggedIn ? (
                     <div className="flex items-center">
                         <button onClick={handleLogout} className="flex m-2 px-4 py-1 bg-white rounded-full">
@@ -65,6 +82,11 @@ const Header = () => {
                     </button>
                 )}
             </div>
+
+            {/* Gradient Overlay */}
+            <div 
+                className="absolute bottom-[-12px] left-0 w-full h-3 bg-gradient-to-b from-header_Shadow to-transparent"
+            />
         </header>
     );
 }

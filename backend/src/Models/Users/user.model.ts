@@ -15,6 +15,21 @@ export const findUserByEmail = async (email: string) => {
     }
 };
 
+export const findUserByID = async (uid: number) => {
+    try {
+        // Attempt to find the user by uid and return the information
+        const foundUser = await db<Promise<User>>('users')
+            .select('*')
+            .where('id', uid)
+            .first()
+        console.log("Found user by id:", uid)
+        return foundUser as User;
+    } catch (error) {
+        console.error('Error fetching user by id: ', error);
+        throw new Error('Failed to fetch user by id');
+    }
+};
+
 export const createNewUserProfile = async (username: string, locationName: string, latitude: number, longitude: number, email: string) => {
     if (!username || !email) {
         throw new Error("Username and email cannot be null or empty");

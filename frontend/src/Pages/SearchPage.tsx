@@ -8,12 +8,12 @@ const SearchResultsPage = () => {
     const { searchData } = location.state || {};
 
     return (
-        <div className='min-h-screen flex flex-col bg-gray-900'>
+        <div className='min-h-screen flex flex-col overflow-y-hidden bg-main_Background '>
             <div>
                 <Header/>
             </div>
 
-            <div className="flex flex-grow">
+            <div className="flex flex-grow pt-14">
                 {/*Main Body Sections*/}
                 <div className="w-3/4 flex flex-grow">
                     {/*Left Column Section*/}
@@ -22,7 +22,7 @@ const SearchResultsPage = () => {
                     </ul>
                 </div>
 
-                <div className="w-1/4 bg-gray-700 p-4">
+                <div className="w-1/4 p-4">
                     {/*Right Column Section*/}
                     <SearchSideBar/>
                 </div>
