@@ -2,28 +2,26 @@ import LikeButton from "../Universal/LikeButton";
 import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
 
 // This class is for populating information from post-container.tsx and formatting it
-export interface PostProperties {
-    id?: number
-    user_id?: number
-    comment_ids?: number[]
-    reactions?: number
-    username?: string
-    profilePicURL?: string
-    post_content?: string
-    created_at?: string
+export interface CommentProperties {
+    id?: number;
+    user_id?: number;
+    username?: string;
+    comment_content?: string;
+    created_at?: string;
+    reactions?: number;
+    profilePicURL?: string;
 }
 
-function Post({ username, user_id, post_content, created_at, profilePicURL }: PostProperties) {
+function PostComment({ username, user_id, comment_content, created_at, profilePicURL }: CommentProperties) {
     // If we have a profile pic URL, use it. Otherwise use placeholder
     const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
-
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center ml-[90px] py-3">
         {/* User Profile Pic */}
-        <div className="flex-none w-[100px]">
+        <div className="flex-none w-[60px]">
             <NavigationButton_UserProfilePic
-              className="w-[80px] h-[80px] rounded-full"
+              className="w-[40px] h-[40px] rounded-full"
               username={username}
               altText={username}
               profileImage={profilePic}
@@ -32,7 +30,7 @@ function Post({ username, user_id, post_content, created_at, profilePicURL }: Po
         </div>
 
         {/* Post */}
-        <div className="relative bg-post_bgColor w-[800px] text-post_username rounded-xl text-start p-2">
+        <div className="relative bg-post_bgColor w-[750px] text-post_username rounded-xl text-start p-2">
 
           {/* First Line */}
           <div className="flex items-center">
@@ -55,9 +53,9 @@ function Post({ username, user_id, post_content, created_at, profilePicURL }: Po
           </div>
 
           {/* Body */}
-          <div className="pt-2 text-black">
+          <div className="pt-2">
             <p>
-              {post_content}
+              {comment_content}
             </p>
           </div>
 
@@ -72,4 +70,4 @@ function Post({ username, user_id, post_content, created_at, profilePicURL }: Po
       );
 }
 
-export default Post;
+export default PostComment;

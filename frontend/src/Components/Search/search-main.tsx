@@ -120,8 +120,11 @@ const SearchMainFeed: React.FC<SearchMainFeedProps> = ({ searchData }) => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="p-5 space-y-5 text-white">
-      <h1 className="text-3xl">{searchData || 'Artist'}</h1>
+    <div className="space-y-2 bg-search_pageBackground">
+      {/* NEED LOGIC FOR INTERPRETING RESULTS */}
+      <h1 className="text-start text-search_pageTextColorMain font-semibold text-2xl">
+        Search results for {searchData || "__________"}
+      </h1>
 
       {/* Display artist images */}
       {artistInfo?.images?.length ? (

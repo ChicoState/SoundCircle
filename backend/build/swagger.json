@@ -228,9 +228,10 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"comments": {
+					"comment_ids": {
 						"items": {
-							"type": "string"
+							"type": "number",
+							"format": "double"
 						},
 						"type": "array"
 					},
@@ -256,11 +257,47 @@
 					"username",
 					"post_content",
 					"created_at",
-					"comments",
+					"comment_ids",
 					"reactions",
 					"locationName",
 					"latitude",
 					"longitude"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserComment": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"user_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"comment_content": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"reactions": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"user_id",
+					"username",
+					"comment_content",
+					"created_at",
+					"reactions"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -414,6 +451,34 @@
 						}
 					}
 				}
+			}
+		},
+		"/users/uid": {
+			"get": {
+				"operationId": "GetUserByID",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "user_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/users/newLocation": {
@@ -601,7 +666,7 @@
 		},
 		"/posts": {
 			"get": {
-				"operationId": "GetPostsWithComments",
+				"operationId": "GetPostsAny",
 				"responses": {
 					"200": {
 						"description": "Array of posts with comments",
@@ -637,41 +702,6 @@
 						}
 					}
 				]
-			},
-			"post": {
-				"operationId": "PostNewUserPost",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UserPost"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"postDataStr": {
-										"type": "string"
-									},
-									"usernameStr": {
-										"type": "string"
-									}
-								},
-								"type": "object"
-							}
-						}
-					}
-				}
 			}
 		},
 		"/posts/location": {
@@ -735,6 +765,80 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/posts/newPost": {
+			"post": {
+				"operationId": "PostNewPost",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserPost"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			}
+		},
+		"/posts/comments": {
+			"get": {
+				"operationId": "GetComments",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/UserComment"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "offset",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "comment_ids",
+						"required": false,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]

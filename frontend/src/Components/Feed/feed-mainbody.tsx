@@ -20,7 +20,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
     const [offset, setOffset] = useState(0); // Offset = which post #'s to skip when fetching
     const GET_POST_LIMIT = 3;   // Limit for fetch
     const isFetching = useRef(false); // Make sure we don't spam fetches
-    const [postCount, setPostCount] = useState(0);
+    const [postCount, setPostCount] = useState(0); // Track the count so we can track the offset correctly
 
     // Attempt to fetch data from the backend
     const fetchDataForPosts = useCallback( async () => {
@@ -51,7 +51,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
 
             // Check if the response is good, otherwise throw error
             if (!response.ok) {
-                throw new Error(`HTTP Error: Status ${response.status}`);
+                throw new Error(`HTTP Error during Post Get: Status ${response.status}`);
             }
 
             // Handle HTTP response 204 ("No Content")
@@ -121,7 +121,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
 
 
     return (
-        <div className="p-5 space-y-5 text-white w-full">
+        <div className="p-5 space-y-5 text-black w-full">
             {/* Render posts */}
             {data.length > 0 ? (
                 data.map((post, index) => (
@@ -137,7 +137,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
                 {/* THIS BUTTON IS ONLY TEMPORARY */}
                 {!loading && data.length > 0 &&
                     <button
-                        className='text-white rounded-3xl px-10 bg-RoyalBlue'
+                        className='text-black rounded-3xl px-10 bg-RoyalBlue'
                         onClick={loadMorePosts}
                         disabled={disableLoadMoreButton}
                     >

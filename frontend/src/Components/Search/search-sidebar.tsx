@@ -103,7 +103,7 @@ const SearchSideBar = () => {
                 filterResultsTypeFilter(5);
             }}/>
 
-            <hr className='my-4 border-gray-500'/>
+            <hr className='my-4 border-gray-500'/> {/* Separation Line */}
 
             <FilterButton 
             text="Global" 
