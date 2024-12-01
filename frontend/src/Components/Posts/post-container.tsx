@@ -18,7 +18,7 @@ function PostContainer({ postData }: PostContainerProps) {
     const isFetching = useRef(false); // Make sure we don't spam fetches
     const [commentCount, setCommentCount] = useState(0);    // Track the count so we can track the offset correctly
     // If there is no more data on the last fetch, disable the button to fetch more comments
-    const disableLoadMoreButton = loading || data.length === 0;
+    const disableLoadMoreButton = loading || commentCount < GET_COMMENT_LIMIT;
 
     // Fetch comments based on given id's
     const fetchComments = useCallback( async () => {
@@ -27,7 +27,6 @@ function PostContainer({ postData }: PostContainerProps) {
         
         isFetching.current = true;
         setError(null)
-        setCommentCount(0)
         setLoading(true)
 
         try {
@@ -48,6 +47,7 @@ function PostContainer({ postData }: PostContainerProps) {
             let commentData = await response.json(); // Get data from json
             if (!commentData || commentData.length === 0)
             {
+                setCommentCount(0)
                 throw new Error('No posts found in response json.');
             } else {
                 console.log("Found comments: ", commentData.length);
@@ -78,8 +78,8 @@ function PostContainer({ postData }: PostContainerProps) {
 
     // Attempt to fetch more comments on button press by setting the offset higher
     const loadMoreComments = async () => {
-        if (!loading && !isFetching.current) {
-            setOffset((prevOffset) => prevOffset + commentCount)
+        if (!loading && !isFetching.current && commentCount >= GET_COMMENT_LIMIT) {
+            setOffset((prevOffset) => prevOffset + GET_COMMENT_LIMIT); // Increase offset by the limit
         }
     }
     
