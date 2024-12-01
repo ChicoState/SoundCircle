@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/server.js",
-"scripts": {
-  "test": "jest --verbose",
-  "test:watch": "jest --listTests",
-  "test:list": "jest --listTests",
-  "test:specific": "jest path/to/your/tests",
-  "test:clearCache": "jest --clearCache", 
-  "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/src/server.js\"",
-  "build": "rimraf dist && npx tsoa spec-and-routes && npm run tsc",
-  "start": "node dist/src/server.js",
-  "tsoa:spec": "npx tsoa spec",
-  "tsc": "tsc --noEmit --emitDeclarationOnly false --experimentalDecorators",
-  "tsoa:routes": "npx tsoa routes"
-},
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "jest --listTests",
+    "test:list": "jest --listTests",
+    "test:specific": "jest path/to/your/tests",
+    "test:clearCache": "jest --clearCache", 
+    "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/src/server.js\"",
+    "build": "rimraf dist && npx tsoa spec-and-routes && npm run tsc",
+    "start": "node dist/src/server.js",
+    "tsoa:spec": "npx tsoa spec",
+    "tsc": "tsc --noEmit --emitDeclarationOnly false --experimentalDecorators",
+    "tsoa:routes": "npx tsoa routes"
+  },
   "dependencies": {
     "knex": "^3.1.0",
     "node-fetch": "^3.3.2",
