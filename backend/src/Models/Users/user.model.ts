@@ -15,7 +15,7 @@ export const findUserByEmail = async (email: string) => {
     }
 };
 
-export const createNewUserProfile = async (username: string, locationName: string, email: string) => {
+export const createNewUserProfile = async (username: string, locationName: string, latitude: number, longitude: number, email: string) => {
     if (!username || !email) {
         throw new Error("Username and email cannot be null or empty");
     }
@@ -27,8 +27,8 @@ export const createNewUserProfile = async (username: string, locationName: strin
                 email,           // Add email to be saved in the database
                 locationName,    // Add location to be saved in the database
                 userPostIds: [],
-                longitude: 0,
-                latitude: 0,
+                longitude,
+                latitude,
             })
             .returning(["id", "username", "email", "userPostIds", "created_at", "latitude", "longitude", "locationName", "friends"]);
 
@@ -42,19 +42,20 @@ export const createNewUserProfile = async (username: string, locationName: strin
 
 
 // This function will be used to update the location of a user
-export const updateUserLocation = async (userEmail: string, latitude: number, longitude: number, newLocationName: string) => {
+export const updateUserLocation = async (userId: number, latitude: number, longitude: number, newLocationName: string) => {
     try {
-        // Get the ID of the user so we can search the database
-        const foundUser = await findUserByEmail(userEmail);
+        // Check if the user exists in the database
+        const existingUser = await db<User>('users')
+            .where('id', userId)
+            .first();
 
-        // Throw an error if that user isn't in the DB
-        if (!foundUser[0]) {
-            throw new Error(`User ${userEmail} not found`);
+        if (!existingUser) {
+            throw new Error(`User with ID ${userId} does not exist.`);
         }
 
         // Update the location of the user who matches the ID from findUserByName.
         const updatedUser = await db<User>('users')
-            .where('id', foundUser[0].id)
+            .where('id', userId)
             .update({
                 latitude: latitude,
                 longitude: longitude,
@@ -62,7 +63,7 @@ export const updateUserLocation = async (userEmail: string, latitude: number, lo
             })
             .returning(['id', 'username', 'userPostIds', 'created_at', 'latitude', 'longitude', 'email', 'locationName', 'friends']);
 
-        console.log(`Successfully updated location of user ${foundUser[0].username}`);
+        console.log(`Successfully updated location of user number ${userId}`);
 
         // Return the first user in the user array created above
         return updatedUser[0];

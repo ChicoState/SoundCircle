@@ -3,8 +3,8 @@ import { createNewUserProfile, findUserByEmail, updateUserLocation, getUserFrien
 import { User } from '../../../Types/users';
 
 
-interface UserLocationUpdate {
-    userEmailStr: string;
+export interface UserLocationUpdate {
+    userId: number; // Changed to userID for usage with redux store
     latitude: number;
     longitude: number;
     locationName: string;
@@ -45,7 +45,7 @@ export class UserController extends Controller {
      */
     @Post('/')
     public async postNewUserProfile(
-    @Body() body: { username: string; location: string; email: string }
+    @Body() body: { username: string; location: UserLocationUpdate; email: string }
         ): Promise<{ message: string, user?: User }> {
         try {
             if (!body.username || !body.location) {
@@ -53,7 +53,9 @@ export class UserController extends Controller {
                 throw new Error("Username and location are required");
             }
 
-            const newUser = await createNewUserProfile(body.username, body.location, body.email);
+            const newUser = await createNewUserProfile(
+                body.username, body.location.locationName, body.location.latitude, body.location.longitude, body.email
+            );
             return {
                 message: "User profile created successfully",
                 user: newUser
@@ -76,9 +78,9 @@ export class UserController extends Controller {
         @Body() body: UserLocationUpdate
     ): Promise<Partial<User>> {
         try {
-            const { userEmailStr, latitude, longitude, locationName } = body;
+            const { userId, latitude, longitude, locationName } = body;
 
-            const updatedUser = await updateUserLocation(userEmailStr, latitude, longitude, locationName);
+            const updatedUser = await updateUserLocation(userId, latitude, longitude, locationName);
 
             if (!updatedUser) {
                 this.setStatus(400);
