@@ -20,11 +20,13 @@ jest.mock('../../../db/db', () => {
   };
 });
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
   jest.clearAllMocks();
 });
 
 describe('findUsersByPosts', () => {
+  // Test Case #1: Successfully return posts when the database query is successful
   test('should return posts when the database query is successful', async () => {
     // Explicitly type mockPosts as UserPost[]
     const mockPosts: UserPost[] = [
@@ -49,6 +51,7 @@ describe('findUsersByPosts', () => {
     expect(mockOffset).toHaveBeenCalledWith(offset);
   });
 
+  // Test Case #2: Database query fails
   test('should throw an error if the database query fails', async () => {
     // Mock the 'offset' method to reject with an error
     mockOffset.mockRejectedValueOnce(new Error('Database error'));
@@ -60,6 +63,7 @@ describe('findUsersByPosts', () => {
     await expect(findUsersByPosts(limit, offset)).rejects.toThrow('Failed to fetch posts with comments');
   });
 
+  // Test Case #3: No posts found, return an empty array
   test('should return an empty array if no posts are found', async () => {
     const mockPosts: UserPost[] = []; // Empty array for no posts scenario
 
@@ -76,6 +80,7 @@ describe('findUsersByPosts', () => {
     expect(result).toEqual(mockPosts);
   });
 
+  // Test Case #4: Handle invalid limit and offset values gracefully
   test('should handle invalid limit and offset values gracefully', async () => {
     const mockPosts: UserPost[] = [
       { id: 1, user_id: 123, username: 'user1', post_content: 'Post content 1', created_at: new Date(), comments: ["comment1"], reactions: 10, locationName: 'Park', latitude: 10, longitude: 20 }

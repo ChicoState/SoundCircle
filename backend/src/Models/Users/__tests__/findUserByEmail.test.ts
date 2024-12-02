@@ -14,8 +14,9 @@ jest.mock('../../../db/db', () => ({
   })),
 }));
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
-  jest.clearAllMocks(); // Reset mocks after each test
+  jest.clearAllMocks();
 });
 
 describe('findUserByEmail', () => {
@@ -36,7 +37,10 @@ describe('findUserByEmail', () => {
     // Mock the where method to resolve with the mockUser
     mockWhere.mockResolvedValueOnce([mockUser]);
 
+    // Call the function under test
     const result = await findUserByEmail('john.doe@example.com');
+
+    // Verify that the result matches the mock data
     expect(result).toEqual([mockUser]);
   });
 
@@ -45,7 +49,10 @@ describe('findUserByEmail', () => {
     // Mock the where method to resolve with an empty array
     mockWhere.mockResolvedValueOnce([]);
 
+    // Call the function under test
     const result = await findUserByEmail('nonexistent@example.com');
+
+    // Verify that the result is an empty array
     expect(result).toEqual([]);
   });
 
@@ -54,7 +61,7 @@ describe('findUserByEmail', () => {
     // Mock the where method to reject with an error
     mockWhere.mockRejectedValueOnce(new Error('Database error'));
 
+    // Verify that the function throws the expected error
     await expect(findUserByEmail('john.doe@example.com')).rejects.toThrow('Failed to fetch user by email');
   });
 });
-

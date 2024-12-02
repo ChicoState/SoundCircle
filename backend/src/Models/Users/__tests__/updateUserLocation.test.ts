@@ -12,6 +12,7 @@ jest.mock('../user.model', () => ({
   findUserByEmail: jest.fn(),
 }));
 
+// Mock the db instance
 jest.mock('../../../db/db', () => ({
   __esModule: true,
   default: jest.fn(() => ({
@@ -21,6 +22,7 @@ jest.mock('../../../db/db', () => ({
   })),
 }));
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
   jest.clearAllMocks(); // Reset mocks after each test
 });
@@ -47,17 +49,25 @@ describe('updateUserLocation', () => {
       locationName: 'New York',
     };
 
+    // Mock the findUserByEmail function to return the mockUser
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
-    mockReturning.mockResolvedValueOnce([updatedUser]);
+    
+    // Mock the returning method to return the updatedUser
+    (mockReturning as jest.Mock).mockResolvedValueOnce([updatedUser]);
 
+    // Call the function to be tested
     const result = await updateUserLocation('john.doe@example.com', 40.7128, -74.0060, 'New York');
+
+    // Verify that the result matches the mock data
     expect(result).toEqual(updatedUser);
   });
 
   // Test Case #2: User not found
   test('should throw an error if user is not found', async () => {
+    // Mock the findUserByEmail function to return an empty array
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([]);
 
+    // Verify that the function throws the expected error
     await expect(updateUserLocation('nonexistent@example.com', 40.7128, -74.0060, 'New York')).rejects.toThrow('User nonexistent@example.com not found');
   });
 
@@ -75,9 +85,13 @@ describe('updateUserLocation', () => {
       friends: [],
     };
 
+    // Mock the findUserByEmail function to return the mockUser
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
-    mockReturning.mockRejectedValueOnce(new Error('Database error'));
+    
+    // Mock the returning method to throw an error
+    (mockReturning as jest.Mock).mockRejectedValueOnce(new Error('Database error'));
 
+    // Verify that the function throws the expected error
     await expect(updateUserLocation('john.doe@example.com', 40.7128, -74.0060, 'New York')).rejects.toThrow('Failed to update user location');
   });
 });

@@ -14,6 +14,7 @@ jest.mock('../../../db/db', () => ({
   })),
 }));
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
   jest.clearAllMocks();  // Reset mocks after each test
 });
@@ -36,13 +37,18 @@ describe('createNewUserProfile', () => {
     // Mock the insert method to resolve with the mockNewUser
     mockReturning.mockResolvedValueOnce([mockNewUser]);
 
+    // Call the function to be tested
     const result = await createNewUserProfile('john_doe', 'New York', 'john.doe@example.com');
+
+    // Verify that the result matches the mock data
     expect(result).toEqual(mockNewUser);
   });
 
   // Test Case #2: Missing username or email
   test('should throw error if username or email is missing', async () => {
+    // Verify that the function throws the expected error when username is missing
     await expect(createNewUserProfile('', 'New York', 'john.doe@example.com')).rejects.toThrow('Username and email cannot be null or empty');
+    // Verify that the function throws the expected error when email is missing
     await expect(createNewUserProfile('john_doe', 'New York', '')).rejects.toThrow('Username and email cannot be null or empty');
   });
 
@@ -51,6 +57,7 @@ describe('createNewUserProfile', () => {
     // Mock database failure on insert
     mockReturning.mockRejectedValueOnce(new Error('Database error'));
 
+    // Verify that the function throws the expected error
     await expect(createNewUserProfile('john_doe', 'New York', 'john.doe@example.com')).rejects.toThrow('Failed to create user');
   });
 });

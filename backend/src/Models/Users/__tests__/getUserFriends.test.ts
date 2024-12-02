@@ -12,6 +12,7 @@ jest.mock('../user.model', () => ({
   findUserByEmail: jest.fn(),
 }));
 
+// Mock the db instance
 jest.mock('../../../db/db', () => ({
   __esModule: true,
   default: jest.fn(() => ({
@@ -21,6 +22,7 @@ jest.mock('../../../db/db', () => ({
   })),
 }));
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
   jest.clearAllMocks(); // Reset mocks after each test
 });
@@ -42,22 +44,31 @@ describe('getUserFriends', () => {
 
     const mockFriendList = { friends: [2, 3, 4] };
 
+    // Mock the findUserByEmail function to return the mockUser
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
+    
+    // Mock the first method to return the mockFriendList
     (mockFirst as jest.Mock).mockResolvedValueOnce(mockFriendList);
 
+    // Call the function to be tested
     const result = await getUserFriends('john.doe@example.com');
+
+    // Verify that the result matches the mock data
     expect(result).toEqual([2, 3, 4]);
   });
 
   // Test Case #2: User not found
   test('should throw an error if user is not found', async () => {
+    // Mock the findUserByEmail function to return an empty array
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([]);
 
+    // Verify that the function throws the expected error
     await expect(getUserFriends('nonexistent@example.com')).rejects.toThrow('User not found');
   });
 
   // Test Case #3: Empty userEmail
   test('should throw an error if userEmail is empty', async () => {
+    // Verify that the function throws the expected error when userEmail is empty
     await expect(getUserFriends('')).rejects.toThrow('Unable to get user friends, empty userEmail');
   });
 
@@ -75,9 +86,13 @@ describe('getUserFriends', () => {
       friends: [2, 3, 4],
     };
 
+    // Mock the findUserByEmail function to return the mockUser
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
+    
+    // Mock the first method to throw an error
     (mockFirst as jest.Mock).mockRejectedValueOnce(new Error('Database error'));
 
+    // Verify that the function throws the expected error
     await expect(getUserFriends('john.doe@example.com')).rejects.toThrow('Failed to retrieve user friends');
   });
 });

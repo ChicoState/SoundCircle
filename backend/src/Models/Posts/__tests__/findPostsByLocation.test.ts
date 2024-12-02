@@ -8,6 +8,7 @@ const mockOrderBy = jest.fn().mockReturnThis();
 const mockLimit = jest.fn().mockReturnThis();
 const mockOffset = jest.fn().mockResolvedValue([]);
 
+// Mocking the database module to return the mocked db methods
 jest.mock('../../../db/db', () => ({
   __esModule: true,
   default: jest.fn(() => ({
@@ -17,14 +18,16 @@ jest.mock('../../../db/db', () => ({
     orderBy: mockOrderBy,
     limit: mockLimit,
     offset: mockOffset,
-  }))
+  })),
 }));
 
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
-  jest.clearAllMocks(); // Clear mocks after each test
+  jest.clearAllMocks();
 });
 
 describe('findPostsByLocation', () => {
+  // Test Case #1: Successfully return posts within the location range
   test('should return posts within the location range when the database query succeeds', async () => {
     const mockPosts = [
       {
@@ -65,6 +68,7 @@ describe('findPostsByLocation', () => {
     expect(mockOrderBy).toHaveBeenCalledWith('created_at', 'desc'); // Ensure ordering is correct
   });
 
+  // Test Case #2: Database query fails
   test('should throw an error if the database query fails', async () => {
     // Mock the offset method to reject with an error
     mockOffset.mockRejectedValueOnce(new Error('Database error'));
