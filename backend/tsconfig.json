@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "module": "CommonJS" /* Specify what module code is generated. */,
+    "module": "commonjs" /* Specify what module code is generated. */,
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
@@ -22,6 +22,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": false,
+    "skipLibCheck": true,
 
     /* Module Resolution Options */
     "moduleResolution": "node",
@@ -38,6 +39,7 @@
     "noUncheckedIndexedAccess": true /* Add 'undefined' to a type when accessed using an index. */,
     "noImplicitOverride": true /* Ensure overriding members in derived classes are marked with an override modifier. */,
     "noPropertyAccessFromIndexSignature": true, /* Enforces using indexed accessors for keys declared using an indexed type. */
+    "jsx": "react" 
 
     // "paths": {
     //   "@hapi/podium": [
@@ -47,5 +49,5 @@
 
   },
 
-  "include": ["src/**.ts", "src/db/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

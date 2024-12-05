@@ -55,7 +55,6 @@ export const createNewUserProfile = async (username: string, locationName: strin
     }
 };
 
-
 // This function will be used to update the location of a user
 export const updateUserLocation = async (userId: number, latitude: number, longitude: number, newLocationName: string) => {
     try {
@@ -92,7 +91,8 @@ export const updateUserLocation = async (userId: number, latitude: number, longi
 // Return the list of userIDs corresponding to a user's friends
 export const getUserFriends = async (userEmail: string) => {
     try {
-        console.log(`Getting ${userEmail}'s friend IDs`)
+        console.log(`Getting ${userEmail}'s friend IDs`);
+        
         // Make sure that the function was not passed an empty string
         if (!userEmail) {
             throw new Error('Unable to get user friends, empty userEmail');
@@ -105,20 +105,28 @@ export const getUserFriends = async (userEmail: string) => {
             throw new Error('User not found');
         }
 
-        // Retrieve the friends list from the db
-        const friendList = await db('users')
-            .where({ id: foundUser[0].id })
-            .select('friends')
-            .first();
+        try {
+            // Retrieve the friends list from the db
+            const friendList = await db('users')
+                .where({ id: foundUser[0].id })
+                .select('friends')
+                .first();
 
-        // Return list of friends, or empty array if null
-        return friendList?.friends || [];
+            // Return list of friends, or empty array if null
+            return friendList?.friends || [];
+        } catch (dbError) {
+            console.error(`Database error retrieving user friends: ${dbError}`);
+            throw new Error('Failed to retrieve user friends');
+        }
 
-    } catch(error) {
+    } catch (error) {
         console.error(`Error retrieving user friends ${error}`);
+        if (error instanceof Error && (error.message.includes('User not found') || error.message.includes('Unable to get user friends'))) {
+            throw error;  // Re-throw specific errors
+        }
         throw new Error('Failed to retrieve user friends');
     }
-}
+};
 
 // In the db this adds the userID of newUserFriend into the 'friends' column of currentUser
 export const addUserFriend = async (currentUser: string, newUserFriend: string) => {
