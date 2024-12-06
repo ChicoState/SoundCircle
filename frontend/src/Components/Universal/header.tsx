@@ -51,6 +51,11 @@ const Header = () => {
                     navigationPath="/Feed" 
                     className={`w-[100px] h-[60px] ${isButtonActive("/Feed")}`}
                 />
+                <NavigationButton 
+                    buttonText="Events" 
+                    navigationPath="/Events" 
+                    className={`w-[100px] h-[60px] ${isButtonActive("/Events")}`}
+                />
             </div>
 
             {/* Center Searchbar */}
