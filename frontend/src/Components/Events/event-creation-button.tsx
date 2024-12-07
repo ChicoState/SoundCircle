@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoMdCalendar } from "react-icons/io";
 
 interface EventCreationButtonProps {
