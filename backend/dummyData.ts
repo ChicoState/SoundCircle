@@ -13,44 +13,59 @@ const dummyPosts = [
     // Users IN chico
     { 
         username: 'jam_gum0021',
-        user_id: 9000, 
+        user_id: 8000, 
         post_content: 'I was here first!', 
         created_at: '1998-08-02 13:01:33.807425-07', 
         latitude: 39.7296900128278, 
         longitude: -121.84480660808224,
-        reactions: 1204
+        reactions: 1204,
+        comment_ids: [],
     },
     { 
         username: 'bigshooter', 
-        user_id: 9001, 
+        user_id: 8001, 
         post_content: 'Thundercat appreciation post', 
         created_at: '2024-10-02 17:06:13.807425-07', 
         latitude: 39.72805752742642, 
         longitude: -121.84643175009644,
-        reactions: 52
+        reactions: 52,
+        comment_ids: [],
     },
 
     // Users NOT IN chico
     { 
         username: 'coolguy12', 
-        user_id: 9002, 
+        user_id: 8002, 
         post_content: 'ur music all mid at best', 
         created_at: '2023-06-20 13:01:33.807425-07', 
         latitude: 37.981515091415844, 
         longitude: -121.31310578723196,
-        reactions: 3
+        reactions: 3,
+        comment_ids: [],
     },
     { 
         username: 'tea_drinker69', 
-        user_id: 9003, 
+        user_id: 8003, 
         post_content: 'tea drinkin and DnB', 
         created_at: '2024-09-07 17:06:13.807425-07', 
         latitude: 51.50673484503906, 
         longitude: -0.1805746469950456,
-        reactions: 1012
+        reactions: 1012,
+        comment_ids: [7000,],
     },
 
 ];
+
+const dummyComments = [
+    {
+        id: 7000,
+        user_id: 9000,
+        username: '',
+        comment_content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quam massa, maximus sit amet gravida eget, aliquam id nisl. Nulla sit amet iaculis nulla. Aenean posuere ultricies purus non feugiat. Integer pharetra ante sit amet arcu elementum, non accumsan urna accumsan. Nunc eu ex ante. Maecenas ut magna ut magna tempus rhoncus quis eu nibh. Quisque lectus diam, scelerisque non dapibus a, porta sit amet ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus eget eros elementum, aliquet mauris et, lobortis libero. Integer tincidunt sapien eu dui mollis euismod. Vestibulum sagittis libero a varius efficitur. ',
+        created_at: '2024-09-07 17:06:13.807425-07',
+        reactions: 4,
+    },
+]
 
 const dummyUsers = [
     {id: 9000, username: 'jam_gum0021', userPostIds: [], created_at: '1998-08-02 13:01:33.807425-07', latitude: 39.7296900128278, longitude: -121.84480660808224, email: 'jammy@test.com', locationName: 'Chico', friends: [9001]},
@@ -79,6 +94,16 @@ async function insertDummyData() {
         }
         
         // Insert other data
+        for (const comment of dummyComments) {
+            const exisingData = await db('comments')
+                .where({id: comment.id})
+                .first()
+            
+            if (!exisingData) {
+                await db('comments').insert(comment)
+                console.log(`Inserted comment id: ${comment.id}`)
+            }
+        }
 
         // Insert the dummy users
         for (const user of dummyUsers) {

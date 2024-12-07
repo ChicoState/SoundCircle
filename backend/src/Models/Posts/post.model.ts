@@ -1,11 +1,12 @@
 import db from '../../db/db';
 import { UserPost } from '../../../Types/posts';
+import { User } from '../../../Types/users';
 
-export const findUsersByPosts = async (limit: number, offset: number) => {
+export const findPosts = async (limit: number, offset: number) => {
   try {
     // Replace 'posts' with your actual posts table name
     const posts = await db<UserPost[]>('posts')
-      .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions','locationName', 'latitude', 'longitude') // Define posts info to get
+      .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comment_ids', 'reactions','locationName', 'latitude', 'longitude') // Define posts info to get
       .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
       .limit(limit) // Send only a # back
       .offset(offset); // Which records we've already sent
@@ -29,7 +30,7 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
 
     // Try to sort posts in the DB
     const posts = await db<UserPost[]>('posts')
-      .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comments', 'reactions', 'locationName', 'latitude', 'longitude')
+      .select('id', 'user_id', 'username', 'post_content', 'created_at', 'comment_ids', 'reactions', 'locationName', 'latitude', 'longitude')
       // Find posts only within the boundaries of our given latitude and longitude
       .where('latitude', '>=', latitude - latRange)
       .andWhere('latitude', '<=', latitude + latRange)
@@ -50,16 +51,21 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
 }
 
 
-export const createUserPost = async (username: string, postText: string) => {
+export const createUserPost = async (userObj: User, postText: string) => {
   try {
     // Create and insert the new post into the 'posts' table of our database
     const [newPost] = await db<UserPost>('posts')
     .insert({
-      username: username,
+      user_id: userObj.id,
+      username: userObj.username,
       post_content: postText,
+      reactions: 0,
+      locationName: userObj.locationName,
+      latitude: userObj.latitude,
+      longitude: userObj.longitude,
       created_at: new Date()
     })
-    .returning(['id', 'comments', 'user_id', 'reactions', 'username', 'post_content', 'created_at', 
+    .returning(['id', 'comment_ids', 'user_id', 'reactions', 'username', 'post_content', 'created_at', 
       'locationName', 'latitude', 'longitude']); // Specify that we also want to return the new post
 
     if (!newPost)
@@ -76,3 +82,25 @@ export const createUserPost = async (username: string, postText: string) => {
   }
 }
 
+
+export const findComments = async (limit: number, offset: number, commentIDs: number[]) => {
+  try {
+    if (commentIDs.length === 0) {
+      return [];
+    }
+
+    const comments = await db<UserPost[]>('comments')
+      .select('id', 'user_id', 'username', 'comment_content', 'created_at', 'reactions')
+      .whereIn('id', commentIDs)
+      .orderBy('created_at', 'desc') // Sort by date in descending order (newest first)
+      .limit(limit) // Send only a # back
+      .offset(offset); // Which records we've already sent
+
+    console.log('Comments fetched:', comments.length);
+
+    return comments;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw new Error('Failed to fetch comments');
+  }
+}

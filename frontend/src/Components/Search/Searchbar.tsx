@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdSearch } from "react-icons/md";
 
 interface SearchBarProps {
   className: string;
   placeHolderText?: string;
 }
 
-console.log('API Key:', process.env);
-
 const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => {
   const [searchData, setSearchData] = useState('');
-  const [results, setResults] = useState<any[] | null>(null); // holds results of api call
+  const [results, setResults] = useState<any[] | null>(null);
+  const [selectedMbid, setSelectedMbid] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false); // show/hide suggestions dropdown
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const nextPage = useNavigate();
-  const searchBarRef = useRef<HTMLDivElement | null>(null); // Ref for detecting clicking outside of the search bar
-  const suggestionsRef = useRef<HTMLDivElement | null>(null); // Ref for detecting clicking outside of the suggestions
+  const searchBarRef = useRef<HTMLDivElement | null>(null);
+  const suggestionsRef = useRef<HTMLDivElement | null>(null);
 
-  // Close the suggestions when clicking away
+  // Close suggestions when clicking away
   useEffect(() => {
     const handleClickOutsideBox = (event: MouseEvent) => {
       if (
@@ -31,23 +31,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => 
     };
 
     document.addEventListener('mousedown', handleClickOutsideBox);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideBox);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutsideBox);
   }, []);
 
-  // Attempt to display suggestions on focus if results are available
-  const handleInputFocus = () => {
-    if (results && results.length > 0 && searchData.length > 2) {
-      setShowSuggestions(true);
-    }
-  };
-
-  // Adjust searchData to contain what is in the input box any time it is changed
+  // Handle input changes and fetch suggestions
   const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchData(value);
+    setSelectedMbid(null); // Reset selected mbid when input changes
 
     if (value.length > 2) {
       try {
@@ -74,38 +65,40 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => 
     }
   };
 
-  // Go to the next page and send our input data to be interpreted there
-  const handleSearchButton = (searchString: string) => {
-    nextPage('/Search', { state: { searchData: searchString } });
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setSearchData(suggestion);
+  // Handle suggestion click and navigate
+  const handleSuggestionClick = (suggestion: { name: string; mbid: string }) => {
+    setSearchData(suggestion.name);
+    setSelectedMbid(suggestion.mbid || null); // Save mbid from suggestion
     setShowSuggestions(false);
-    handleSearchButton(suggestion);
+    handleSearchButton(suggestion.name, suggestion.mbid);
   };
 
+  // Navigate to the search results page with query parameter
+  const handleSearchButton = (searchString: string, mbid: string | null) => {
+    nextPage(`/Search?query=${encodeURIComponent(searchString)}`);
+  };
+
+  // Handle form submission (fallback when no suggestion is selected)
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleSearchButton(searchData);
+    handleSearchButton(searchData, selectedMbid); // Use selectedMbid or fallback
   };
 
   return (
-    <div className={`${className} relative`} ref={searchBarRef}>
-      <form onSubmit={handleFormSubmit} className="flex">
+    <div className={`${className}`} ref={searchBarRef}>
+      <form onSubmit={handleFormSubmit}>
         <input
+          className="py-1 px-3 pr-10 w-full rounded-full focus:outline-none bg-searchbar_Background hover:bg-searchbar_HoverBackground placeholder:text-searchbar_PlaceholderText"
           type="text"
           value={searchData}
           onChange={handleInputChange}
-          onFocus={handleInputFocus}
           placeholder={placeHolderText || 'Search'}
-          className="py-1 px-3 w-full rounded-l-lg border border-gray-300 focus:outline-none"
         />
         <button
           type="submit"
-          className="bg-RoyalBlue text-white py-1 px-2 rounded-r-lg hover:bg-slateBlue transition duration-200"
+          className="absolute right-3 top-1 text-searchbar_IconColor"
         >
-          Search
+          <MdSearch className='w-6 h-6'/>
         </button>
       </form>
 
@@ -117,9 +110,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ className, placeHolderText }) => 
               <li
                 key={index}
                 className="py-1 px-3 cursor-pointer hover:bg-gray-200"
-                onClick={() => handleSuggestionClick(suggestion.name)}
+                onClick={() => handleSuggestionClick({ name: suggestion.name, mbid: suggestion.mbid })}
               >
-                {suggestion.name} {/* Display artist suggestion */}
+                {suggestion.name}
               </li>
             ))}
           </ul>
