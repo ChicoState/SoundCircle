@@ -1,9 +1,8 @@
 import "./User.css";
 import Header from "../Components/Universal/header";
 import UserImage from "../Components/UserPage/UserIcon";
-import AlbumsBox from "../Components/Sidebar/album-sidebar";
-import ArtistsBox from "../Components/Sidebar/artist-sidebar";
-import GenresBox from "../Components/Sidebar/genres-sidebar";
+import UserArtist from "../Components/UserPage/user-artist";
+import UserGroups from "../Components/UserPage/user-groups";
 import { useState } from "react";
 
 const UserPage = () => {
@@ -16,14 +15,11 @@ const UserPage = () => {
             case "Taste":
                 return (
                     <div>
-                        <div className="ArtistsBoxContainer">
-                            <ArtistsBox/>
+                        <div className="User-Artist">
+                            <UserArtist/>
                         </div>
-                        <div className="Genres-Container">
-                            <GenresBox/>
-                        </div>
-                        <div className="Albums-Container">
-                            <AlbumsBox/>
+                        <div className = "User-Groups">
+                            <UserGroups/>
                         </div>
                     </div>
                     );
@@ -39,7 +35,7 @@ const UserPage = () => {
             
             {/* Navigation Bar */}
             <nav className="nav-bar">
-                {["Taste", "Post", "Likes", "Following"].map((tab) => (
+                {["Taste", "Post", "Likes", "Following", "Reviews", "About Me"].map((tab) => (
                     <button
                         key={tab}
                         className={`nav-button ${activeTab === tab ? "active" : ""}`}

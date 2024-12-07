@@ -1,0 +1,79 @@
+/* Base container for the Groups component */
+.groups-container {
+    /* Positioning */
+    position: relative; /* Allows fine-tuning placement */
+    top: 0; /* Adjust vertical placement */
+    left: 0; /* Adjust horizontal placement */
+  
+    /* Sizing */
+    width: auto; /* Can be overridden to fix a specific width */
+    max-width: 1200px; /* Limits the width of the component */
+    margin: 0 auto; /* Centers the component horizontally */
+  
+    /* Miscellaneous styles */
+    padding: 16px; /* Add space inside the container */
+    background-color: #2d2d2d; /* Default background color */
+    border-radius: 8px; /* Smooth corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    overflow: hidden; /* Ensures the content doesn't overflow */
+  }
+  
+  /* Customizable title for the Groups component */
+  .groups-container h2 {
+    text-align: center; /* Centers the title */
+    color: #ffffff; /* Title text color */
+    font-size: 1.5rem; /* Title font size */
+    margin-bottom: 12px; /* Space below the title */
+  }
+  
+  /* Navigation button styles */
+  .groups-container button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  
+    /* Button appearance */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .groups-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .groups-container button:active {
+    background-color: #003f7f;
+  }
+  
+  /* Previous button */
+  .groups-container button.left {
+    left: -20px; /* Adjust positioning */
+  }
+  
+  /* Next button */
+  .groups-container button.right {
+    right: -20px; /* Adjust positioning */
+  }
+  
+  /* Fine-tune the component's responsive behavior */
+  @media screen and (max-width: 768px) {
+    .groups-container {
+      padding: 12px;
+    }
+  
+    .groups-container button {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  

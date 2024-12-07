@@ -1,0 +1,55 @@
+/* Base styles for the component */
+.items-box {
+    position: relative; /* Allows for precise positioning */
+    margin: 0 auto; /* Center horizontally by default */
+    top: 50%; /* Adjust vertically from the top */
+    left: 50%; /* Adjust horizontally from the left */
+    transform: translate(-50%, -50%); /* Center the component */
+    width: 90%; /* Adjust the overall width */
+    max-width: 800px; /* Maximum width */
+    padding: 16px; /* Add padding inside the component */
+    background-color: #2d2d2d; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    transition: all 0.3s ease-in-out; /* Smooth transitions for adjustments */
+  }
+  
+  /* Optional: Adjust the size or position of the component for specific use cases */
+  
+  /* Make the component smaller */
+  .items-box.small {
+    max-width: 600px; /* Reduce the max width */
+    padding: 12px; /* Less padding */
+  }
+  
+  /* Make the component larger */
+  .items-box.large {
+    max-width: 1000px; /* Increase the max width */
+    padding: 24px; /* More padding */
+  }
+  
+  /* Shift the component higher on the screen */
+  .items-box.move-up {
+    top: 40%; /* Move up by reducing the top percentage */
+  }
+  
+  /* Shift the component lower on the screen */
+  .items-box.move-down {
+    top: 60%; /* Move down by increasing the top percentage */
+  }
+  
+  /* Shift the component to the left */
+  .items-box.move-left {
+    left: 40%; /* Move left by reducing the left percentage */
+  }
+  
+  /* Shift the component to the right */
+  .items-box.move-right {
+    left: 60%; /* Move right by increasing the left percentage */
+  }
+  
+  /* Add a glowing effect to highlight the component */
+  .items-box.glow {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Cyan glow */
+  }
+  
