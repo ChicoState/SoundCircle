@@ -12,7 +12,7 @@
     align-items: center; /* Centers content horizontally */
     justify-content: center; /* Centers content vertically within the container */
     position: relative; /* Changed from sticky to relative */
-    left: 1050px; /* Increase this value to shift more to the right */
+    left: 1550px; /* Increase this value to shift more to the right */
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
