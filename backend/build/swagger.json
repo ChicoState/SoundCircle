@@ -855,7 +855,6 @@
 								"schema": {
 									"type": "string",
 									"nullable": true
->>>>>>> c5a112628c41f0b5e8a062b3f7a27ab627457b6a
 								}
 							}
 						}
@@ -864,10 +863,6 @@
 				"security": [],
 				"parameters": [
 					{
-<<<<<<< HEAD
-						"in": "query",
-						"name": "query",
-=======
 						"description": "The text string on which to search (example: sacramento)",
 						"in": "query",
 						"name": "input",
@@ -924,7 +919,6 @@
 						"description": "A textual identifier that uniquely identifies a place, returned from a Place Search.",
 						"in": "query",
 						"name": "place_id",
->>>>>>> c5a112628c41f0b5e8a062b3f7a27ab627457b6a
 						"required": true,
 						"schema": {
 							"type": "string"
