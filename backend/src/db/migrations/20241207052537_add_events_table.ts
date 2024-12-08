@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('location_name')
         table.specificType('bands', 'text[]')
         table.text('description')
-        table.string('genre')
+        table.specificType('genres', 'text[]')
         table.decimal('ticket_price', 10, 2)
         table.timestamps(true, true); // Automatically adds created_at and updated_at columns
     });
