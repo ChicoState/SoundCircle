@@ -16,13 +16,13 @@ const UserPage = () => {
             case "Taste":
                 return (
                     <div>
-                        <div className="ArtistsBoxContainer">
+                        <div className="top-[-600px] pb-2 overflow-hidden relative left-[175px]">
                             <ArtistsBox/>
                         </div>
-                        <div className="Genres-Container">
+                        <div className="top-[-600px] pb-2 overflow-hidden relative left-[175px]">
                             <GenresBox/>
                         </div>
-                        <div className="Albums-Container">
+                        <div className="top-[-580px] pb-2 overflow-hidden relative left-[175px]">
                             <AlbumsBox/>
                         </div>
                     </div>
@@ -38,11 +38,11 @@ const UserPage = () => {
             <Header />
             
             {/* Navigation Bar */}
-            <nav className="nav-bar">
-                {["Taste", "Post", "Likes", "Following"].map((tab) => (
+            <nav className="flex justify-start bg-gray-900 p-2 fixed top-[60px] left-[350px] z-10">
+                {["Taste", "Post", "Likes","Following","Reviews","About Me"].map((tab) => (
                     <button
                         key={tab}
-                        className={`nav-button ${activeTab === tab ? "active" : ""}`}
+                        className={'text-white font-medium py-2 px-4 mx-4 ${activeTab === tab ? "border-b-2 border-white" : ""}'} //Underline Active Tab
                         onClick={() => setActiveTab(tab)}
                     >
                         {tab}
@@ -51,14 +51,18 @@ const UserPage = () => {
             </nav>
 
             <div className="flex flex-grow">
-                <div className="bg-gray-900 w-3/4 mt-100">
-                    <UserImage username={username} />
-                    <p className="UserName">{username}</p>
-                    
+                <div className="bg-gray-900 w-3/4 relative">
+                    <div className="relative bg-gray-700 p-4">
+                        <div className="relative top-[110px] left-[1064px] bg-gray-700 h-[690px] w-[1000px] p-4 shadow-lg z-10">
+                            <UserImage username={username}/>
+                        </div>
+                        <div className="bg-gray-900 h-full w-full absolute inset-0"></div> 
+                        <p className="UserName text-center pt-0">{username}</p>
+                    </div>
                     {/* Render tab content */}
                     {renderTabContent()}
                 </div>
-                <div className="w-1/4 bg-gray-700 flex flex-grow"></div>
+                <div className="w-1/4 bg-white-700 flex flex-grow"></div>
             </div>
         </div>
     );

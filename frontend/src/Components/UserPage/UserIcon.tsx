@@ -19,24 +19,24 @@ const UserImage: React.FC<UserImageProps> = ({ username }) => {
     };
 
     return (
-        <div className="container">
-            <div className="User-Image">
-                <img src={userImage} alt="User Icon" className="circular-user" />
-                <label htmlFor="file-input" className="plus-icon">+</label>
+        <div className="relative">
+            <div className="relative top-[-70px] left-[-425px] flex flex-col items-center z-10">
+                <img src={userImage} alt="User Icon" className="w-24 h-24" />
+                <label htmlFor="file-input" className="absolute top-[50px] right-[400px] text-2xl text-black cursor-pointer">+</label>
                 <input
                     id="file-input"
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    style={{ display: 'none' }}
+                    className="hidden"
                 />
-                <p className="username">{username}</p>
+                <p className="mt-2 text-center font-bold">{username}</p>
             </div>
 
             {/* Render DescriptionBox as a separate component outside the background */}
             <DescriptionBox />
             
-            <div className="other-section">
+            <div className="mt-32">
                 {/* Additional content */}
             </div>
         </div>
