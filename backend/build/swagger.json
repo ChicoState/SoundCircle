@@ -323,6 +323,87 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Event": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"event_name": {
+						"type": "string"
+					},
+					"event_date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"start_time": {
+						"type": "string"
+					},
+					"end_time": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"location_name": {
+						"type": "string"
+					},
+					"bands": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"description": {
+						"type": "string"
+					},
+					"genres": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ticket_price": {
+						"type": "number",
+						"format": "double"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"event_name",
+					"event_date",
+					"start_time",
+					"end_time",
+					"location",
+					"latitude",
+					"longitude",
+					"location_name",
+					"bands",
+					"description",
+					"genres",
+					"ticket_price",
+					"created_at",
+					"updated_at"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -330,9 +411,6 @@
 	"info": {
 		"title": "sound-circle",
 		"version": "1.0.0",
-		"license": {
-			"name": "ISC"
-		},
 		"contact": {}
 	},
 	"paths": {
@@ -925,6 +1003,35 @@
 						}
 					}
 				]
+			}
+		},
+		"/events/newEvent": {
+			"post": {
+				"operationId": "PostEvent",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Event"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Event"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

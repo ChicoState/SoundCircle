@@ -7,7 +7,7 @@ import PeopleBox from "./people-sidebar";
 const SidebarContainer = () => {
     return (
         <div>
-            <div className="text-black font-semibold text-start text-lg pl-2 pb-2 font-medium">
+            <div className="text-black font-semibold text-start text-lg pl-2 pb-2">
                 Recommended
             </div>
              {/* <div className= "rounded-lg mb-5 pb-2"> */}
