@@ -25,9 +25,9 @@ const DescriptionBox: React.FC = () => {
     }, []);
 
     return (
-        <div className="description-container">
+        <div className="w-4/5 max-w-xs mt-0 sticky left-[1025px] relative">
             <textarea
-                className="description-box"
+                className="w-full p-2 text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[80px] overflow-hidden"
                 value={description}
                 onChange={handleInputChange}
                 rows={1} // Start with 1 row
