@@ -1,7 +1,8 @@
 import db from '../../db/db';
 import { Event } from '../../../Types/events';
+import { EventCreation } from 'Controllers/Events/EventsController';
 
-export const createEvent = async (eventObj: Event) => {
+export const createEvent = async (eventObj: EventCreation) => {
     try {
       // Create and insert the new event into the 'events' table of our database
       const [newEvent] = await db<Event>('events')
