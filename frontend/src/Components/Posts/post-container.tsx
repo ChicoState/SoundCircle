@@ -1,7 +1,7 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import PostComment, { CommentProperties } from "./comment-main";
+import PostComment from "./comment-main";
 import Post, { PostProperties } from "./post-main";
 
 interface PostContainerProps {
@@ -10,7 +10,7 @@ interface PostContainerProps {
 
 function PostContainer({ postData }: PostContainerProps) {
     // Store the comments we fetch
-    const [data, setData] = useState<CommentProperties[]>([]);
+    const [data, setData] = useState<PostProperties[]>([]);
     const [loading, setLoading] = useState(true); // Bool for load state
     const [error, setError] = useState<string | null>(null); // Error state
     const [offset, setOffset] = useState(0); // Offset = which post #'s to skip when fetching
@@ -52,6 +52,14 @@ function PostContainer({ postData }: PostContainerProps) {
             } else {
                 console.log("Found comments: ", commentData.length);
             }
+                        
+            // Rename comment_content to post_content
+            if (commentData && commentData.length > 0) {
+                commentData = commentData.map((comment: any) => ({
+                    ...comment,
+                    post_content: comment.comment_content,
+                }))
+            }
 
             // If we haven't run this before, get the data.
             // Otherwise, append the data
@@ -60,7 +68,7 @@ function PostContainer({ postData }: PostContainerProps) {
             } else {
                 // Prevent duplicate data
                 setData(prevData => {
-                    const newComments = commentData.filter(((comment: CommentProperties) => !prevData.some(existingComment => existingComment.comment_content == comment.comment_content)));
+                    const newComments = commentData.filter(((comment: PostProperties) => !prevData.some(existingComment => existingComment.post_content == comment.post_content)));
                     return [...prevData, ...newComments]
                 });
             }
@@ -94,12 +102,12 @@ function PostContainer({ postData }: PostContainerProps) {
             {/* Comments */}
             <div>
                 {data.length > 0 ?(
-                    data.map(({id, user_id, username, comment_content}, index) => (
+                    data.map(({id, user_id, username, post_content}, index) => (
                         <PostComment
                             key={`${id} - ${index}`}
                             user_id = {user_id}
                             username = {username}
-                            comment_content = {comment_content}
+                            post_content = {post_content}
                         />
                     ))
                 ) : (
