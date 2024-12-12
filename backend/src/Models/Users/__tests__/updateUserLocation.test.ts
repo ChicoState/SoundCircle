@@ -56,7 +56,7 @@ describe('updateUserLocation', () => {
     (mockReturning as jest.Mock).mockResolvedValueOnce([updatedUser]);
 
     // Call the function to be tested
-    const result = await updateUserLocation('john.doe@example.com', 40.7128, -74.0060, 'New York');
+    const result = await updateUserLocation(1, 40.7128, -74.0060, 'New York');
 
     // Verify that the result matches the mock data
     expect(result).toEqual(updatedUser);
@@ -68,7 +68,7 @@ describe('updateUserLocation', () => {
     (findUserByEmail as jest.Mock).mockResolvedValueOnce([]);
 
     // Verify that the function throws the expected error
-    await expect(updateUserLocation('nonexistent@example.com', 40.7128, -74.0060, 'New York')).rejects.toThrow('User nonexistent@example.com not found');
+    await expect(updateUserLocation(999, 40.7128, -74.0060, 'New York')).rejects.toThrow('User nonexistent@example.com not found');
   });
 
   // Test Case #3: Database failure during update
@@ -92,6 +92,6 @@ describe('updateUserLocation', () => {
     (mockReturning as jest.Mock).mockRejectedValueOnce(new Error('Database error'));
 
     // Verify that the function throws the expected error
-    await expect(updateUserLocation('john.doe@example.com', 40.7128, -74.0060, 'New York')).rejects.toThrow('Failed to update user location');
+    await expect(updateUserLocation(1, 40.7128, -74.0060, 'New York')).rejects.toThrow('Failed to update user location');
   });
 });
