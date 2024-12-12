@@ -1,11 +1,22 @@
 import { useState } from "react";
 import ReplyOverlay from "./reply-overlay";
 import { PostProperties } from "./post-main";
+import { useSelector } from "react-redux";
+import { selectIsUserLoggedIn } from "../../Redux_Store/selector";
 
 function ReplyButton({ replyInformation }: { replyInformation: PostProperties }) {
+    // Track login status via redux store
+    const isLoggedIn = useSelector(selectIsUserLoggedIn)
     // Boolean for handling reply overlay
     const [replyVisible, setReplyVisible] = useState(false)
-    const toggleOverlay = () => setReplyVisible(!replyVisible)
+
+    const toggleOverlay = () => {
+        if (isLoggedIn) {
+            setReplyVisible(!replyVisible)
+        } else {
+            setReplyVisible(false)
+        }
+    }
 
     return (
         <div>
