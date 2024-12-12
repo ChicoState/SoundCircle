@@ -32,7 +32,8 @@ function Groups() {
     );
   };
 
-  return (
+return (
+  <div className="groups-container"> {/* Wrapper for positioning */}
     <div className="relative w-full max-w-7xl mx-auto p-4 bg-gray-800 rounded-lg shadow-md overflow-hidden">
       {/* Title */}
       <h2 className="text-white text-lg font-medium mb-4">Groups</h2>
@@ -82,6 +83,7 @@ function Groups() {
         </button>
       </div>
     </div>
+  </div>
   );
 }
 

@@ -3,6 +3,7 @@ import Header from "../Components/Universal/header";
 import UserImage from "../Components/UserPage/UserIcon";
 import UserArtist from "../Components/UserPage/user-artist";
 import UserGroups from "../Components/UserPage/user-groups";
+import UserAlbum from "../Components/UserPage/user-album";
 import { useState } from "react";
 
 const UserPage = () => {
@@ -20,6 +21,9 @@ const UserPage = () => {
                         </div>
                         <div className = "User-Groups">
                             <UserGroups/>
+                        </div>
+                        <div className = "User-Album">
+                            <UserAlbum/>
                         </div>
                     </div>
                     );

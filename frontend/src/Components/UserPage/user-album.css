@@ -1,0 +1,71 @@
+/* Main container for the component */
+.album-with-description {
+    display: flex;
+    align-items: center; /* Vertically aligns the image and description */
+    justify-content: center; /* Centers the component */
+    gap: 20px; /* Space between navigation buttons and content */
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 8px; /* Optional rounded corners */
+    background-color: #f9f9f9; /* Light background for contrast */
+    position: absolute; /* Position relative to the closest positioned ancestor */
+    top: 50px; /* Moves the component 50px down from the top */
+    left: 100px; /* Moves it 100px from the left */
+
+  }
+  
+  /* Navigation buttons */
+  .nav-button {
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .nav-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .nav-button.prev {
+    margin-right: auto; /* Aligns the left button */
+  }
+  
+  .nav-button.next {
+    margin-left: auto; /* Aligns the right button */
+  }
+  
+  /* Album container */
+  .album-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  /* Album image styling */
+  .album-image img {
+    width: 150px; /* Fixed width for images */
+    height: auto;
+    border-radius: 8px; /* Rounded corners for the album images */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for styling */
+  }
+  
+  /* Album description styling */
+  .album-description {
+    flex: 1; /* Takes up remaining space */
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc; /* Adds border around the description box */
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
