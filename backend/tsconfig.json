@@ -46,8 +46,6 @@
     //     "node_modules/@types/hapi__podium"
     //   ]
     // }
-    "allowSyntheticDefaultImports": true,  // Allows default imports from ESM modules
-    "skipLibCheck": true                   // Skips type checking of declaration files, useful for third-party ESM modules
   },
 
   "include": ["src/**/*.ts", "src/**/*.tsx"]
