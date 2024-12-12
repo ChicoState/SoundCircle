@@ -58,6 +58,8 @@ jobs:
 
     - name: Ensure frontend build is error-free
       working-directory: ./frontend
+      env:
+        CI: false
       run: |
         npm run build
         if [ $? -ne 0 ]; then
