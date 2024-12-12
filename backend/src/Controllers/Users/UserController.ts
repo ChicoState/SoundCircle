@@ -18,7 +18,7 @@ export class UserController extends Controller {
      * @returns User type
      */
     @Get('/')
-    @SuccessResponse('200', 'Ok')
+    @SuccessResponseBREAK('200', 'Ok')
     public async getUserByName(
         @Query('username') usernameStr: string
     ): Promise<User[]> {
@@ -121,7 +121,7 @@ export class UserController extends Controller {
     }
 
     /**
-     * 
+     *
      * @returns Integer array of userIDs
      */
     @Get('/friends')
@@ -130,7 +130,7 @@ export class UserController extends Controller {
     ): Promise<number[]> {
         try {
             const friends = getUserFriends(usernameStr);
-            
+
             // Friends not found
             if (!friends) {
                 this.setStatus(404)
@@ -146,8 +146,8 @@ export class UserController extends Controller {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @returns Updated user with new friend added
      */
     @Post('/addFriend')
@@ -159,7 +159,7 @@ export class UserController extends Controller {
             const newFriend = body.newFriendStr || '';
 
             const updatedUser = await addUserFriend(currentUser, newFriend);
-            
+
             if (!updatedUser) {
                 this.setStatus(400);
                 throw new Error('Failed to update user');
@@ -175,7 +175,7 @@ export class UserController extends Controller {
     }
 
     /**
-     * 
+     *
      * @returns Updated user with specified friend removed
      */
     @Post('/removeFriend')
@@ -187,7 +187,7 @@ export class UserController extends Controller {
             const delFriend = body.delFriendStr || '';
 
             const updatedUser = await removeUserFriend(currentUser, delFriend);
-            
+
             if (!updatedUser) {
                 this.setStatus(400);
                 throw new Error('Failed to update user');
