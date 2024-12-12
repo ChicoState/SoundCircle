@@ -56,9 +56,11 @@ jobs:
           exit 1
         fi
 
-    - name: Check frontend errors
+    - name: Ensure frontend build is error-free
+      working-directory: ./frontend
       run: |
-        if grep -q "Failed to compile" frontend/build/index.html; then
-          echo "Frontend compilation failed." >&2
+        npm run build
+        if [ $? -ne 0 ]; then
+          echo "Frontend build failed." >&2
           exit 1
         fi
