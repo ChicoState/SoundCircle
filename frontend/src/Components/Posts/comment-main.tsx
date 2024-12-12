@@ -1,18 +1,9 @@
 import LikeButton from "../Universal/LikeButton";
 import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
+import { PostProperties } from "./post-main";
+import ReplyButton from "./reply-button";
 
-// This class is for populating information from post-container.tsx and formatting it
-export interface CommentProperties {
-    id?: number;
-    user_id?: number;
-    username?: string;
-    comment_content?: string;
-    created_at?: string;
-    reactions?: number;
-    profilePicURL?: string;
-}
-
-function PostComment({ username, user_id, comment_content, created_at, profilePicURL }: CommentProperties) {
+function PostComment({ username, user_id, post_content, created_at, profilePicURL }: PostProperties) {
     // If we have a profile pic URL, use it. Otherwise use placeholder
     const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
@@ -55,15 +46,13 @@ function PostComment({ username, user_id, comment_content, created_at, profilePi
           {/* Body */}
           <div className="pt-2">
             <p>
-              {comment_content}
+              {post_content}
             </p>
           </div>
 
           {/* Last Line */}
           <div className="absolute bottom-2 right-2">
-            <button className="font-semibold text-post_replyButton">
-              Reply
-            </button>
+            <ReplyButton replyInformation={ {username, user_id, post_content, created_at, profilePicURL} }/>
           </div>
         </div>
       </div>
