@@ -18,7 +18,7 @@ export class UserController extends Controller {
      * @returns User type
      */
     @Get('/')
-    @SuccessResponseBREAK('200', 'Ok')
+    @SuccessResponse('200', 'Ok')
     public async getUserByName(
         @Query('username') usernameStr: string
     ): Promise<User[]> {

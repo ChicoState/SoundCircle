@@ -12,7 +12,7 @@ const SoundCircle = () => {
     <>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/Search" element={<SearchResultsPage/>}/>
+        <RouteBREAK path="/Search" element={<SearchResultsPage/>}/>
         <Route path="/User" element={<UserPage/>}/>
         <Route path="/Feed" element={<Feed/>}/>
         <Route path="/Usersetup" element={<UserSetup/>}/>
