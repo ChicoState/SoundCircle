@@ -56,10 +56,9 @@ jobs:
           exit 1
         fi
 
-  main_branch_check:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Verify Main Branch Passed
-      run: echo "Main branch successfully passed CI/CD pipeline."
+    - name: Check frontend errors
+      run: |
+        if grep -q "Failed to compile" frontend/build/index.html; then
+          echo "Frontend compilation failed." >&2
+          exit 1
+        fi
