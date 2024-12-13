@@ -25,9 +25,9 @@ const DescriptionBox: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-4/5 max-w-xs mt-0 sticky left-[1025px] relative">
+        <div className="w-4/5 h-[100px] max-w-xs mt-0 sticky left-[1025px] relative">
             <textarea
-                className="w-full p-2 text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[80px] overflow-hidden"
+                className="w-full p-2 max-w-xs text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[200px] overflow-hidden opacity-55"
                 value={description}
                 onChange={handleInputChange}
                 rows={1} // Start with 1 row
@@ -42,7 +42,7 @@ const DescriptionBox: React.FC = () => {
             {isUserLoggedIn && (
                 <div className="action-container">
                     <button onClick={isEditing ? handleSave:handleEdit} className="Action">
-                        <img src={EditIcon} alt="Edit Icon" className="Edit-Icon"/>
+                        <img src={EditIcon} alt="Edit Icon" className="bg-gray-700 w-[50px] h-[50px]"/>
                     </button>
                 </div>
             )}

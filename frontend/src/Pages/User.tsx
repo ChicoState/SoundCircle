@@ -1,9 +1,7 @@
-import "./User.css";
 import Header from "../Components/Universal/header";
 import UserImage from "../Components/UserPage/UserIcon";
-import AlbumsBox from "../Components/Sidebar/album-sidebar";
-import ArtistsBox from "../Components/Sidebar/artist-sidebar";
-import GenresBox from "../Components/Sidebar/genres-sidebar";
+import AlbumsBox from "../Components/UserPage/UserAlbumsBox";
+import ArtistsBox from "../Components/UserPage/UserArtistBox";
 import { useState } from "react";
 
 const UserPage = () => {
@@ -15,16 +13,9 @@ const UserPage = () => {
         switch(activeTab){
             case "Taste":
                 return (
-                    <div>
-                        <div className="top-[-600px] pb-2 overflow-hidden relative left-[175px]">
-                            <ArtistsBox/>
-                        </div>
-                        <div className="top-[-600px] pb-2 overflow-hidden relative left-[175px]">
-                            <GenresBox/>
-                        </div>
-                        <div className="top-[-580px] pb-2 overflow-hidden relative left-[175px]">
-                            <AlbumsBox/>
-                        </div>
+                    <div className="grid grid-cols-1 gap-4 top-[175px] left-[450px] absolute">
+                        <AlbumsBox/>
+                        <ArtistsBox/>
                     </div>
                     );
             default:
@@ -38,11 +29,11 @@ const UserPage = () => {
             <Header />
             
             {/* Navigation Bar */}
-            <nav className="flex justify-start bg-gray-900 p-2 fixed top-[60px] left-[350px] z-10">
+            <nav className="flex justify-start h-[100px] bg-gray-900 p-4 fixed top-[60px] left-[350px] z-10">
                 {["Taste", "Post", "Likes","Following","Reviews","About Me"].map((tab) => (
                     <button
                         key={tab}
-                        className={'text-white font-medium py-2 px-4 mx-4 ${activeTab === tab ? "border-b-2 border-white" : ""}'} //Underline Active Tab
+                        className={`text-white font-medium py-2 px-4 mx-4 ${activeTab === tab ? "border-b-2 border-white" : ""}`} //Underline Active Tab
                         onClick={() => setActiveTab(tab)}
                     >
                         {tab}
@@ -51,9 +42,9 @@ const UserPage = () => {
             </nav>
 
             <div className="flex flex-grow">
-                <div className="bg-gray-900 w-3/4 relative">
-                    <div className="relative bg-gray-700 p-4">
-                        <div className="relative top-[110px] left-[1064px] bg-gray-700 h-[690px] w-[1000px] p-4 shadow-lg z-10">
+                <div className="bg-gray-900 w-[1400px] relative">
+                    <div className="relative bg-gray-700 p-4 ">
+                        <div className="relative top-[110px] left-[1150px] bg-gray-700 h-[690px] w-[300px] p-4 shadow-lg z-10">
                             <UserImage username={username}/>
                         </div>
                         <div className="bg-gray-900 h-full w-full absolute inset-0"></div> 
@@ -62,7 +53,7 @@ const UserPage = () => {
                     {/* Render tab content */}
                     {renderTabContent()}
                 </div>
-                <div className="w-1/4 bg-white-700 flex flex-grow"></div>
+                <div className="w-[329px] left-[-400px] bg-white-700 flex flex-grow relative"></div>
             </div>
         </div>
     );

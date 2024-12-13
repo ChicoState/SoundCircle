@@ -20,9 +20,9 @@ const UserImage: React.FC<UserImageProps> = ({ username }) => {
 
     return (
         <div className="relative">
-            <div className="relative top-[-70px] left-[-425px] flex flex-col items-center z-10">
+            <div className="relative top-[-70px] left-[-70px] flex flex-col items-center z-10">
                 <img src={userImage} alt="User Icon" className="w-24 h-24" />
-                <label htmlFor="file-input" className="absolute top-[50px] right-[400px] text-2xl text-black cursor-pointer">+</label>
+                <label htmlFor="file-input" className="absolute top-[50px] right-[50px] text-2xl text-black cursor-pointer">+</label>
                 <input
                     id="file-input"
                     type="file"
