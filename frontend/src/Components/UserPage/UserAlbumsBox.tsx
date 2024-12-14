@@ -91,7 +91,7 @@ function AlbumsBox() {
     //if(loading) return <p className="text-gray-300">Loading albums...</p>
     if(error) return <p className="text-red-500"> Error:{error}</p>
     return (
-      <div className="relative w-[1000px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden absolute left-[-400px]">
+      <div className="relative w-[1000px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden absolute left-[-400px] top-[-20px]">
         {/* Simple title */}
         <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
   

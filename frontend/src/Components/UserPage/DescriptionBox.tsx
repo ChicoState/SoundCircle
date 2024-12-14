@@ -25,7 +25,7 @@ const DescriptionBox: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-4/5 h-[100px] max-w-xs mt-0 sticky left-[1025px] relative">
+        <div className="w-7/10 h-[100px] max-w-xs top-[-900px] left-[-5px] relative ">
             <textarea
                 className="w-full p-2 max-w-xs text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[200px] overflow-hidden opacity-55"
                 value={description}
