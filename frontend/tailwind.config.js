@@ -16,7 +16,8 @@ module.exports = {
         main_Background: '#E5E5E5',
         main_Accent_LightGray: '#C2C2C2',
         main_Accent_DarkGray: '#999999',
-        
+        main_Accent_LightPurple:'#c492d3' ,
+        main_Accent_DarkPurple: '#8346B4',
 
         // Header
         header_Light: '#452763',
