@@ -6,23 +6,47 @@ import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserP
 import { PostProperties } from "./post-main";
 import { MAX_COMMENT_CHARACTERS } from "../../globals";
 import { useSelector } from "react-redux";
-import { selectUserName } from "../../Redux_Store/selector";
+import { selectUserImage, selectUserName } from "../../Redux_Store/selector";
 
 function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible: boolean, onOutsidePress: () => void, replyInformation?: PostProperties }) {
     // Info for user input
     const placeholder = "Enter your reply..."
-    const [text, setText] = useState('');
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [isFocused, setIsFocused] = useState(false);
+    const [text, setText] = useState('')
+    const [isFocused, setIsFocused] = useState(false)
+    const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+    // Reply button handling
+    const [canReply, setCanReply] = useState(false)
+    let replyClassName = 'text-gray-400'
+
+    // Local redux info
     const localUsername = useSelector(selectUserName)
+    const localUserimage = useSelector(selectUserImage)
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
         if (value.length <= MAX_COMMENT_CHARACTERS) {
             setText(value)
+            setCanReply(true)
+        } else if (value.length <= 1) {
+            setCanReply(false)
         }
     }
+
+    const handleReplyButtonClick = () => {
+
+    }
+
+    // Listen for the reply button state and change its visuals
+    useEffect(() => {
+        console.log("Test")
+        if (canReply) {
+            replyClassName = 'text-black'
+        } else {
+            replyClassName = 'text-gray-400'
+        }
+    }, [canReply])
 
     // Update the size of the text box as we add more text
     useEffect(() => {
@@ -44,7 +68,7 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
                 <button className='' onClick={onOutsidePress}>
                     Cancel
                 </button>
-                <button className='text-gray-400'>
+                <button className={replyClassName}>
                     Reply
                 </button>
             </div>
@@ -80,7 +104,7 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
                     <NavigationButton_UserProfilePic
                     className="w-[4rem] h-[4rem] rounded-full"
                     username={localUsername}
-                    profileImage={process.env.REACT_APP_PLACEHOLDER_USER}
+                    profileImage={localUserimage || process.env.REACT_APP_PLACEHOLDER_USER}
                     navigationPath={`/User`}
                     />
                     <p className='text-sm'>{localUsername}</p>

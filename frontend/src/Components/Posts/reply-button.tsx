@@ -26,11 +26,14 @@ function ReplyButton({ replyInformation }: { replyInformation: PostProperties })
             >
                 Reply
             </button>
-            <ReplyOverlay
+            {/* Only create overlay when we are visible -- Optimization :) */}
+            {replyVisible && (
+                <ReplyOverlay
                 isVisible={replyVisible}
                 onOutsidePress={toggleOverlay}
                 replyInformation={replyInformation}
-            />
+                />
+            )}
         </div>
     )
 }
