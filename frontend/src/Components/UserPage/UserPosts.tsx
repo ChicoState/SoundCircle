@@ -1,11 +1,63 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import PostComment, { CommentProperties } from "../Posts/comment-main";
-import Post, { PostProperties } from "../Posts/post-main";
+import UserIconTemp from "../Images/UserIconTemp.png";
+import PeopleBox from "../Sidebar/people-sidebar";
+
 
 interface PostContainerProps {
     postData: PostProperties
+}
+import LikeButton from "../Universal/LikeButton";
+import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
+
+// This class is for populating information from post-container.tsx and formatting it
+interface PostProperties {
+    id: number
+    user_id?: number
+    comment_ids?: number[]
+    reactions?: number
+    username?: string
+    profilePicURL?: string
+    post_content?: string
+    created_at?: string
+}
+
+
+function Post(){
+    // If we have a profile pic URL, use it. Otherwise use placeholder
+
+    const dummyPosts: PostProperties[] = [
+        { id: 1, user_id: 1, comment_ids: [0,1,2,3,4,5], reactions: 0, username:"wheresthebeat16",profilePicURL: "../Images/UserIconTemp.png", post_content:"Just took a poop feeling good, I love trippie redd"},
+      ];
+
+    return (
+      <div className="flex justify-center">
+        {/* User Profile Pic */}
+        <div className="flex-none w-[100px]">
+            <NavigationButton_UserProfilePic
+              className="w-[80px] h-[80px] rounded-full"
+              username={"wheresthebeat16"}
+              altText={"wheresthebeat16"}
+              profileImage={UserIconTemp}
+              navigationPath={`/User`}
+            />
+        </div>
+
+        {/* Post */}
+        <div className="relative bg-post_bgColor w-[800px] text-post_username rounded-xl text-start p-2">
+            {dummyPosts.map((dummyPost) => (
+                <div key={dummyPost.id} className="flex flex-col">
+                    <div className="flex items-center">
+                        <p className="flex-none text-lg font-bold">
+                            {dummyPost.username}
+                        </p>
+                    </div>
+                </div>
+            ))};
+        </div>
+      </div>
+    );
 }
 
 function PostContainer({ postData }: PostContainerProps) {
@@ -90,33 +142,20 @@ function PostContainer({ postData }: PostContainerProps) {
 
     return (
         <div>
-            <Post {...postData} />
-            {/* Comments */}
-            <div>
-                {data.length > 0 ?(
-                    data.map(({id, user_id, username, comment_content}, index) => (
-                        <PostComment
-                            key={`${id} - ${index}`}
-                            user_id = {user_id}
-                            username = {username}
-                            comment_content = {comment_content}
-                        />
-                    ))
-                ) : (
-                    !loading && !error
-                )}
-            </div>
-            <div>
-                <button
-                    className=""
-                    onClick={loadMoreComments}
-                    hidden ={disableLoadMoreButton}
-                >
-                    Show More Comments
-                </button>
+            <div className="py-1">
             </div>
         </div>
     );
 }
 
-export default PostContainer;
+export interface CommentProperties {
+    id: number
+    user_id?: number
+    username?: string  
+    created_at?: string
+    comment_content?: string
+    reactions?: number
+  }
+  
+  
+export {PostContainer};

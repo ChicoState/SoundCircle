@@ -18,10 +18,10 @@ function UserFollowingPage() {
   ];
 
   // Setting people to use the dummy data
-  const [people, setPeople] = useState<Person[]>(dummyPeople);
+  // const [people, setPeople] = useState<Person[]>(dummyPeople);
 
   // This is the actual line to use once the API is set up
-  // const [people, setPeople] = useState<Person[]>([]);
+  const [people, setPeople] = useState<Person[]>([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
