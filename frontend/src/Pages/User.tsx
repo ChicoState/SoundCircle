@@ -23,7 +23,7 @@ const UserPage = () => {
         switch(activeTab){
             case "Taste":
                 return (
-                    <div className="grid grid-cols-1 gap-4 top-[125px] left-[550px] absolute">
+                    <div className="grid grid-cols-1 gap-4 top-[150px] left-[550px] absolute">
                         <AlbumsBox/>
                         <ArtistsBox/>
                         <EventsBox/>
@@ -32,7 +32,7 @@ const UserPage = () => {
                     );
             case "Following":
                 return (
-                    <div className="grid grid-cols-1 grap-4 top[125px] left-[550px] absolute">
+                    <div className="grid grid-cols-1 grap-4 top[160px] left-[550px] absolute">
                         <UserFollowingPage/>
                         <UserFollowerPage/>
                     </div>
@@ -41,20 +41,14 @@ const UserPage = () => {
                 return <div className="tab-content"></div>; 
         }
     };
-    const renderFollowingContent = () => {
-        return (
-            <div className="grid grid-cols-1 grap-4 top[125px] left-[550px] absolute">
-                <UserFollowingPage/>
-            </div>
-        )
-    }
+
     return (
         <div className="min-h-[1375px] w-[1450px] flex flex-col bg-gray-900">
             {/* Main Page Container */}
             <Header />
             
             {/* Navigation Bar */}
-            <nav className="relative bg-gray-900 top-[80px] left-[350px] z-10">
+            <nav className=" bg-gray-900 z-5 flex justify-center top-[80px] relative">
                 {["Taste", "Post", "Likes","Following","Reviews","About Me"].map((tab) => (
                     <button
                         key={tab}
@@ -66,7 +60,6 @@ const UserPage = () => {
                 ))}
             </nav>
             
-            <div className="flex flex-grow">
                 <div className="bg-white-900 absolute fixed">
                     <div className="absolute bg-white">
                         {/*User Information Tab*/}
@@ -86,7 +79,6 @@ const UserPage = () => {
                 </div>
                 <div className="w-[329px] left-[-400px] bg-white-700 flex flex-grow relative"></div>
             </div>
-        </div>
     );
 };
 

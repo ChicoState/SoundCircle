@@ -41,8 +41,8 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
     };
 
     return (
-        <div className="relative top-[-100px]">
-            <div className="relative h-[1200px] top-[30px] left-[-70px] flex flex-col items-center z-10">
+        <div className="relative top-[-80px]">
+            <div className="relative h-[780px] top-[30px] left-[-70px] flex flex-col items-center z-10">
                 <img src={userImage} alt="User Icon" className="w-24 h-24" />
                 <label htmlFor="file-input" className="absolute top-[50px] right-[50px] text-2xl text-black cursor-pointer">+</label>
                 <input
@@ -60,7 +60,7 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
             {/* Render DescriptionBox as a separate component outside the background */}
             <DescriptionBox />
             
-            <div className="relative top-[-850px]">
+            <div className="relative top-[-400px]">
                 <p className="text-md font-bold">Media Links</p>
                 {InstagramLink ? (
                     <p className="text-blue-500 italic">
@@ -141,24 +141,24 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
                 )}
             </div>
             
-            <div className="flex justify-between bg-gray-700 text-white p-5 top-[-100px]">
-                <div className="w-5 h-5 bg-white rounded-full border border-black relative top-[-850px] left-[-15px]"></div>
-                <p className="relative text-sm top-[-850px] left-[-50px]">{followers} followers</p>
+            <div className="flex justify-between text-gray-300 p-5 top-[-600px]">
+                <div className="w-5 h-5 bg-gray-200 rounded-full border border-black relative top-[-400px] left-[-15px]"></div>
+                <p className="relative text-sm top-[-400px] left-[-50px]">{followers} followers</p>
                 <button
                     className="hover:underline"
                     onClick={() => setCurrentTab("Following")}
                 >
-                    <p className="relative top-[-850px] left-[10px] text-sm">View All</p>
+                    <p className="relative top-[-400px] left-[10px] text-sm">View All</p>
                 </button>
             </div>
-            <div className="flex justify-between bg-gray-700 text-white p-5 top-[-100px]">
-                <div className="w-5 h-5 bg-white rounded-full border border-black relative top-[-875px] left-[-15px]"></div>
-                <p className="relative text-sm top-[-875px] left-[-50px]">{following} following</p>
+            <div className="flex justify-between text-gray-300 p-5 top-[-100px]">
+                <div className="w-5 h-5 bg-gray-300 rounded-full border border-black relative top-[-430px] left-[-15px]"></div>
+                <p className="relative text-sm top-[-430px] left-[-50px]">{following} following</p>
                 <button
                     className="hover:underline"
                     onClick={() => setCurrentTab("Following")}
                 >
-                    <p className="relative top-[-875px] left-[10px] text-sm">View All</p>
+                    <p className="relative top-[-430px] left-[10px] text-sm">View All</p>
                 </button>
             </div>
         </div>
