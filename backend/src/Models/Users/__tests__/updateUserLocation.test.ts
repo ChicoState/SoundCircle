@@ -1,22 +1,18 @@
-import { updateUserLocation, findUserByEmail } from '../user.model'; // Adjust the path if needed
-import { User } from '../../../../Types/users'; // Correct import path for User type
+import { updateUserLocation } from '../user.model';
+import { User } from '../../../../Types/users';
 
 // Mock the database methods
 const mockWhere = jest.fn().mockReturnThis();
+const mockFirst = jest.fn();
 const mockUpdate = jest.fn().mockReturnThis();
 const mockReturning = jest.fn().mockReturnThis();
-
-// Mock the findUserByEmail function
-jest.mock('../user.model', () => ({
-  ...jest.requireActual('../user.model'),
-  findUserByEmail: jest.fn(),
-}));
 
 // Mock the db instance
 jest.mock('../../../db/db', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     where: mockWhere,
+    first: mockFirst,
     update: mockUpdate,
     returning: mockReturning,
   })),
@@ -28,6 +24,16 @@ afterEach(() => {
 });
 
 describe('updateUserLocation', () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   // Test Case #1: Successfully update user location
   test('should update user location successfully', async () => {
     const mockUser: User = {
@@ -49,26 +55,39 @@ describe('updateUserLocation', () => {
       locationName: 'New York',
     };
 
-    // Mock the findUserByEmail function to return the mockUser
-    (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
-    
+    // Mock the first method to return the mockUser
+    mockFirst.mockResolvedValueOnce(mockUser);
+
     // Mock the returning method to return the updatedUser
-    (mockReturning as jest.Mock).mockResolvedValueOnce([updatedUser]);
+    mockReturning.mockResolvedValueOnce([updatedUser]);
 
     // Call the function to be tested
-    const result = await updateUserLocation(1, 40.7128, -74.0060, 'New York');
+    const result = await updateUserLocation(mockUser.id, 40.7128, -74.0060, 'New York');
 
     // Verify that the result matches the mock data
     expect(result).toEqual(updatedUser);
+
+    // Verify interactions with the mock db methods
+    expect(mockWhere).toHaveBeenCalledWith('id', mockUser.id);
+    expect(mockFirst).toHaveBeenCalled();
+    expect(mockUpdate).toHaveBeenCalledWith({
+      latitude: 40.7128,
+      longitude: -74.0060,
+      locationName: 'New York'
+    });
+    expect(mockReturning).toHaveBeenCalledWith(['id', 'username', 'userPostIds', 'created_at', 'latitude', 'longitude', 'email', 'locationName', 'friends']);
   });
 
   // Test Case #2: User not found
   test('should throw an error if user is not found', async () => {
-    // Mock the findUserByEmail function to return an empty array
-    (findUserByEmail as jest.Mock).mockResolvedValueOnce([]);
+    // Mock the first method to return null
+    mockFirst.mockResolvedValueOnce(null);
 
     // Verify that the function throws the expected error
-    await expect(updateUserLocation(999, 40.7128, -74.0060, 'New York')).rejects.toThrow('User nonexistent@example.com not found');
+    await expect(updateUserLocation(999, 40.7128, -74.0060, 'New York')).rejects.toThrow('User with ID 999 does not exist.');
+    
+    // Check that console.error was called
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Error updating user location', new Error('User with ID 999 does not exist.'));
   });
 
   // Test Case #3: Database failure during update
@@ -85,13 +104,16 @@ describe('updateUserLocation', () => {
       friends: [],
     };
 
-    // Mock the findUserByEmail function to return the mockUser
-    (findUserByEmail as jest.Mock).mockResolvedValueOnce([mockUser]);
-    
+    // Mock the first method to return the mockUser
+    mockFirst.mockResolvedValueOnce(mockUser);
+
     // Mock the returning method to throw an error
-    (mockReturning as jest.Mock).mockRejectedValueOnce(new Error('Database error'));
+    mockReturning.mockRejectedValueOnce(new Error('Database error'));
 
     // Verify that the function throws the expected error
     await expect(updateUserLocation(1, 40.7128, -74.0060, 'New York')).rejects.toThrow('Failed to update user location');
+    
+    // Check that console.error was called
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Error updating user location', new Error('Database error'));
   });
 });

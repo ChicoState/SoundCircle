@@ -1,5 +1,5 @@
-import { createNewUserProfile } from '../user.model'; // Adjust the path if needed
-import { User } from '../../../../Types/users'; // Importing User type
+import { createNewUserProfile } from '../user.model';
+import { User } from '../../../../Types/users';
 
 // Mock the database insert and returning methods
 const mockInsert = jest.fn().mockReturnThis();

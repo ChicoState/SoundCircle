@@ -2,7 +2,7 @@ import { createUserPost } from '../post.model';
 import { UserPost } from '../../../../Types/posts';
 import { User } from '../../../../Types/users';
 
-// Mocking the knex object with method chaining
+// Mock the db module with correct chaining behavior
 const mockInsert = jest.fn().mockReturnThis();
 const mockReturning = jest.fn().mockResolvedValue([]);
 
@@ -18,7 +18,7 @@ jest.mock('../../../db/db', () => {
   };
 });
 
-// Clear all mocks after each test to ensure clean slate for each test case
+// Clear all mocks after each test to ensure a clean slate for each test case
 afterEach(() => {
   jest.clearAllMocks();
 });
@@ -47,7 +47,7 @@ describe('createUserPost', () => {
       created_at: new Date(),
       comment_ids: [],
       reactions: 0,
-      locationName: "",
+      locationName: '',
       latitude: 0,
       longitude: 0,
     };

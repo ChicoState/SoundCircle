@@ -1,5 +1,5 @@
-import { removeUserFriend, findUserByEmail, getUserFriends } from '../user.model'; // Adjust the path if needed
-import { User } from '../../../../Types/users'; // Correct import path for User type
+import { removeUserFriend, findUserByEmail, getUserFriends } from '../user.model'; 
+import { User } from '../../../../Types/users';
 
 // Mock the database methods
 const mockWhere = jest.fn().mockReturnThis();

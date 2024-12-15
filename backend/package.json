@@ -9,12 +9,15 @@
     "test:list": "jest --listTests",
     "test:specific": "jest path/to/your/tests",
     "test:clearCache": "jest --clearCache",
+    "test:coverage": "jest --coverage",
     "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/src/server.js\"",
     "build": "rimraf dist && npx tsoa spec-and-routes && npm run tsc",
     "start": "node dist/src/server.js",
     "tsoa:spec": "npx tsoa spec",
     "tsc": "tsc --noEmit --emitDeclarationOnly false --experimentalDecorators",
-    "tsoa:routes": "npx tsoa routes"
+    "tsoa:routes": "npx tsoa routes",
+    "stryker-run": "npx stryker run",
+    "test:coverage-stryker": "npm run test:coverage && npm run stryker-run"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -40,6 +43,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
+    "@stryker-mutator/jest-runner": "^8.7.1",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
