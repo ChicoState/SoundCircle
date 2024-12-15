@@ -1,0 +1,2 @@
+export const MAX_POST_CHARACTERS = 256;
+export const MAX_COMMENT_CHARACTERS = 256;

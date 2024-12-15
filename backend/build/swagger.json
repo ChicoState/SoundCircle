@@ -922,6 +922,33 @@
 				]
 			}
 		},
+		"/posts/newComment": {
+			"post": {
+				"operationId": "PostNewComment",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserComment"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			}
+		},
 		"/googleApi/placesAutocomplete": {
 			"get": {
 				"operationId": "GetAutocomplete",
