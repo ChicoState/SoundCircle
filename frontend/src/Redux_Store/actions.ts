@@ -1,6 +1,7 @@
 // Custom action types
 export const SET_USER = 'SET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const SET_USERNAME = 'SET_USERNAME';
 
 // Action makers
 export const setUser = (user_id: number) => ({
@@ -10,4 +11,9 @@ export const setUser = (user_id: number) => ({
 
 export const logoutUser = () => ({
     type: LOGOUT_USER
+});
+
+export const setUsername = (username: string) => ({
+    type: SET_USERNAME,
+    payload: username,
 });

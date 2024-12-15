@@ -64,10 +64,10 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
 
             {/* Separation Line */}
             <div className='pt-4'>
+                <hr className='mx-auto w-[28rem] h-px my-2 bg-gray-300 border-0'/>
                 <text className='ml-2 text-xs italic'>
                     Replying to {replyInformation?.username}
                 </text>
-                <hr className='mx-auto w-[28rem] h-px my-2 bg-gray-300 border-0'/>
             </div>
             
 
