@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+import { findUserByEmail } from '../user.model';
+import { User } from '../../../../Types/users';
+=======
 import { findUserByEmail } from '../user.model'; // Adjust the path if needed
 import { User } from '../../../../Types/users'; // Importing User type
+>>>>>>> newTesting
 
 // Mock the database select and where methods
 const mockSelect = jest.fn().mockReturnThis();
