@@ -3,18 +3,32 @@ import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserP
 import { PostProperties } from "./post-main";
 import ReplyButton from "./reply-button";
 
-function PostComment({id, username, user_id, post_content, created_at, profilePicURL }: PostProperties, newLocalComment: (newPost: PostProperties) => void) {
+export interface CommentProperties {
+  id: number
+  user_id?: number
+  username?: string  
+  created_at?: string
+  comment_content?: string
+  reactions?: number
+}
+
+interface PostCommentProps {
+  parentPost: PostProperties
+  onCommentSubmit: (newComment: CommentProperties) => void
+}
+
+const PostComment: React.FC<PostCommentProps> = ({parentPost, onCommentSubmit}) => {
     // If we have a profile pic URL, use it. Otherwise use placeholder
-    const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
+    const profilePic = parentPost.profilePicURL ? parentPost.profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
     return (
-      <div className="flex justify-center ml-[90px] py-3">
+      <div className="flex justify-center ml-[90px] py-1">
         {/* User Profile Pic */}
         <div className="flex-none w-[60px]">
             <NavigationButton_UserProfilePic
               className="w-[40px] h-[40px] rounded-full"
-              username={username}
-              altText={username}
+              username={parentPost.username}
+              altText={parentPost.username}
               profileImage={profilePic}
               navigationPath={`/User`}
             />
@@ -27,7 +41,7 @@ function PostComment({id, username, user_id, post_content, created_at, profilePi
           <div className="flex items-center">
             {/* Username */}
             <p className="flex-none text-lg font-bold">
-              {username}
+              {parentPost.username}
             </p>
 
             {/* Like Button */}
@@ -39,22 +53,22 @@ function PostComment({id, username, user_id, post_content, created_at, profilePi
           {/* Second Line */}
           <div className="text-sm font-semibold text-post_userid">
             <p>
-              @{user_id}
+              @{parentPost.user_id}
             </p>
           </div>
 
           {/* Body */}
           <div className="pt-2">
             <p>
-              {post_content}
+              {parentPost.post_content}
             </p>
           </div>
 
           {/* Last Line */}
           <div className="absolute bottom-2 right-2">
             <ReplyButton 
-            parentPostInfo={ {id, username, user_id, post_content, created_at, profilePicURL} }
-            newLocalComment={newLocalComment}
+            parentPostInfo={ parentPost }
+            onCommentSubmit={onCommentSubmit}
             />
           </div>
         </div>

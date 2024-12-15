@@ -8,10 +8,11 @@ import { MAX_COMMENT_CHARACTERS } from "../../globals";
 import { useSelector } from "react-redux";
 import { selectUserImage, selectUserName } from "../../Redux_Store/selector";
 import { FetchUserInfo, GetLocalUserID } from "../../Functions/GetLocalUserInfo"
+import { CommentProperties } from "./post-comment";
 
 function ReplyOverlay(
-        {isVisible, onOutsidePress, parentPostInfo, onCommentSubmit}: 
-        {isVisible: boolean, onOutsidePress: () => void, parentPostInfo?: PostProperties, onCommentSubmit: (newPost: PostProperties) => void}
+        {isVisible, onOutsidePress, parentPostInfo, onCommentSubmit = () => {}}: 
+        {isVisible: boolean, onOutsidePress: () => void, parentPostInfo?: PostProperties, onCommentSubmit: (newComment: CommentProperties) => void}
     ) {
     // Info for user input
     const placeholder = "Enter your reply..."
@@ -95,6 +96,8 @@ function ReplyOverlay(
 
             // Clear the textarea
             setText('');
+
+            console.log("Comment data returned: ", data)
 
             // Send the new Post to the feed-container
             onCommentSubmit(data);

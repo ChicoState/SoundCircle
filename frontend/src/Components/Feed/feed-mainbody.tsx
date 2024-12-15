@@ -10,11 +10,10 @@ import Spinner from "../../Components/Universal/Spinner";
 // Listen for new local posts to add at top of list
 export interface FeedMainBodyProps {
     newLocalPost?: PostProperties
-    newLocalComment?: PostProperties
     nearbyFilter?: boolean
 }
 
-const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, newLocalComment, nearbyFilter = false }) => {
+const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter = false }) => {
     const [data, setData] = useState<PostProperties[]>([]); // Data pulled from fetch
     const [loading, setLoading] = useState(true); // Bool for load state
     const [error, setError] = useState<string | null>(null); // Error state
@@ -141,8 +140,7 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, newLocalComme
             }
         }
     }, [loading, fetchDataForPosts])
-
-
+    
 
     // If the length of data < GET_POST_LIMIT, disable the button
     // const disableLoadMoreButton = loading || data.length === 0;
@@ -154,7 +152,8 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, newLocalComme
             {data.length > 0 ? (
                 data.map((post, index) => (
                     <PostContainer
-                        key={`${post.id} - ${index}`} postData={post}
+                        key={`${post.id} - ${index}`} 
+                        postData={post}
                     />
                 ))
             ) : (

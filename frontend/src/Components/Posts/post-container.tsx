@@ -1,15 +1,14 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import PostComment from "./post-comment";
+import PostComment, { CommentProperties } from "./post-comment";
 import Post, { PostProperties } from "./post-main";
 
 interface PostContainerProps {
     postData: PostProperties
-    newLocalComment?: PostProperties
 }
 
-function PostContainer({ postData, newLocalComment }: PostContainerProps) {
+function PostContainer({ postData }: PostContainerProps) {
     // Store the comments we fetch
     const [data, setData] = useState<PostProperties[]>([]);
     const [loading, setLoading] = useState(true); // Bool for load state
@@ -20,6 +19,7 @@ function PostContainer({ postData, newLocalComment }: PostContainerProps) {
     const [commentCount, setCommentCount] = useState(0);    // Track the count so we can track the offset correctly
     // If there is no more data on the last fetch, disable the button to fetch more comments
     const disableLoadMoreButton = loading || commentCount < GET_COMMENT_LIMIT;
+    const [localComment, setLocalComment] = useState<CommentProperties>()  // Listen for new local comments to update post
 
     // Fetch comments based on given id's
     const fetchComments = useCallback( async () => {
@@ -51,7 +51,7 @@ function PostContainer({ postData, newLocalComment }: PostContainerProps) {
                 setCommentCount(0)
                 throw new Error('No posts found in response json.');
             } else {
-                console.log("Found comments: ", commentData.length);
+                console.log(`Found ${commentData.length} comments for post: `, postData.id);
             }
                         
             // Rename comment_content to post_content
@@ -97,26 +97,43 @@ function PostContainer({ postData, newLocalComment }: PostContainerProps) {
     }, [fetchComments]);
 
     // Grab the new local comment and update the feed
-    useEffect(() => {
+    const handleCommentSubmit = (newLocalComment: CommentProperties) => {
         if (newLocalComment) {
-            setData((prevData) => [newLocalComment, ...prevData]);
-            setOffset((prevOffset) => prevOffset + 1);
+            const mappedComment = {
+                ...newLocalComment,
+                post_content: newLocalComment.comment_content
+            }
+
+            setData((prevData) => {
+                // Prevent duplicates by checking `id`
+                const isDuplicate = prevData.some((comment) => comment.id === mappedComment.id)
+                if (!isDuplicate) {
+                    return [mappedComment, ...prevData]
+                }
+                return prevData
+            })
+            // setLocalComment(newLocalComment)
+            console.log("Added: ", mappedComment)
         }
-    }, [newLocalComment]);
+    }
 
     return (
         <div>
-            <Post {...postData} />
+            <div className="py-1">
+                <Post 
+                    {...postData}
+                    parentPost={postData}
+                    onCommentSubmit={handleCommentSubmit}
+                />
+            </div>
             {/* Comments */}
             <div>
                 {data.length > 0 ?(
-                    data.map(({id, user_id, username, post_content}, index) => (
+                    data.map((postsData, index) => (
                         <PostComment
-                            key={`${id} - ${index}`}
-                            id = {id}
-                            user_id = {user_id}
-                            username = {username}
-                            post_content = {post_content}
+                            key={`${postsData.id} - ${index}`}
+                            parentPost={postsData}
+                            onCommentSubmit={handleCommentSubmit}
                         />
                     ))
                 ) : (
@@ -129,7 +146,7 @@ function PostContainer({ postData, newLocalComment }: PostContainerProps) {
                     onClick={loadMoreComments}
                     hidden ={disableLoadMoreButton}
                 >
-                    Show More Comments
+                    Show more comments
                 </button>
             </div>
         </div>
