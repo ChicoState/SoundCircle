@@ -1,10 +1,10 @@
 import { useState, useEffect} from 'react';
-import oneStar from './1:5Stars.png';
-import twoStar from './2:5Stars.png';
-import threeStar from './3:5Stars.png';
-import fourStar from './4:5Stars.png';
-import fiveStar from './5:5Stars.png'
-import zeroStar from './0:5Stars.png';
+import oneStar from './1-5Stars.png';
+import twoStar from './2-5Stars.png';
+import threeStar from './3-5Stars.png';
+import fourStar from './4-5Stars.png';
+import fiveStar from './5-5Stars.png'
+import zeroStar from './0-5Stars.png';
 
 
 interface Album {
