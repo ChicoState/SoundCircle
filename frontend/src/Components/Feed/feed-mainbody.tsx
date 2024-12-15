@@ -9,11 +9,12 @@ import Spinner from "../../Components/Universal/Spinner";
 
 // Listen for new local posts to add at top of list
 export interface FeedMainBodyProps {
-    newLocalPost?: PostProperties;
+    newLocalPost?: PostProperties
+    newLocalComment?: PostProperties
     nearbyFilter?: boolean
 }
 
-const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter = false }) => {
+const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, newLocalComment, nearbyFilter = false }) => {
     const [data, setData] = useState<PostProperties[]>([]); // Data pulled from fetch
     const [loading, setLoading] = useState(true); // Bool for load state
     const [error, setError] = useState<string | null>(null); // Error state
@@ -159,18 +160,6 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
             ) : (
                 !loading && !error && <p>No posts available.</p>
             )}
-
-            {/* <div>
-                {!loading && data.length > 0 &&
-                    <button
-                        className='text-black rounded-3xl px-10 bg-RoyalBlue'
-                        onClick={loadMorePosts}
-                        disabled={disableLoadMoreButton}
-                    >
-                        More
-                    </button>
-                }
-            </div> */}
 
             {/* Infinite loading detection */}
             <div ref = {loadSentinalRef} className='h-1'></div>

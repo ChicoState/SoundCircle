@@ -3,7 +3,7 @@ import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserP
 import { PostProperties } from "./post-main";
 import ReplyButton from "./reply-button";
 
-function PostComment({ username, user_id, post_content, created_at, profilePicURL }: PostProperties) {
+function PostComment({ username, user_id, post_content, created_at, profilePicURL }: PostProperties, newLocalComment: (newPost: PostProperties) => void) {
     // If we have a profile pic URL, use it. Otherwise use placeholder
     const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
@@ -52,7 +52,10 @@ function PostComment({ username, user_id, post_content, created_at, profilePicUR
 
           {/* Last Line */}
           <div className="absolute bottom-2 right-2">
-            <ReplyButton replyInformation={ {username, user_id, post_content, created_at, profilePicURL} }/>
+            <ReplyButton 
+            replyInformation={ {username, user_id, post_content, created_at, profilePicURL} }
+            newLocalComment={newLocalComment}
+            />
           </div>
         </div>
       </div>

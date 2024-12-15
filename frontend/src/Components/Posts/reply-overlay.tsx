@@ -7,8 +7,13 @@ import { PostProperties } from "./post-main";
 import { MAX_COMMENT_CHARACTERS } from "../../globals";
 import { useSelector } from "react-redux";
 import { selectUserImage, selectUserName } from "../../Redux_Store/selector";
+import { FetchUserInfo, GetLocalUserID } from "../../Functions/GetLocalUserInfo"
+import { User } from "../../../../backend/Types/users";
 
-function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible: boolean, onOutsidePress: () => void, replyInformation?: PostProperties }) {
+function ReplyOverlay(
+        {isVisible, onOutsidePress, replyInformation, onCommentSubmit}: 
+        {isVisible: boolean, onOutsidePress: () => void, replyInformation?: PostProperties, onCommentSubmit: (newPost: PostProperties) => void}
+    ) {
     // Info for user input
     const placeholder = "Enter your reply..."
     const [text, setText] = useState('')
@@ -21,6 +26,11 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
     // Local redux info
     const localUsername = useSelector(selectUserName)
     const localUserimage = useSelector(selectUserImage)
+
+    // Post submission logic
+    const { fetchUID } = GetLocalUserID()
+    const [userInfo, setUserInfo] = useState<User | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,9 +45,72 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
         }
     }
 
-    const handleReplyButtonClick = () => {
+        // Attempt to send data to the database
+        const handleSubmit = async () => {
+            const fetchUserData = async () => {
+                        try {
+                            // Step 1: Get the user id
+                            const user_id = await fetchUID()
+                            if (!user_id) {
+                                console.warn("No User ID found.")
+                                return
+                            }
+            
+                            // Step 2: Fetch user information using the ID
+                            const userDeets = await FetchUserInfo(user_id)
+                            if (userDeets) {
+                                setUserInfo(userDeets)
+                            }
+                        } catch (error) {
+                            console.error("Error fetching user data: ", error)
+                        } finally {
+                            setIsLoading(false)
+                        }
+                    }
+            
+                    fetchUserData()
 
-    }
+            if (!text.trim()) return; // Prevents submitting empty posts
+    
+            console.log("Sending user as post owner:", userInfo)
+            console.log("Sending post data:", {
+                userObj: userInfo,
+                postDataStr: text,
+            })
+    
+            try {
+                // Try to send a fetch request to the backend
+                // We need to specify that we want to ask for a @Post
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts/newPost`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userObj: userInfo,
+                        postDataStr: text,
+                    }),
+                })            
+    
+                if (!response.ok)
+                {
+                    throw new Error(`HTTP error when creating new post: ${response.status}`);
+                }
+    
+                // Handle the response data
+                // Currently we do not process any response data
+                const data = await response.json();
+    
+                // Clear the textarea
+                setText('');
+    
+                // Send the new Post to the feed-container
+                onCommentSubmit(data);
+    
+            } catch (error) {
+                console.error(`Error creating post:`, error);
+            }
+        }
 
     // Update the size of the text box as we add more text
     useEffect(() => {

@@ -1,14 +1,15 @@
 // This class is for passing information and formatting the Post and Comment(s)
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import PostComment from "./comment-main";
+import PostComment from "./post-comment";
 import Post, { PostProperties } from "./post-main";
 
 interface PostContainerProps {
     postData: PostProperties
+    newLocalComment?: PostProperties
 }
 
-function PostContainer({ postData }: PostContainerProps) {
+function PostContainer({ postData, newLocalComment }: PostContainerProps) {
     // Store the comments we fetch
     const [data, setData] = useState<PostProperties[]>([]);
     const [loading, setLoading] = useState(true); // Bool for load state
@@ -95,6 +96,13 @@ function PostContainer({ postData }: PostContainerProps) {
         fetchComments();
     }, [fetchComments]);
 
+    // Grab the new local comment and update the feed
+    useEffect(() => {
+        if (newLocalComment) {
+            setData((prevData) => [newLocalComment, ...prevData]);
+            setOffset((prevOffset) => prevOffset + 1);
+        }
+    }, [newLocalComment]);
 
     return (
         <div>
