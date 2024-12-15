@@ -13,7 +13,7 @@ interface Event {
 function UserEventsBox() {
   // Dummy data for now  
   const dummyEvents: Event[] = [
-    { id: 1, imageUrl: `${process.env.REACT_APP_PLACEHOLDER_EVENT}+1`, eventLocationandArtist: "Kanye West at O'Connal 254",date:"Monday, Dec 16, 2024",time:"6:00 pm",Location:"Chico, Ca", Description: "Come see Kanye West preform live in Chico at O'Connal 254, Discalimer: The real kanye west is to expensive so we hired kevin" },
+    { id: 1, imageUrl: `${process.env.REACT_APP_PLACEHOLDER_EVENT}+1`, eventLocationandArtist: "Kanye West at O'Connell 254",date:"Monday, Dec 16, 2024",time:"6:00 pm",Location:"Chico, Ca", Description: "Come see Kanye West preform live in Chico at O'Connal 254, Discalimer: The real kanye west is to expensive so we hired kevin" },
     { id: 2, imageUrl: `${process.env.REACT_APP_PLACEHOLDER_EVENT}+2`, eventLocationandArtist: "Birthday party for Lil Uzi at the Crazy Horse Saloon",date: "Friday, Dec 13, 2024",time: "2:30 pm",Location: "Chico, Ca",Description: "Come wish Lil Uzi a Happy birthday at the Crazy Horse Saloon, Lil Uzi will be attending"},
     { id: 3, imageUrl: `${process.env.REACT_APP_PLACEHOLDER_EVENT}+3`, eventLocationandArtist: "1",date:"",time:"",Location:"",Description:""},
     { id: 4, imageUrl: `${process.env.REACT_APP_PLACEHOLDER_EVENT}+4`, eventLocationandArtist: "2",date:"",time:"",Location:"",Description:""},

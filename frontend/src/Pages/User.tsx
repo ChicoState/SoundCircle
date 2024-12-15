@@ -5,9 +5,13 @@ import ArtistsBox from "../Components/UserPage/UserArtistBox";
 import { useState } from "react";
 import EventsBox from "../Components/UserPage/UserEventsBox";
 import UserGroupBox from "../Components/UserPage/UserGroupsBox";
+import {UserFollowingPage} from "../Components/UserPage/UserFollowingPage";
+import {UserFollowerPage} from "../Components/UserPage/UserFollowingPage";
 
 const UserPage = () => {
     const username = "WheresTheBeat16"; // or get it from state/props
+    const age = 22;
+    const location = "Chico,Ca";
     const [activeTab, setActiveTab] = useState("Taste"); // State to track active tab
     const [isFollowing, setIsFollowing] = useState(false);
 
@@ -19,25 +23,38 @@ const UserPage = () => {
         switch(activeTab){
             case "Taste":
                 return (
-                    <div className="grid grid-cols-1 gap-4 top-[175px] left-[550px] absolute">
+                    <div className="grid grid-cols-1 gap-4 top-[125px] left-[550px] absolute">
                         <AlbumsBox/>
                         <ArtistsBox/>
                         <EventsBox/>
                         <UserGroupBox/>
                     </div>
                     );
+            case "Following":
+                return (
+                    <div className="grid grid-cols-1 grap-4 top[125px] left-[550px] absolute">
+                        <UserFollowingPage/>
+                        <UserFollowerPage/>
+                    </div>
+                );
             default:
                 return <div className="tab-content"></div>; 
         }
     };
-
+    const renderFollowingContent = () => {
+        return (
+            <div className="grid grid-cols-1 grap-4 top[125px] left-[550px] absolute">
+                <UserFollowingPage/>
+            </div>
+        )
+    }
     return (
         <div className="min-h-[1375px] w-[1450px] flex flex-col bg-gray-900">
             {/* Main Page Container */}
             <Header />
             
             {/* Navigation Bar */}
-            <nav className="flex justify-start h-[100px] bg-gray-900 p-4 fixed top-[60px] left-[350px] z-10">
+            <nav className="relative bg-gray-900 top-[80px] left-[350px] z-10">
                 {["Taste", "Post", "Likes","Following","Reviews","About Me"].map((tab) => (
                     <button
                         key={tab}
@@ -50,11 +67,11 @@ const UserPage = () => {
             </nav>
             
             <div className="flex flex-grow">
-                <div className="bg-white-900 absolute">
+                <div className="bg-white-900 absolute fixed">
                     <div className="absolute bg-white">
                         {/*User Information Tab*/}
-                        <div className="relative top-[120px] left-[1150px] bg-gray-700 w-[300px] p-4 shadow-lg z-10">
-                            <UserImage username={username}/>
+                        <div className="relative top-[100px] left-[1150px] bg-gray-700 w-[300px] p-4 shadow-lg z-10">
+                            <UserImage username={username} age={age} location={location} followers={0} following={0} currentTab={activeTab} setCurrentTab={setActiveTab}/>
                             <div className="flex items-center justify-between mt-4">
                                 <button 
                                     className="absolute top-2 right-2 bg-gray-500 hover:bg-gray-600 text-white text-sm px-2 py-1 rounded shadow-md"
