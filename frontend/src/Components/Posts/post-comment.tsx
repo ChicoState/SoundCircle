@@ -14,10 +14,11 @@ export interface CommentProperties {
 
 interface PostCommentProps {
   parentPost: PostProperties
+  commentData: CommentProperties
   onCommentSubmit: (newComment: CommentProperties) => void
 }
 
-const PostComment: React.FC<PostCommentProps> = ({parentPost, onCommentSubmit}) => {
+const PostComment: React.FC<PostCommentProps> = ({parentPost, commentData, onCommentSubmit}) => {
     // If we have a profile pic URL, use it. Otherwise use placeholder
     const profilePic = parentPost.profilePicURL ? parentPost.profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
@@ -27,8 +28,8 @@ const PostComment: React.FC<PostCommentProps> = ({parentPost, onCommentSubmit}) 
         <div className="flex-none w-[60px]">
             <NavigationButton_UserProfilePic
               className="w-[40px] h-[40px] rounded-full"
-              username={parentPost.username}
-              altText={parentPost.username}
+              username={commentData.username}
+              altText={commentData.username}
               profileImage={profilePic}
               navigationPath={`/User`}
             />
@@ -41,7 +42,7 @@ const PostComment: React.FC<PostCommentProps> = ({parentPost, onCommentSubmit}) 
           <div className="flex items-center">
             {/* Username */}
             <p className="flex-none text-lg font-bold">
-              {parentPost.username}
+              {commentData.username}
             </p>
 
             {/* Like Button */}
@@ -53,22 +54,23 @@ const PostComment: React.FC<PostCommentProps> = ({parentPost, onCommentSubmit}) 
           {/* Second Line */}
           <div className="text-sm font-semibold text-post_userid">
             <p>
-              @{parentPost.user_id}
+              @{commentData.user_id}
             </p>
           </div>
 
           {/* Body */}
           <div className="pt-2">
             <p>
-              {parentPost.post_content}
+              {commentData.comment_content}
             </p>
           </div>
 
           {/* Last Line */}
           <div className="absolute bottom-2 right-2">
             <ReplyButton 
-            parentPostInfo={ parentPost }
+            parentPostInfo={parentPost}
             onCommentSubmit={onCommentSubmit}
+            commentData={commentData}
             />
           </div>
         </div>

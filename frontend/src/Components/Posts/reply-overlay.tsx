@@ -1,4 +1,6 @@
-// TO-DO: USER LINKS
+// TO-DO:
+// USER LINKS
+// COMMENT PROFILE_IMAGE
 
 import { useEffect, useRef, useState } from "react";
 import Overlay from "../Reusable/overlayBox";
@@ -11,8 +13,8 @@ import { FetchUserInfo, GetLocalUserID } from "../../Functions/GetLocalUserInfo"
 import { CommentProperties } from "./post-comment";
 
 function ReplyOverlay(
-        {isVisible, onOutsidePress, parentPostInfo, onCommentSubmit = () => {}}: 
-        {isVisible: boolean, onOutsidePress: () => void, parentPostInfo?: PostProperties, onCommentSubmit: (newComment: CommentProperties) => void}
+        {isVisible, onOutsidePress, parentPostInfo, commentData, onCommentSubmit = () => {}}: 
+        {isVisible: boolean, onOutsidePress: () => void, parentPostInfo?: PostProperties, commentData?: CommentProperties, onCommentSubmit: (newComment: CommentProperties) => void}
     ) {
     // Info for user input
     const placeholder = "Enter your reply..."
@@ -145,14 +147,14 @@ function ReplyOverlay(
                 <div className='flex flex-col ml-2 mr-6'>
                     <NavigationButton_UserProfilePic
                     className="w-[4rem] h-[4rem] rounded-full"
-                    username={parentPostInfo?.username}
-                    profileImage={parentPostInfo?.profilePicURL}
+                    username={commentData ? commentData.username : parentPostInfo?.username}
+                    profileImage={commentData ? parentPostInfo?.profilePicURL : parentPostInfo?.profilePicURL} ////// NEED COMMENT PROFILE_IMAGE INFO
                     navigationPath={`/User`}
                     />
-                    <p className='text-center'>{parentPostInfo?.username}</p>
+                    <p className='text-center'>{commentData ? commentData.username : parentPostInfo?.username}</p>
                 </div>
                 <div className='w-[23rem]'>
-                    {parentPostInfo?.post_content}
+                    {commentData ? commentData.comment_content : parentPostInfo?.post_content}
                 </div>
             </div>
 
@@ -160,7 +162,7 @@ function ReplyOverlay(
             <div className='pt-4'>
                 <hr className='mx-auto w-[28rem] h-px my-2 bg-gray-300 border-0'/>
                 <text className='ml-2 text-xs italic'>
-                    Replying to {parentPostInfo?.username}
+                    Replying to {commentData ? commentData.username : parentPostInfo?.username}
                 </text>
             </div>
             

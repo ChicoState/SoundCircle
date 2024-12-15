@@ -129,10 +129,11 @@ function PostContainer({ postData }: PostContainerProps) {
             {/* Comments */}
             <div>
                 {data.length > 0 ?(
-                    data.map((postsData, index) => (
+                    data.map((commentData, index) => (
                         <PostComment
-                            key={`${postsData.id} - ${index}`}
-                            parentPost={postsData}
+                            key={`${commentData.id} - ${index}`}
+                            parentPost={postData}
+                            commentData={commentData}
                             onCommentSubmit={handleCommentSubmit}
                         />
                     ))
