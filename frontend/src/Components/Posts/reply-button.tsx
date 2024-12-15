@@ -4,7 +4,7 @@ import { PostProperties } from "./post-main";
 import { useSelector } from "react-redux";
 import { selectIsUserLoggedIn } from "../../Redux_Store/selector";
 
-function ReplyButton({ replyInformation, newLocalComment }: { replyInformation: PostProperties, newLocalComment: (newPost: PostProperties) => void }) {
+function ReplyButton({ parentPostInfo, newLocalComment }: { parentPostInfo: PostProperties, newLocalComment: (newPost: PostProperties) => void }) {
     // Track login status via redux store
     const isLoggedIn = useSelector(selectIsUserLoggedIn)
     // Boolean for handling reply overlay
@@ -31,7 +31,7 @@ function ReplyButton({ replyInformation, newLocalComment }: { replyInformation: 
                 <ReplyOverlay
                 isVisible={replyVisible}
                 onOutsidePress={toggleOverlay}
-                replyInformation={replyInformation}
+                parentPostInfo={parentPostInfo}
                 onCommentSubmit={newLocalComment}
                 />
             )}

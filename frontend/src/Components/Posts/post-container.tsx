@@ -113,6 +113,7 @@ function PostContainer({ postData, newLocalComment }: PostContainerProps) {
                     data.map(({id, user_id, username, post_content}, index) => (
                         <PostComment
                             key={`${id} - ${index}`}
+                            id = {id}
                             user_id = {user_id}
                             username = {username}
                             post_content = {post_content}

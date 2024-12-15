@@ -14,7 +14,7 @@ export interface PostProperties {
     created_at?: string
 }
 
-function Post({ username, user_id, post_content, created_at, profilePicURL }: PostProperties, newLocalComment: (newPost: PostProperties) => void) {
+function Post({id, username, user_id, post_content, created_at, profilePicURL }: PostProperties, newLocalComment: (newPost: PostProperties) => void) {
     // If we have a profile pic URL, use it. Otherwise use placeholder
     const profilePic = profilePicURL ? profilePicURL : process.env.REACT_APP_PLACEHOLDER_USER;
 
@@ -64,7 +64,7 @@ function Post({ username, user_id, post_content, created_at, profilePicURL }: Po
           {/* Last Line */}
           <div className="absolute bottom-2 right-2">
             <ReplyButton 
-              replyInformation={{ username, user_id, post_content, created_at, profilePicURL }} 
+              parentPostInfo={{id, username, user_id, post_content, created_at, profilePicURL }} 
               newLocalComment={newLocalComment}
             />
           </div>
