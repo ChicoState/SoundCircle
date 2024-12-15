@@ -53,7 +53,7 @@ const Feed = () => {
 
                     {/* Input and Feed Display */}
                     <ul className="pt-5 flex justify-center">
-                        {/* <InputContainer onPostSubmit={handleLocalPostSubmit}/> */}
+                        <InputContainer onPostSubmit={handleLocalPostSubmit}/>
                     </ul>
 
                     {/* Feed Type Buttons */}
