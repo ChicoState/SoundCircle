@@ -9,7 +9,6 @@ module.exports = {
         periwinkle: '#b3c2f2ff',
         slateBlue: '#735cddff',
         mauveine: '#9000b3ff',
-        purple: '#7e007bff',
         blackBean: '#37000aff',
         RoyalBlue: '#5a67d8ff',
         
@@ -17,7 +16,8 @@ module.exports = {
         main_Background: '#E5E5E5',
         main_Accent_LightGray: '#C2C2C2',
         main_Accent_DarkGray: '#999999',
-        
+        main_Accent_LightPurple:'#c492d3' ,
+        main_Accent_DarkPurple: '#8346B4',
 
         // Header
         header_Light: '#452763',

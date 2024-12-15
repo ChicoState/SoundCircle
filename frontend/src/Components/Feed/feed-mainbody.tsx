@@ -9,7 +9,7 @@ import Spinner from "../../Components/Universal/Spinner";
 
 // Listen for new local posts to add at top of list
 export interface FeedMainBodyProps {
-    newLocalPost?: PostProperties;
+    newLocalPost?: PostProperties
     nearbyFilter?: boolean
 }
 
@@ -21,10 +21,12 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
     const GET_POST_LIMIT = 3;   // Limit for fetch
     const isFetching = useRef(false); // Make sure we don't spam fetches
     const [postCount, setPostCount] = useState(0); // Track the count so we can track the offset correctly
+    const loadSentinalRef = useRef<HTMLDivElement | null>(null) // Detect when we reach the bottom of the page 
+    const [hasPostsLeft, setHasPostsLeft] = useState(true) // Track if we still have posts available in the backend
 
     // Attempt to fetch data from the backend
     const fetchDataForPosts = useCallback( async () => {
-        if (isFetching.current) return;
+        if (isFetching.current || !hasPostsLeft) return;
         
         isFetching.current = true;
         setError(null);
@@ -82,6 +84,14 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
                 });
             }
 
+            // Update our offset
+            setOffset((prevOffset) => prevOffset + postsData.length)
+
+            // If no more posts in the backend, toggle the flag
+            if (postsData.length < GET_POST_LIMIT) {
+                setHasPostsLeft(false)
+            }
+            
             setPostCount(postsData.length);
             setError(null);
         } catch (err : any) {
@@ -108,16 +118,32 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
     }, [newLocalPost]);
 
 
-    // Get more posts and change our offset
-    const loadMorePosts = async () => {
-        if (!loading && !isFetching.current) {
-            setOffset((prevOffset) => prevOffset + postCount);
-        }
-    };
+    // Update the feed with more posts when we reach the bottom of the screen
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !loading) {
+                    fetchDataForPosts()
+                }
+            },
+            {root: null, rootMargin: "0px", threshold: 1.0}
+        )
 
+        const sentinal = loadSentinalRef.current
+        if (sentinal) {
+            observer.observe(sentinal)
+        }
+
+        return () => {
+            if (sentinal) {
+                observer.unobserve(sentinal)
+            }
+        }
+    }, [loading, fetchDataForPosts])
+    
 
     // If the length of data < GET_POST_LIMIT, disable the button
-    const disableLoadMoreButton = loading || data.length === 0;
+    // const disableLoadMoreButton = loading || data.length === 0;
 
 
     return (
@@ -126,25 +152,16 @@ const FeedMainBody: React.FC<FeedMainBodyProps> = ({ newLocalPost, nearbyFilter 
             {data.length > 0 ? (
                 data.map((post, index) => (
                     <PostContainer
-                        key={`${post.id} - ${index}`} postData={post}
+                        key={`${post.id} - ${index}`} 
+                        postData={post}
                     />
                 ))
             ) : (
                 !loading && !error && <p>No posts available.</p>
             )}
 
-            <div>
-                {/* THIS BUTTON IS ONLY TEMPORARY */}
-                {!loading && data.length > 0 &&
-                    <button
-                        className='text-black rounded-3xl px-10 bg-RoyalBlue'
-                        onClick={loadMorePosts}
-                        disabled={disableLoadMoreButton}
-                    >
-                        More
-                    </button>
-                }
-            </div>
+            {/* Infinite loading detection */}
+            <div ref = {loadSentinalRef} className='h-1'></div>
             
             {/* Handle Loading State */}
             {loading && <div className="flex justify-center"><Spinner/></div>}
