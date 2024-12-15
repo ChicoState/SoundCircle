@@ -56,9 +56,11 @@ const Header = () => {
             // If we dont, try to get it
             fetchUserData()
         } else {
+            setIsUserLoggedIn(true)
             console.log("Already have ID, no need to check :)")
         }
     }, [user_id, username, dispatch]);
+
 
     return (
         <header className="fixed top-0 right-0 left-0 z-50 bg-gradient-to-t from-header_Dark to-header_Light grid grid-cols-3 items-center h-[60px]">
