@@ -129,7 +129,10 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
                             placeholder="Type your input here..."
                         />
                         <button 
-                            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-main_Accent_LightGray text-main_Accent_DarkGray"
+                            className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300
+                                ${text.length <= 0 
+                                ? 'border-2 border-main_Accent_LightGray text-main_Accent_DarkGray' 
+                                : 'border-2 border-transparent bg-main_Accent_DarkPurple text-white'}`}
                             onClick={handleSubmit}
                         >
                             <MdSend className="w-6 h-6"/>
