@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavigationButton from "../Universal/NavigationButton";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, setUser, setUsername } from "../../Redux_Store/actions";
+import { logoutUser, setUser, setUserImage, setUsername } from "../../Redux_Store/actions";
 import { FetchUserInfo, GetLocalUserID } from "../../Functions/GetLocalUserInfo"
 import { selectUserID, selectUserName } from "../../Redux_Store/selector";
 
@@ -44,6 +44,7 @@ const Header = () => {
                 if (user) {
                     dispatch(setUser(user.id))
                     dispatch(setUsername(user.username))
+                    // dispatch(setUserImage(user.image))
                 }
             } catch (error) {
                 console.error("Error fetching user data: ", error)

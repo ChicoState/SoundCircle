@@ -8,3 +8,6 @@ export const selectUserID = (state: any) => state.user.user_id;
 
 // Get user name
 export const selectUserName = (state: any) => state.user.user_name;
+
+// Get user image
+export const selectUserImage = (state: any) => state.user.user_image;

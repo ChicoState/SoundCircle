@@ -5,6 +5,8 @@ import Overlay from "../Reusable/overlayBox";
 import NavigationButton_UserProfilePic from "../Universal/NavigationButton_UserProfilePic";
 import { PostProperties } from "./post-main";
 import { MAX_COMMENT_CHARACTERS } from "../../globals";
+import { useSelector } from "react-redux";
+import { selectUserName } from "../../Redux_Store/selector";
 
 function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible: boolean, onOutsidePress: () => void, replyInformation?: PostProperties }) {
     // Info for user input
@@ -12,6 +14,7 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
     const [text, setText] = useState('');
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [isFocused, setIsFocused] = useState(false);
+    const localUsername = useSelector(selectUserName)
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -76,11 +79,11 @@ function ReplyOverlay({ isVisible, onOutsidePress, replyInformation}: {isVisible
                 <div className='flex flex-col ml-2 mr-6'>
                     <NavigationButton_UserProfilePic
                     className="w-[4rem] h-[4rem] rounded-full"
-                    username="Default User"
+                    username={localUsername}
                     profileImage={process.env.REACT_APP_PLACEHOLDER_USER}
                     navigationPath={`/User`}
                     />
-                    <p className='text-sm'>Default User</p>
+                    <p className='text-sm'>{localUsername}</p>
                 </div>
                 <textarea
                 className='w-[23rem] resize-none overflow-y-auto hover:outline-none focus:outline-none'
