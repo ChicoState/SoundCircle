@@ -1,5 +1,5 @@
 import db from '../../db/db';
-import { UserPost } from '../../../Types/posts';
+import { UserComment, UserPost } from '../../../Types/posts';
 import { User } from '../../../Types/users';
 
 export const findPosts = async (limit: number, offset: number) => {
@@ -102,5 +102,51 @@ export const findComments = async (limit: number, offset: number, commentIDs: nu
   } catch (error) {
     console.error('Error fetching comments:', error);
     throw new Error('Failed to fetch comments');
+  }
+}
+
+export const createNewComment = async (userObj: User, postData: UserPost, commentText: string) => {
+  try {
+    if (!userObj) {
+      throw new Error('No userObj included for createNewComment')
+    }
+
+    if (!postData) {
+      throw new Error('No postData included for createNewComment')
+    }
+
+    // Create and insert the new comment into the 'comments' table of our database
+    const [newComment] = await db<UserComment>('comments')
+    .insert({
+      user_id: userObj.id,
+      username: userObj.username,
+      comment_content: commentText,
+      reactions: 0,
+      created_at: new Date()
+    })
+    .returning(['id', 'user_id', 'username', 'comment_content', 'reactions', 'created_at']); // Specify that we also want to return the new post
+
+    if (!newComment)
+    {
+      throw new Error('No comment was created.');
+    }
+
+    console.log('userObj.id:', userObj.id);
+    console.log('newComment.id:', newComment.id);
+    console.log('postData.id:', postData.id);
+
+    // Append the original post with the new comment id
+    await db<UserPost>('posts')
+    .where({id: postData.id})
+    .update({
+      comment_ids: db.raw('array_append(comment_ids, ?)', [newComment.id]),
+    })
+
+    console.log('New omment added succesfully');
+    return newComment;
+
+  } catch (error) {
+    console.error('Error with comment:', error);
+    throw new Error('Failed to create comment.');
   }
 }

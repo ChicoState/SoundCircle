@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ['*']
+  pull_request:
+    branches: ['*']
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      working-directory: ./backend
+      run: npm install
+
+    - name: Build backend
+      working-directory: ./backend
+      run: npm run build
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Start frontend
+      working-directory: ./frontend
+      run: |
+        npm run start &
+        sleep 60
+
+    - name: Check frontend status
+      run: |
+        if ! lsof -i:3000; then
+          echo "Frontend did not start successfully." >&2
+          exit 1
+        fi
+
+    - name: Ensure frontend build is error-free
+      working-directory: ./frontend
+      env:
+        CI: false
+      run: |
+        npm run build
+        if [ $? -ne 0 ]; then
+          echo "Frontend build failed." >&2
+          exit 1
+        fi

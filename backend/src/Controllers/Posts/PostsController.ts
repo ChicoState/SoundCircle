@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Query, Body, Route } from 'tsoa';
-import { createUserPost, findPostsByLocation, findPosts, findComments } from '../../Models/Posts/post.model';
+import { createUserPost, findPostsByLocation, findPosts, findComments, createNewComment } from '../../Models/Posts/post.model';
 import { UserComment, UserPost } from '../../../Types/posts';
 
 // @SuccessResponse('200', 'Ok')
@@ -157,6 +157,42 @@ export class PostController extends Controller {
       console.error('Error in getPostsWithComments:', error);
       this.setStatus(500);
       throw new Error('Failed to fetch posts with comments');
+    }
+  }
+
+  @Post('/newComment')
+  public async postNewComment(
+    // HTTP likes to use @Body for POST requests
+    @Body() body: any
+  ): Promise<UserComment> {
+    try {
+      console.log('Received user object:', body.userObj)
+      console.log('Recieved parent post data:', body.postData)
+      console.log('Received comment data:', body.commentData)
+
+      const userObj = body.userObj
+      const commentData = body.commentData
+      const postData = body.postData
+
+      console.log("Attempting to create new post...")
+
+      if (!userObj || !commentData || !postData) {
+        throw new Error("Error, no data included")
+      }
+
+      // Call the database function to insert new post information
+      const newComment = await createNewComment(userObj, postData, commentData)
+
+      this.setStatus(201) // Set HTTP status to 201 for success on new information added
+
+      // Return the post
+      return newComment
+
+    } catch (error) {
+      // Throw an error to both the backend, HTTP error, and frontend
+      console.error('Error in postNewUserPost: ', error)
+      this.setStatus(500)
+      throw new Error('Failed to create new user post')
     }
   }
 }
