@@ -9,7 +9,7 @@ import Spotify from './Spotify.png';
 import Instagram from './Instagram.png';
 import SoundCloud from './SoundCloud.png';
 import BandCamp from './BandCamp.png';
-import UserFollowingPage from './UserGroupsBox';
+
 
 interface UserImageProps {
     username: string;
@@ -18,10 +18,11 @@ interface UserImageProps {
     followers: number;
     following: number;
     currentTab: string;
+    friends: string[];
     setCurrentTab:(tab:string) => void;
 }
 
-const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,following,currentTab,setCurrentTab}) => {
+const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,following,currentTab,friends,setCurrentTab}) => {
     const [userImage, setUserImage] = useState<string>(UserIconTemp);
     const [InstagramLink, isInstagramLoggedIn] = useState<boolean>(false)
     const [TwitterLink, isTwitterLoggedIn] = useState<boolean>(false)
@@ -32,19 +33,37 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
     const [BandcampLink, isBandcampLoggedIn] = useState<boolean>(false)
     const [AmazonMusicLink, isAmazonMusicLoggedIn] = useState<boolean>(false)
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const numberOfFriends = friends.length;
+
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            const imageURL = URL.createObjectURL(file);
-            setUserImage(imageURL);
+            const formData = new FormData();
+            formData.append('image',file);
+
+            try{
+                const response = await fetch('/api/upload-image',{
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok){
+                    const data = await response.json();
+                    setUserImage(data.imageUrl);
+                }else{
+                    console.error('Error uploading image')
+                }
+            }catch (error){
+                console.error('Error uplading image',error)
+            }
         }
     };
 
     return (
-        <div className="relative top-[-80px]">
-            <div className="relative h-[780px] top-[30px] left-[-70px] flex flex-col items-center z-10">
-                <img src={userImage} alt="User Icon" className="w-24 h-24" />
-                <label htmlFor="file-input" className="absolute top-[50px] right-[50px] text-2xl text-black cursor-pointer">+</label>
+        <div className="flex flex-col h-screen bg-gray-700">
+            <div className="relative flex flex-col items-center pt-4 pb-8 z-10">
+                <img src={userImage} alt="User Icon" className="absolute top-[-60px] left-[10px] w-24 h-24 rounded-full" />
+                <label htmlFor="file-input" className="text-2xl text-black rounded-full cursor-pointer mt-2">+</label>
                 <input
                     id="file-input"
                     type="file"
@@ -53,14 +72,14 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
                     className="hidden"
                 />
                 <p className="mt-2 text-center">{username}</p>
-                <p className="relative mt-0 left-[-25px] text-sm">{age} years old</p>
-                <p className="relative mt-0 left-[-35px] text-sm">{location}</p>
+                <p className="text-sm">{age} years old</p>
+                <p className="text-sm">{location}</p>
             </div>
 
             {/* Render DescriptionBox as a separate component outside the background */}
-            <DescriptionBox />
+            <DescriptionBox/>
             
-            <div className="relative top-[-400px]">
+            <div className="flex flex-col mt-4 px-4">
                 <p className="text-md font-bold">Media Links</p>
                 {InstagramLink ? (
                     <p className="text-blue-500 italic">
@@ -141,24 +160,24 @@ const UserImage: React.FC<UserImageProps> = ({ username,age,location,followers,f
                 )}
             </div>
             
-            <div className="flex justify-between text-gray-300 p-5 top-[-600px]">
-                <div className="w-5 h-5 bg-gray-200 rounded-full border border-black relative top-[-400px] left-[-15px]"></div>
-                <p className="relative text-sm top-[-400px] left-[-50px]">{followers} followers</p>
+            <div className="flex justify-between text-gray-300 p-5">
+                <div className="w-5 h-5 bg-gray-200 rounded-full border border-black flex"></div>
+                <p className="flex inline text-sm">{followers} followers</p>
                 <button
                     className="hover:underline"
                     onClick={() => setCurrentTab("Following")}
                 >
-                    <p className="relative top-[-400px] left-[10px] text-sm">View All</p>
+                    <p className="flex text-sm">View All</p>
                 </button>
             </div>
-            <div className="flex justify-between text-gray-300 p-5 top-[-100px]">
-                <div className="w-5 h-5 bg-gray-300 rounded-full border border-black relative top-[-430px] left-[-15px]"></div>
-                <p className="relative text-sm top-[-430px] left-[-50px]">{following} following</p>
+            <div className="flex justify-between text-gray-300 p-5">
+                <div className="w-5 h-5 bg-gray-300 rounded-full border border-black flex "></div>
+                <p className="text-sm ">{numberOfFriends} folowing</p>
                 <button
                     className="hover:underline"
                     onClick={() => setCurrentTab("Following")}
                 >
-                    <p className="relative top-[-430px] left-[10px] text-sm">View All</p>
+                    <p className="flex text-sm">View All</p>
                 </button>
             </div>
         </div>

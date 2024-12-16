@@ -62,14 +62,14 @@ function ArtistsBox() {
   };
 
   return (
-    <div className="absolute w-[950px] h-[350px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden left-[-400px] top-[250px]">
+    <div className="relative w-full max-w-[950px] h-[350px] mx-auto p-4 bg-gray-900 rounded-lg overflow-hidden" style={{marginLeft:"-130px"}}>
       {/* Simple title */}
       <h2 className="text-white text-lg font-medium mb-2"> Favorite Artists </h2>
       <div className="relative flex items-center">
         {/* Previous Arrow */}
         <button
           onClick={handlePrev}
-          className="left-0 z-10 p-1 text-white rounded-full shadow hover:bg-gray-600 active:bg-gray-400 transition duration-100">
+          className="left-0 z-10 p-1 text-white shadow hover:bg-gray-600 active:bg-gray-400 transition duration-100">
           &#60;
         </button>
 
@@ -99,7 +99,7 @@ function ArtistsBox() {
         {/* Next Arrow */}
         <button
           onClick={handleNext}
-          className="right-0 z-10 p-1 text-white rounded-full hover:bg-gray-600 active:bg-blue-400 transition duration-100 absolute left-[886px]">
+          className="right-0 z-10 p-1 text-white hover:bg-gray-600 active:bg-blue-400 transition duration-100">
           &#62;
         </button>
       </div>

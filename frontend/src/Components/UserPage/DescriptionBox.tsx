@@ -25,13 +25,13 @@ const DescriptionBox: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-7/10 h-[60px] max-w-xs top-[-570px] left-[-5px] relative ">
+        <div className="relative w-full max-w-md mx-auto p-4 bg-white shadow-md rounded-md" style={{opacity: 0.4}}>
             <textarea
-                className="w-full p-2 max-w-xs text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[200px] overflow-hidden opacity-55"
+                className="w-full p-2  text-sm border border-gray-300 rounded-md bg-white resize-none min-h-[200px] overflow-hidden "
                 value={description}
                 onChange={handleInputChange}
                 rows={1} // Start with 1 row
-                style={{ height: 'auto' }} // Allow auto height adjustment
+                style={{ height: 'auto'}} // Allow auto height adjustment
                 onInput={(e) => {
                     e.currentTarget.style.height = 'auto'; // Reset height
                     e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`; // Set height to scrollHeight
@@ -40,9 +40,9 @@ const DescriptionBox: React.FC = () => {
                 readOnly={!isEditing} // Disable editing if not in editing mode
             />
             {isUserLoggedIn && (
-                <div className="action-container">
-                    <button onClick={isEditing ? handleSave:handleEdit} className="Action">
-                        <img src={EditIcon} alt="Edit Icon" className="bg-gray-700 w-[50px] h-[50px]"/>
+                <div className="absolute top-[-45px] right-2">
+                    <button onClick={isEditing ? handleSave:handleEdit} className="bg-gray-700 p-2">
+                        <img src={EditIcon} alt="Edit Icon" className="w-[25px] h-[25px] top-[10px]"/>
                     </button>
                 </div>
             )}

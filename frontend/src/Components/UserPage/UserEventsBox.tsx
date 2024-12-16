@@ -66,7 +66,7 @@ function UserEventsBox() {
   };
 
   return (
-    <div className="absolute top-[450px] left-[-400px] w-[925px] h-[500px]">
+    <div className="relative w-full max-w-[950px] mx-auto h-[500px] bg-gray-900 p-1" style={{marginTop:'-120px', marginLeft:"-120px"}}>
       {/* Simple title */}
       <h2 className="text-white text-lg font-medium mb-2"> Interested Events </h2>
       <div className="relative flex items-center">
