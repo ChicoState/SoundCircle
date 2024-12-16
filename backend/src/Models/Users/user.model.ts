@@ -44,6 +44,7 @@ export const createNewUserProfile = async (username: string, locationName: strin
                 userPostIds: [],
                 longitude,
                 latitude,
+                friends: [],
             })
             .returning(["id", "username", "email", "userPostIds", "created_at", "latitude", "longitude", "locationName", "friends"]);
 

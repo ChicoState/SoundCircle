@@ -48,12 +48,12 @@ export function GetLocalUserID() {
 
 
 
-export async function FetchUserInfo(user_id: number): Promise<{user: User | null,location: string | null}> {
+export async function FetchUserInfo(user_id: number): Promise<User | null> {
     
     // Base case, null ID
     if (!user_id || user_id <= 0) {
         console.error("Invalid user_id provided:", user_id)
-        return { user: null, location: null};
+        return null
     }
 
     try {
@@ -69,7 +69,7 @@ export async function FetchUserInfo(user_id: number): Promise<{user: User | null
             } else {
                 console.error(`Failed to fetch user info for user_id ${user_id}. Status: ${response.status}`)
             }
-            return { user: null, location: null };
+            return null
         }
 
         // Parse our response for the data
@@ -78,14 +78,14 @@ export async function FetchUserInfo(user_id: number): Promise<{user: User | null
         // Check if data contains the user info
         if (data) {
             console.log("Fetched user info:", data)
-            return { user: data, location: data.locationName};
+            return data
         } else {
             console.error("Error fetching user info, no user returned.")
-            return { user: null, location: null};
+            return null
         }
 
     } catch (error) {
         console.error("Error fetching user info:", error)
-        return { user: null, location: null};
+        return null
     }
 }

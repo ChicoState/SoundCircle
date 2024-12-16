@@ -18,7 +18,8 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const { fetchUID } = GetLocalUserID()
-    const [userInfo, setUserInfo] = useState<{user: User | null; location:string | null}>({user:null,location:null})
+    // const [userInfo, setUserInfo] = useState<{user: User | null; location:string | null}>({user:null, location:null})
+    const [userInfo, setUserInfo] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -98,6 +99,8 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
             // Handle the response data
             // Currently we do not process any response data
             const data = await response.json();
+
+            console.log("Returned new post data: ", data)
 
             // Clear the textarea
             setText('');
