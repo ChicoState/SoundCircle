@@ -11,58 +11,108 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-    - name: Install dependencies
-      working-directory: ./backend
-      run: npm install
+      - name: Cache backend dependencies
+        uses: actions/cache@v3
+        with:
+          path: ./backend/node_modules
+          key: ${{ runner.os }}-backend-dependencies-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-dependencies-
 
-    - name: Build backend
-      working-directory: ./backend
-      run: npm run build
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Build backend
+        working-directory: ./backend
+        run: npm run build
 
   frontend:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-    - name: Install dependencies
-      working-directory: ./frontend
-      run: npm install
+      - name: Cache frontend dependencies
+        uses: actions/cache@v3
+        with:
+          path: ./frontend/node_modules
+          key: ${{ runner.os }}-frontend-dependencies-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-dependencies-
 
-    - name: Start frontend
-      working-directory: ./frontend
-      run: |
-        npm run start &
-        sleep 60
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install
 
-    - name: Check frontend status
-      run: |
-        if ! lsof -i:3000; then
-          echo "Frontend did not start successfully." >&2
-          exit 1
-        fi
+      - name: Start frontend
+        working-directory: ./frontend
+        run: |
+          npm run start &
+          sleep 60
 
-    - name: Ensure frontend build is error-free
-      working-directory: ./frontend
-      env:
-        CI: false
-      run: |
-        npm run build
-        if [ $? -ne 0 ]; then
-          echo "Frontend build failed." >&2
-          exit 1
-        fi
+      - name: Check frontend status
+        run: |
+          if ! lsof -i:3000; then
+            echo "Frontend did not start successfully." >&2
+            exit 1
+          fi
+
+      - name: Ensure frontend build is error-free
+        working-directory: ./frontend
+        env:
+          CI: false
+        run: |
+          npm run build
+          if [ $? -ne 0 ]; then
+            echo "Frontend build failed." >&2
+            exit 1
+          fi
+
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]  # Ensure this job runs after backend and frontend
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: [ 'javascript', 'typescript' ]
+          # queries: ./path/to/your/custom/queries  # Uncomment and set if using custom queries
+
+      - name: Autobuild
+        run: |
+          # Build backend
+          cd backend
+          npm install
+          npm run build
+          cd ../frontend
+          npm install
+          npm run build
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "Security"  # Optional
