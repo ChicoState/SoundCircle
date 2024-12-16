@@ -404,6 +404,72 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"EventCreation": {
+				"properties": {
+					"event_name": {
+						"type": "string"
+					},
+					"event_date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"start_time": {
+						"type": "string"
+					},
+					"end_time": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"location_name": {
+						"type": "string"
+					},
+					"bands": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"description": {
+						"type": "string"
+					},
+					"genres": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ticket_price": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"event_name",
+					"event_date",
+					"start_time",
+					"end_time",
+					"location",
+					"latitude",
+					"longitude",
+					"location_name",
+					"bands",
+					"description",
+					"genres",
+					"ticket_price"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -1054,7 +1120,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Event"
+								"$ref": "#/components/schemas/EventCreation"
 							}
 						}
 					}

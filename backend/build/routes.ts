@@ -144,6 +144,25 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EventCreation": {
+        "dataType": "refObject",
+        "properties": {
+            "event_name": {"dataType":"string","required":true},
+            "event_date": {"dataType":"datetime","required":true},
+            "start_time": {"dataType":"string","required":true},
+            "end_time": {"dataType":"string","required":true},
+            "location": {"dataType":"string","required":true},
+            "latitude": {"dataType":"double","required":true},
+            "longitude": {"dataType":"double","required":true},
+            "location_name": {"dataType":"string","required":true},
+            "bands": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "description": {"dataType":"string","required":true},
+            "genres": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "ticket_price": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
@@ -658,7 +677,7 @@ export function RegisterRoutes(app: Router) {
 
             async function EventController_postEvent(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    eventBody: {"in":"body","name":"eventBody","required":true,"ref":"Event"},
+                    eventBody: {"in":"body","name":"eventBody","required":true,"ref":"EventCreation"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

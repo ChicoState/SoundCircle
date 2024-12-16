@@ -2,12 +2,26 @@ import { Controller, Post, Body, Route } from 'tsoa';
 import { createEvent } from '../../Models/Events/events.model';
 import { Event } from '../../../Types/events';
 
-@Route('events')
+export interface EventCreation {
+    event_name: string;
+    event_date: Date;
+    start_time: string;
+    end_time: string;
+    location: string;
+    latitude: number;
+    longitude: number;
+    location_name: string;
+    bands: string[];
+    description: string;
+    genres: string[];
+    ticket_price: number;
+}
 
+@Route('events')
 export class EventController extends Controller {
-    @Post('newEvent')
+    @Post('/newEvent')
     public async postEvent(
-        @Body() eventBody: Event
+        @Body() eventBody: EventCreation
     ): Promise<Event> {
         try {
             const eventObj = eventBody;
