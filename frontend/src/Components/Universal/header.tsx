@@ -3,7 +3,7 @@ import SearchBar from "../Search/Searchbar";
 import SCLogo from "../Images/SoundCircle.gif"
 import UserIcon from "../Images/UserIconTemp.png";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useAsyncError, useLocation } from "react-router-dom";
 import NavigationButton from "../Universal/NavigationButton";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, setUser, setUserImage, setUsername } from "../../Redux_Store/actions";
@@ -41,9 +41,9 @@ const Header = () => {
                 // Step 2: Fetch user information using the ID
                 const user = await FetchUserInfo(user_id)
                 // Set our local redux info
-                if (user) {
-                    dispatch(setUser(user.id))
-                    dispatch(setUsername(user.username))
+                if (user && user.user) {
+                    dispatch(setUser(user.user.id))
+                    dispatch(setUsername(user.user.username))
                     // dispatch(setUserImage(user.image))
                 }
             } catch (error) {

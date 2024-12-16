@@ -83,7 +83,7 @@ function AlbumsBox() {
             <img 
                 src={ratingMap[rating]} 
                 alt={`${rating} out of 5 stars`} 
-                className="inline-block relative top-[-40px] w-150 h-20"
+                className="inline-block w-[120px] h-[20px] mt-2"
             />
         );
     };
@@ -91,7 +91,7 @@ function AlbumsBox() {
     //if(loading) return <p className="text-gray-300">Loading albums...</p>
     if(error) return <p className="text-red-500"> Error:{error}</p>
     return (
-      <div className="relative w-[1000px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden absolute left-[-400px] top-[-20px]">
+      <div className="relative w-full max-w-[1000px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden mt-[-90px]" style={{marginLeft:"-130px"}}>
         {/* Simple title */}
         <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
   
@@ -124,11 +124,11 @@ function AlbumsBox() {
                             transition: 'transform 0.5s ease',
                         }}
                     >
-                        <div className="flex flex-col width-[10px] height-[10px] relative">
+                        <div className="flex flex-col justify-center item-start mt-20">
                             <img
                                 src={album.imageUrl}
                                 alt={album.name}
-                                className="w-[200px] h-[200px] left-[40px] object-cover absolute"
+                                className="w-[200px] h-[225px] left-[40px] object-cover absolute"
                             />
                             <p className= "absolute top-[200px] left-[110px] text-gray-300 text-sm">{album.name}</p>
                             <p className= "absolute top-[0px] left-[300px] text-gray-300 w-[100px]">{album.artist}</p>

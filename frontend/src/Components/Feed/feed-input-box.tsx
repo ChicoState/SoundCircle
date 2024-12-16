@@ -18,7 +18,7 @@ const FeedInputBox: React.FC<FeedInputBoxProps> = ( { onPostSubmit } ) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const { fetchUID } = GetLocalUserID()
-    const [userInfo, setUserInfo] = useState<User | null>(null)
+    const [userInfo, setUserInfo] = useState<{user: User | null; location:string | null}>({user:null,location:null})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {

@@ -62,8 +62,7 @@ function UserGroupBox() {
   };
 
   return (
-    <div className="absolute w-[950px] p-2 bg-gray-900 rounded-lg overflow-hidden left-[-400px] top-[675px]">
-      {/* Simple title */}
+    <div className="relative w-full max-w-[950px] mx-auto h-[500px] bg-gray-900 p-1" style={{marginTop: '-260px', marginLeft: '-120px'}}>
       <h2 className="text-white text-lg font-medium mb-2"> Groups </h2>
       <div className="relative flex items-center">
         {/* Previous Arrow */}

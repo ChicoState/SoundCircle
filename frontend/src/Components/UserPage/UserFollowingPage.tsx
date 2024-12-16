@@ -47,7 +47,7 @@ function UserFollowingPage() {
       }
       // Commenting this out until API is set up
       // fetchPeople();
-  });
+  },[]);
 
 
   // Runs when next arrow is clicked
