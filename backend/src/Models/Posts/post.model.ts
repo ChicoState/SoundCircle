@@ -52,11 +52,14 @@ export const findPostsByLocation = async(limit: number, offset: number, latitude
 
 
 export const createUserPost = async (userObj: User, postText: string) => {
+  console.log("User for NP: ", userObj)
+
   try {
     // Create and insert the new post into the 'posts' table of our database
     const [newPost] = await db<UserPost>('posts')
     .insert({
       user_id: userObj.id,
+      comment_ids: [],
       username: userObj.username,
       post_content: postText,
       reactions: 0,
@@ -67,6 +70,8 @@ export const createUserPost = async (userObj: User, postText: string) => {
     })
     .returning(['id', 'comment_ids', 'user_id', 'reactions', 'username', 'post_content', 'created_at', 
       'locationName', 'latitude', 'longitude']); // Specify that we also want to return the new post
+
+    console.log("Creating post: ", newPost)
 
     if (!newPost)
     {

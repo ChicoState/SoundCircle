@@ -41,9 +41,9 @@ const Header = () => {
                 // Step 2: Fetch user information using the ID
                 const user = await FetchUserInfo(user_id)
                 // Set our local redux info
-                if (user && user.user) {
-                    dispatch(setUser(user.user.id))
-                    dispatch(setUsername(user.user.username))
+                if (user) {
+                    dispatch(setUser(user.id))
+                    dispatch(setUsername(user.username))
                     // dispatch(setUserImage(user.image))
                 }
             } catch (error) {

@@ -37,12 +37,12 @@ const UserPage = () => {
             // Step 2: Fetch user information using the ID
             const user = await FetchUserInfo(user_id)
             // Set our local redux info
-            if (user && user.user) {
-                setLocation(user.user.locationName);
-                setTrueUsername(user.user.username);
-                setFriends(user.user.friends);
-                dispatch(setUser(user.user.id))
-                dispatch(setUsername(user.user.username))
+            if (user) {
+                setLocation(user.locationName);
+                setTrueUsername(user.username);
+                setFriends(user.friends);
+                dispatch(setUser(user.id))
+                dispatch(setUsername(user.username))
                 // dispatch(setUserImage(user.image))
             }
         } catch (error) {
