@@ -15,6 +15,96 @@ interface Album {
   userScore: number;
   description: string;
 }
+function AlbumsBox2(){
+  // Dummy data for now
+  const dummyAlbums: Album[] = [
+    { id: 1, name: 'Views', artist: 'Drake',imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+1` ,userScore: 1, description:"Album was mid, kanye is still the goat"},
+    { id: 2, name: 'folklore', artist: 'Taylor Swift',imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+2` ,userScore: 2, description:"Definetly not recommended for any heavy metal fans, taylor swift has lost her way"},
+    { id: 3, name: 'BBL Drizzy', artist: 'overthxnk',imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+3` ,userScore: 3, description: "BBL DRIZZY, BBLLLLL DRIZAAAAAAAA, BBL DRIZZY"},
+    { id: 4, name: 'GNX', artist: 'Kendrick Lamar',imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+4` ,userScore: 4, description: "While i was listening to this I truly felt like i needed to turn the tv off, and go to the grocery store and grab some mustard"},
+    { id: 5, name: 'Vultues 1', artist: 'Kanye West',imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+5` ,userScore: 2, description: "Vultures 1 >  Graduation"},
+    { id: 6, name: 'Certified Lover Boy', artist: 'Drake', imageUrl: `${process.env.REACT_APP_PLACEHOLDER_ALBUM}+6`,userScore: 5, description: "Drake is mid"},
+  ] ;
+
+  // Setting albums to use the dummy data
+  const [albums, setAlbums] = useState<Album[]>(dummyAlbums);
+
+  // This is the actual line to use once the API is set up
+  // const [albums, setAlbums] = useState<Album[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchAlbums = async () => {
+          try {
+              setLoading(true);
+              const response = await fetch("HTTP ENDPOINT");
+              if (!response.ok) {
+                  throw new Error('HTTP Error: Status ${response.status}');
+              }
+              const data = await response.json();
+              setAlbums(data);
+          } catch (error : any) {
+              setError(error.message);
+              setAlbums([]);
+              console.log("Failure to fetch albums", error);
+          } finally {
+              setLoading(false);
+          }
+        }
+      // Commenting this out until API is set up
+      // fetchAlbums();
+  },[]);
+
+
+  const getRating = (rating: number) =>{
+      const ratingMap : {[key:string]: string}= {
+          "1": oneStar,
+          "2": twoStar,
+          "3": threeStar,
+          "4": fourStar,
+          "5": fiveStar,
+          "0": zeroStar
+      };
+      return (
+          <img 
+              src={ratingMap[rating]} 
+              alt={`${rating} out of 5 stars`} 
+              className="inline-block w-[120px] h-[20px] mt-2"
+          />
+      );
+  };
+
+  //if(loading) return <p className="text-gray-300">Loading albums...</p>
+  if(error) return <p className="text-red-500"> Error:{error}</p>
+  return (
+    <div className="relative w-full max-w-[1350px] mx-auto p-2 bg-gray-900 rounded-lg overflow-hidden mt-[-90px] min-h-screen" style={{marginLeft:"-130px"}}>
+      {/* Simple title */}
+      <h2 className="text-white text-lg font-medium mb-2"> Albums </h2>
+        <div className="flex flex-wrap justify-start gap-4">
+              {albums.map((album) => (
+                  <div 
+                      key={album.id} 
+                      className="flex flex-col items-center bg-gray-800 p-4 w-[250px]"
+                  >
+                      <div className="flex flex-col justify-center item-start mt-0">
+                          <p className= " text-gray-300 text-lg mt-2">{album.name}</p>
+                          <img
+                              src={album.imageUrl}
+                              alt={album.name}
+                              className="w-[200px] h-[225px] object-cover"
+                          />
+                          <p className= " text-gray-300 text-sm]">{album.artist}</p>
+                          <p className= " text-gray-300 text-sm mt-2">{album.userScore} / 5 {getRating(album.userScore)}</p>
+                          <p className= " text-gray-300 text-sm mt-2">{album.description}</p>
+                      </div>
+                  </div>
+              ))}
+          </div>
+        </div>
+
+  );
+}
 
 function AlbumsBox() {
     // Dummy data for now
@@ -151,4 +241,4 @@ function AlbumsBox() {
     );
   }
   
-  export default AlbumsBox;
+  export {AlbumsBox,AlbumsBox2};

@@ -1,7 +1,7 @@
 import {selectUserName } from "../Redux_Store/selector";
 import Header from "../Components/Universal/header";
 import UserImage from "../Components/UserPage/UserIcon";
-import AlbumsBox from "../Components/UserPage/UserAlbumsBox";
+import {AlbumsBox,AlbumsBox2} from "../Components/UserPage/UserAlbumsBox";
 import ArtistsBox from "../Components/UserPage/UserArtistBox";
 import {lazy, useEffect, useState } from "react";
 import EventsBox from "../Components/UserPage/UserEventsBox";
@@ -71,11 +71,22 @@ const UserPage = () => {
                     );
             case "Following":
                 return (
-                    <div className="grid grid-cols-1">
-                        <UserFollowingPage/>
-                        <UserFollowerPage/>
+                    <div className="flex space-x-8 px-4 py-8 mt-[-100px]">
+                        <div className="w-full max-w-lg">
+                            <UserFollowingPage/>
+                        </div>
+
+                        <div className="w-full max-w-lg">
+                            <UserFollowerPage/>
+                        </div>
                     </div>
                 );
+            case "Reviews":
+                    return(
+                        <div className="grid grid-col-1">
+                            <AlbumsBox2/>
+                        </div>
+                    );
             default:
                 return <div className="text-white">Select a tab to view content</div>; 
         }
